@@ -1,4 +1,4 @@
-import { Volume2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import farmHero from "@/assets/farm-hero.jpg";
 import kisanHero from "@/assets/kisan-hero.webp";
 import { Language, translations } from "@/lib/translations";
@@ -10,7 +10,7 @@ interface HomeScreenProps {
 }
 
 const languages: { code: Language; label: string; flag: string }[] = [
-  { code: "en", label: "English", flag: "🇬🇧" },
+  { code: "en", label: "English", flag: "🇮🇳" },
   { code: "hi", label: "हिंदी", flag: "🇮🇳" },
   { code: "te", label: "తెలుగు", flag: "🇮🇳" },
 ];
@@ -84,11 +84,7 @@ const HomeScreen = ({ language, onLanguageChange, onStart }: HomeScreenProps) =>
           <ArrowRight className="relative group-hover:translate-x-2 transition-transform" size={28} />
         </button>
 
-        {/* Voice hint */}
-        <button className="mt-10 flex items-center gap-3 text-white/50 text-sm font-black uppercase tracking-widest hover:text-white transition-colors duration-300">
-          <Volume2 size={24} className="text-[#C49A6C]" />
-          <span>{t.listenExplanation}</span>
-        </button>
+
 
       </div>
     </div>

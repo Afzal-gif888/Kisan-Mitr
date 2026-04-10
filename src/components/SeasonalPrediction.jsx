@@ -1,4 +1,4 @@
-import { Sun, CloudRain, Droplets, AlertTriangle, Thermometer } from "lucide-react";
+import { CloudRain, Droplets, AlertTriangle, Thermometer } from "lucide-react";
 import { translations } from "@/lib/translations";
 
 const SeasonalPrediction = ({ season, summary, message, language, risks = [] }) => {
@@ -6,10 +6,14 @@ const SeasonalPrediction = ({ season, summary, message, language, risks = [] }) 
 
   // Helper to render visual dot symbols ● ● ● ○ ○
   const renderSymbols = (value) => {
-    let active = 0;
-    if (value === "High" || value === "Wet") active = 5;
-    else if (value === "Moderate" || value === "Normal" || value === "Medium") active = 3;
-    else if (value === "Low" || value === "Dry") active = 1;
+    const map = {
+      "No": 0, "Very Low": 1, "Low": 1, "Dry": 1, "Cool": 1,
+      "Mild": 2,
+      "Medium": 3, "Moderate": 3, "Normal": 3,
+      "High": 4, "Wet": 4,
+      "Very High": 5, "Extreme": 5,
+    };
+    const active = map[value] ?? 2;
 
     return (
       <div className="flex gap-1 items-center">
@@ -22,44 +26,90 @@ const SeasonalPrediction = ({ season, summary, message, language, risks = [] }) 
     );
   };
 
-  // Farmer-friendly labels
+  // Farmer-friendly labels (en / hi / te)
   const getRainLabel = (val) => {
-    if (val === "High") return language === "te" ? "భారీ వర్షాలు" : "Heavy Rain";
-    if (val === "Low") return language === "te" ? "తక్కువ వర్షం" : "Light Rain";
-    return language === "te" ? "వర్షం లేదు" : "No Rain";
+    const labels = {
+      "No":        { en: "No Rain",       hi: "बारिश नहीं",     te: "వర్షం లేదు" },
+      "Very Low":  { en: "Very Low",      hi: "बहुत कम बारिश",  te: "చాలా తక్కువ వర్షం" },
+      "Low":       { en: "Light Rain",    hi: "हल्की बारिश",     te: "తక్కువ వర్షం" },
+      "Normal":    { en: "Normal Rain",   hi: "सामान्य बारिश",   te: "సాధారణ వర్షం" },
+      "High":      { en: "Heavy Rain",    hi: "भारी बारिश",      te: "భారీ వర్షాలు" },
+      "Very High": { en: "Very Heavy",    hi: "बहुत भारी बारिश", te: "చాలా భారీ వర్షాలు" },
+    };
+    return labels[val]?.[language] || labels[val]?.en || val;
   };
 
   const getHeatLabel = (val) => {
-    if (val === "High") return language === "te" ? "తీవ్రమైన ఎండ" : "High Heat";
-    if (val === "Moderate") return language === "te" ? "సాధారణ ఎండ" : "Moderate Heat";
-    return language === "te" ? "చల్లగా ఉంటుంది" : "Cool";
+    const labels = {
+      "Cool":     { en: "Cool",          hi: "ठंडा",           te: "చల్లగా ఉంటుంది" },
+      "Mild":     { en: "Mild",          hi: "हल्की गर्मी",     te: "తేలికపాటి వేడి" },
+      "Moderate": { en: "Moderate Heat",  hi: "सामान्य गर्मी",   te: "సాధారణ ఎండ" },
+      "High":     { en: "High Heat",     hi: "तेज गर्मी",       te: "తీవ్రమైన ఎండ" },
+      "Extreme":  { en: "Extreme Heat",  hi: "भीषण गर्मी",      te: "అత్యంత తీవ్రమైన ఎండ" },
+    };
+    return labels[val]?.[language] || labels[val]?.en || val;
   };
 
   const getMoistureLabel = (val) => {
-    if (val === "High" || val === "Wet") return language === "te" ? "ఎక్కువ తేమ" : "Wet Soil";
-    if (val === "Normal" || val === "Moderate") return language === "te" ? "సరైన తేమ" : "Normal Moisture";
-    return language === "te" ? "పొడి నేల" : "Dry Soil";
+    const labels = {
+      "Dry":    { en: "Dry Soil",        hi: "सूखी मिट्टी",     te: "పొడి నేల" },
+      "Low":    { en: "Low Moisture",    hi: "कम नमी",          te: "తక్కువ తేమ" },
+      "Normal": { en: "Normal Moisture", hi: "सामान्य नमी",     te: "సరైన తేమ" },
+      "Wet":    { en: "Wet Soil",        hi: "गीली मिट्टी",     te: "ఎక్కువ తేమ" },
+    };
+    return labels[val]?.[language] || labels[val]?.en || val;
   };
 
   const getSeasonLabel = (s) => {
-    if (s === "Rainy") return t["Kharif (Rainy)"] || "Rainy Season";
-    if (s === "Dry") return t["Zaid (Summer)"] || "Dry Season";
-    return t["Moderate (Spring)"] || "Normal Season";
+    const labels = {
+      "Rainy":      { en: "Rainy Season",  hi: "बारिश का मौसम",   te: "వర్షాకాలం" },
+      "Dry":        { en: "Dry Season",    hi: "सूखा मौसम",       te: "ఎండాకాలం" },
+      "Hot":        { en: "Hot Season",    hi: "गर्मी का मौसम",    te: "వేసవి కాలం" },
+      "Cool / Dry": { en: "Cool Season",   hi: "सर्दी का मौसम",    te: "శీతాకాలం" },
+      "Normal":     { en: "Normal Season", hi: "सामान्य मौसम",    te: "సాధారణ కాలం" },
+    };
+    return labels[s]?.[language] || labels[s]?.en || s;
   };
 
   const getTeluguTitle = (s) => {
-     if (s === "Rainy") return "వర్షాకాలం (ఖరీఫ్)";
-     if (s === "Dry") return "ఎండాకాలం (జైద్)";
-     return "సాధారణ వాతావరణం";
+    if (language === "hi") {
+      if (s === "Rainy") return "खरीफ (वर्षा ऋतु)";
+      if (s === "Dry" || s === "Hot") return "ज़ैद (ग्रीष्म ऋतु)";
+      if (s === "Cool / Dry") return "रबी (शीत ऋतु)";
+      return "सामान्य मौसम";
+    }
+    if (s === "Rainy") return "వర్షాకాలం (ఖరీఫ్)";
+    if (s === "Dry" || s === "Hot") return "ఎండాకాలం (జైద్)";
+    if (s === "Cool / Dry") return "శీతాకాలం (రబీ)";
+    return "సాధారణ వాతావరణం";
   };
 
   const getLocalizedMessage = (msg) => {
-    if (language !== "te") return msg;
-    if (msg.includes("stable")) return "వ్యవసాయానికి వాతావరణం అనుకూలంగా ఉంది";
-    if (msg.includes("Dry conditions")) return "తక్కువ నీటి పంటలకు అనుకూలం";
-    if (msg.includes("Rainy conditions")) return "వర్షాలు పడవచ్చు. నీరు నిల్వ ఉండకుండా చూసుకోండి";
+    if (language === "en") return msg;
+    // Telugu translations
+    if (language === "te") {
+      if (msg.includes("stable")) return "వ్యవసాయానికి వాతావరణం అనుకూలంగా ఉంది";
+      if (msg.includes("Dry conditions")) return "పొడి వాతావరణం — తక్కువ నీటి పంటలు సురక్షితం";
+      if (msg.includes("Very dry")) return "చాలా పొడి — కరువు-నిరోధక పంటలు మాత్రమే";
+      if (msg.includes("Good moisture")) return "మంచి తేమ — వరి, వరి పంటలకు అనుకూలం";
+      if (msg.includes("Hot weather")) return "వేడి వాతావరణం — నీరు పెట్టండి";
+      if (msg.includes("Heavy rains")) return "భారీ వర్షాలు — మురుగు నీటి ఏర్పాటు చేయండి";
+      if (msg.includes("Unexpected rain")) return "ఊహించని వర్షం — కోత పంటలను కప్పండి";
+      if (msg.includes("Extreme heat")) return "తీవ్ర వేడి — పంటలను, పశువులను కాపాడండి";
+      if (msg.includes("Cool season")) return "చల్లని కాలం — గోధుమ, శనగలకు అనుకూలం";
+    }
+    // Hindi translations
+    if (language === "hi") {
+      if (msg.includes("stable")) return "मौसम खेती के लिए अनुकूल है";
+      if (msg.includes("Dry conditions")) return "सूखा मौसम — कम पानी की फसलें उगाएं";
+      if (msg.includes("Very dry")) return "बहुत सूखा — केवल सूखा-सहनशील फसलें";
+      if (msg.includes("Good moisture")) return "अच्छी नमी — धान और चावल की फसलों के लिए उपयुक्त";
+      if (msg.includes("Hot weather")) return "गर्म मौसम — अच्छी सिंचाई करें";
+      if (msg.includes("Cool season")) return "ठंडा मौसम — गेहूं, चना उगाने के लिए उपयुक्त";
+    }
     return msg;
   };
+
 
   const getHeroIcon = (s) => {
     if (s === "Rainy") return "🌧";
