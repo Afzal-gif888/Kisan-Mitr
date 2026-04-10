@@ -15,9 +15,18 @@ const Index = () => {
   const [soil, setSoil] = useState<SoilType>("loamy");
   const [selectedCrop, setSelectedCrop] = useState("rice");
 
+  const [weatherFeatures, setWeatherFeatures] = useState<any>(null);
+  const [season, setSeason] = useState<string>("Normal");
+
   const handleSoilSelect = (s: SoilType) => {
     setSoil(s);
     setScreen("recommendation");
+  };
+
+  const handleLocationNext = (feat: any, seas: string) => {
+    setWeatherFeatures(feat);
+    setSeason(seas);
+    setScreen("soil");
   };
 
   const handleViewGuide = (cropKey: string) => {
@@ -35,13 +44,24 @@ const Index = () => {
         <HomeScreen language={language} onLanguageChange={setLanguage} onStart={() => setScreen("location")} />
       )}
       {screen === "location" && (
-        <LocationScreen language={language} onNext={() => setScreen("soil")} onBack={() => setScreen("home")} />
+        <LocationScreen 
+          language={language} 
+          onNext={handleLocationNext} 
+          onBack={() => setScreen("home")} 
+        />
       )}
       {screen === "soil" && (
         <SoilScreen language={language} onSelect={handleSoilSelect} onBack={() => setScreen("location")} />
       )}
       {screen === "recommendation" && (
-        <RecommendationScreen language={language} soil={soil} onViewGuide={handleViewGuide} onBack={() => setScreen("soil")} />
+        <RecommendationScreen 
+          language={language} 
+          soil={soil} 
+          features={weatherFeatures}
+          season={season}
+          onViewGuide={handleViewGuide} 
+          onBack={() => setScreen("soil")} 
+        />
       )}
       {screen === "guidance" && (
         <GuidanceScreen language={language} cropKey={selectedCrop} onBack={() => setScreen("recommendation")} onStartOver={handleStartOver} />
