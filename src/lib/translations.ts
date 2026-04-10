@@ -2,7 +2,7 @@ export type Language = "en" | "hi" | "te";
 
 export const translations: Record<Language, Record<string, string>> = {
   en: {
-    appName: "Crop Guide",
+    appName: "Kisan Mitr",
     startButton: "Start Crop Suggestion",
     selectLanguage: "Choose Language",
     detectLocation: "Detect My Location",
@@ -44,7 +44,7 @@ export const translations: Record<Language, Record<string, string>> = {
     high: "High",
   },
   hi: {
-    appName: "फसल गाइड",
+    appName: "किसान मित्र",
     startButton: "फसल सुझाव शुरू करें",
     selectLanguage: "भाषा चुनें",
     detectLocation: "मेरा स्थान पता करें",
@@ -86,7 +86,7 @@ export const translations: Record<Language, Record<string, string>> = {
     high: "ज़्यादा",
   },
   te: {
-    appName: "పంట గైడ్",
+    appName: "కిసాన్ మిత్ర",
     startButton: "పంట సూచన ప్రారంభించండి",
     selectLanguage: "భాషను ఎంచుకోండి",
     detectLocation: "నా స్థానం గుర్తించండి",
