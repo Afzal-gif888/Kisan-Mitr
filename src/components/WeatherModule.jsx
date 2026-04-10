@@ -38,8 +38,10 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             if (latitude && longitude) {
                 url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
             } else {
-                // Manual fallback: using district and state name for India
-                url = `https://api.openweathermap.org/data/2.5/forecast?q=${dist},${st},IN&appid=${apiKey}&units=metric`;
+                // Clean the names for the API (remove parentheticals like "Kheda (Nadiad)")
+                const cleanDist = dist.replace(/\(.*\)/g, '').trim();
+                const cleanSt = st.replace(/\(.*\)/g, '').trim();
+                url = `https://api.openweathermap.org/data/2.5/forecast?q=${cleanDist},${cleanSt},IN&appid=${apiKey}&units=metric`;
             }
 
             const response = await fetch(url);
