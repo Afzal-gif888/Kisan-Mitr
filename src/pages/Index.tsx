@@ -1,16 +1,53 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import HomeScreen from "@/components/HomeScreen";
+import LocationScreen from "@/components/LocationScreen";
+import SoilScreen from "@/components/SoilScreen";
+import RecommendationScreen from "@/components/RecommendationScreen";
+import GuidanceScreen from "@/components/GuidanceScreen";
+import { Language } from "@/lib/translations";
+import { SoilType } from "@/lib/cropData";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+type Screen = "home" | "location" | "soil" | "recommendation" | "guidance";
+
+const Index = () => {
+  const [screen, setScreen] = useState<Screen>("home");
+  const [language, setLanguage] = useState<Language>("en");
+  const [soil, setSoil] = useState<SoilType>("loamy");
+  const [selectedCrop, setSelectedCrop] = useState("rice");
+
+  const handleSoilSelect = (s: SoilType) => {
+    setSoil(s);
+    setScreen("recommendation");
+  };
+
+  const handleViewGuide = (cropKey: string) => {
+    setSelectedCrop(cropKey);
+    setScreen("guidance");
+  };
+
+  const handleStartOver = () => {
+    setScreen("home");
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-background">
+      {screen === "home" && (
+        <HomeScreen language={language} onLanguageChange={setLanguage} onStart={() => setScreen("location")} />
+      )}
+      {screen === "location" && (
+        <LocationScreen language={language} onNext={() => setScreen("soil")} onBack={() => setScreen("home")} />
+      )}
+      {screen === "soil" && (
+        <SoilScreen language={language} onSelect={handleSoilSelect} onBack={() => setScreen("location")} />
+      )}
+      {screen === "recommendation" && (
+        <RecommendationScreen language={language} soil={soil} onViewGuide={handleViewGuide} onBack={() => setScreen("soil")} />
+      )}
+      {screen === "guidance" && (
+        <GuidanceScreen language={language} cropKey={selectedCrop} onBack={() => setScreen("recommendation")} onStartOver={handleStartOver} />
+      )}
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
