@@ -1,57 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { Cloud, CheckCircle2, AlertCircle, Loader2, Gauge, Thermometer, Droplets, CloudRain, Calendar, Sun } from 'lucide-react';
+import { Loader2, ArrowRight } from 'lucide-react';
 import { extractFeatures } from "@/lib/FeatureExtraction";
-import { predictSeason } from "@/lib/SeasonPredictor";
+import { predictWeather } from "@/lib/PredictionEngine";
+import { translations } from "@/lib/translations";
+import SeasonalPrediction from './SeasonalPrediction';
 
 /**
- * WeatherModule
- * Responsible for fetching, cleaning, and structuring weather forecast data.
- * Now includes Feature Extraction and Seasonal Prediction.
+ * WeatherModule v14.0 (Extreme Simplicity Edition)
+ * Zero-clutter container focused entirely on harvest intelligence for farmers.
  */
-const WeatherModule = ({ lat, lon, onAnalysisComplete }) => {
-    const [processedData, setProcessedData] = useState([]);
-    const [features, setFeatures] = useState(null);
-    const [season, setSeason] = useState("");
+const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete }) => {
+    const t = translations[language] || translations.en;
+    const [prediction, setPrediction] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         if (lat && lon) {
             fetchWeather(lat, lon);
+        } else if (district && state) {
+            fetchWeather(null, null, district, state);
         }
-    }, [lat, lon]);
+    }, [lat, lon, district, state]);
 
-    const fetchWeather = async (latitude, longitude) => {
+    const fetchWeather = async (latitude, longitude, dist, st) => {
         setLoading(true);
         setError(null);
-        
         const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-        
-        if (!apiKey || apiKey === "YOUR_OPENWEATHERMAP_API_KEY_HERE") {
-            setError("OpenWeatherMap API Key is missing.");
+        if (!apiKey) {
+            setError("API Key Missing");
             setLoading(false);
             return;
         }
 
         try {
-            console.log("--- 🚀 FETCHING RAW WEATHER DATA ---");
-            const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-            
+            let url;
+            if (latitude && longitude) {
+                url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+            } else {
+                // Manual fallback: using district and state name for India
+                url = `https://api.openweathermap.org/data/2.5/forecast?q=${dist},${st},IN&appid=${apiKey}&units=metric`;
+            }
+
             const response = await fetch(url);
-            
-            if (!response.ok) {
-                if (response.status === 401) throw new Error("Unauthorized: Invalid API Key.");
-                throw new Error(`Service error: ${response.status}`);
-            }
-            
+            if (!response.ok) throw new Error(`${response.status}`);
             const rawData = await response.json();
-            console.log("📦 FULL API RESPONSE:", rawData);
 
-            if (!rawData.list || rawData.list.length === 0) {
-                throw new Error("No forecast data available for this location.");
-            }
-
-            // CLEAN AND STRUCTURE DATA
+            // Process for Prediction Features
             const structuredArray = rawData.list.map(item => ({
                 temp: item.main.temp,
                 humidity: item.main.humidity,
@@ -59,149 +54,78 @@ const WeatherModule = ({ lat, lon, onAnalysisComplete }) => {
                 time: item.dt
             }));
 
-            setProcessedData(structuredArray);
+            const features = extractFeatures(structuredArray);
+            const currentMonth = new Date().getMonth();
+            const weatherResult = predictWeather(features, currentMonth);
+            
+            setPrediction(weatherResult);
 
-            // EXTRACT FEATURES
-            const extracted = extractFeatures(structuredArray);
-            setFeatures(extracted);
-
-            // PREDICT SEASON
-            const predicted = predictSeason(extracted);
-            setSeason(predicted);
-
-            // Emit results to parent
             if (onAnalysisComplete) {
-                onAnalysisComplete({ features: extracted, season: predicted });
+                onAnalysisComplete({ features, season: weatherResult.season });
             }
-
         } catch (err) {
-            console.error("❌ WEATHER FETCH FAILED:", err);
-            setError(err.message || "Failed to load weather data");
+            setError(err.message);
         } finally {
             setLoading(false);
         }
     };
 
-    // --- LOGIC GATED UI ---
-
     if (loading) return (
-        <div className="flex flex-col items-center justify-center p-8 bg-card rounded-[2rem] border-4 border-primary/5 space-y-4">
-            <Loader2 className="animate-spin text-primary" size={40} />
-            <p className="text-xl font-black text-muted-foreground animate-pulse">Fetching weather...</p>
+        <div className="p-32 flex flex-col items-center justify-center space-y-8 min-h-[60vh]">
+            <div className="relative">
+                <div className="w-24 h-24 border-8 border-[#8B5E3C]/10 border-t-[#8B5E3C] rounded-full animate-spin" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-3xl animate-pulse">🌾</span>
+                </div>
+            </div>
+            <p className="text-xs font-black text-[#8B5E3C]/40 uppercase tracking-[0.5em] animate-pulse">
+                {language === "te" ? "వాతావరణ విశ్లేషణ..." : "Analyzing Farm Conditions"}
+            </p>
         </div>
     );
 
     if (error) return (
-        <div className="p-8 bg-red-50 rounded-[2rem] border-4 border-red-100 space-y-3 text-center">
-            <AlertCircle className="mx-auto text-red-500" size={40} />
-            <p className="text-red-700 font-black text-lg leading-tight uppercase tracking-tight">Failed to load weather data</p>
-            <p className="text-red-500 font-bold text-sm bg-white/50 py-2 rounded-xl">{error}</p>
+        <div className="p-10 text-center space-y-8 bg-white rounded-[2.5rem] shadow-xl border-4 border-[#F5EFE6]">
+            <div className="text-6xl text-orange-200">⚠️</div>
+            <div>
+                <p className="text-2xl font-black text-[#5C3A21] tracking-tighter mb-2">Connection Issue</p>
+                <p className="text-sm font-bold text-slate-400">Please check your internet and try again.</p>
+            </div>
+            <button onClick={() => window.location.reload()} className="w-full py-5 bg-[#F5EFE6] border-2 border-white rounded-[2rem] text-[10px] font-black uppercase text-[#8B5E3C] tracking-widest shadow-lg active:scale-95 transition-all">
+                Retry Connection
+            </button>
         </div>
     );
 
-    if (!features) return null;
+    if (!prediction) return null;
 
     return (
-        <div className="bg-white rounded-[2.5rem] p-8 shadow-2xl border-4 border-primary/5 space-y-8 animate-in zoom-in duration-500">
-            {/* Status Header */}
-            <div className="flex items-center gap-3 p-4 bg-green-50 rounded-3xl border-2 border-green-100">
-                <CheckCircle2 className="text-green-500" size={32} />
-                <p className="text-green-800 font-black text-lg tracking-tight">
-                    Prediction Engine Online
-                </p>
+        <div className="w-full flex flex-col items-center max-w-md mx-auto animate-in fade-in duration-1000 pb-20 px-2">
+            
+            {/* MAIN SEASONAL CARDS */}
+            <div className="w-full mb-16">
+                <SeasonalPrediction 
+                    season={prediction.season}
+                    summary={prediction.summary}
+                    message={prediction.message}
+                    language={language}
+                    risks={prediction.risks}
+                />
             </div>
 
-            {/* Seasonal Prediction Box - PROMINENT */}
-            <div className="bg-gradient-to-br from-indigo-600 to-blue-800 rounded-[2rem] p-8 shadow-xl relative overflow-hidden ring-4 ring-indigo-50">
-                <Sun className="absolute -top-6 -right-6 text-white/10" size={140} />
-                <div className="relative z-10 space-y-4 text-center">
-                    <span className="bg-white/20 px-4 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest backdrop-blur-sm">
-                        Calculated Season
-                    </span>
-                    <h3 className="text-4xl font-black text-white leading-none tracking-tight flex items-center justify-center gap-3">
-                        <Calendar size={36} /> {season}
-                    </h3>
-                </div>
+            {/* MINIMAL FINAL CTA BUTTON */}
+            <div className="w-full sticky bottom-6 z-30 transform hover:scale-[1.01] transition-transform duration-500">
+                <div className="absolute inset-0 bg-[#2E7D32]/10 blur-2xl rounded-full" />
+                <button 
+                    onClick={() => onAnalysisComplete && onAnalysisComplete({ features: prediction.features, season: prediction.season, triggerNext: true })}
+                    className="w-full py-5 bg-[#2E7D32] text-white rounded-[1.8rem] text-xl font-black shadow-xl flex items-center justify-center gap-4 group relative overflow-hidden"
+                >
+                    <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    <span className="relative drop-shadow-sm">{t.next}</span> 
+                    <ArrowRight size={28} className="relative group-hover:translate-x-2 transition-transform duration-300 drop-shadow-sm" />
+                </button>
             </div>
 
-            {/* Core Metrics */}
-            <div className="grid grid-cols-1 gap-4">
-                <div className="flex items-center justify-between p-6 bg-muted/30 rounded-3xl border-2 border-transparent">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-orange-100 rounded-2xl text-orange-600">
-                            <Thermometer size={28} />
-                        </div>
-                        <span className="font-black text-muted-foreground uppercase text-xs tracking-widest">Avg Temp</span>
-                    </div>
-                    <span className="text-2xl font-black text-foreground">{features.avgTemp}°C</span>
-                </div>
-
-                <div className="flex items-center justify-between p-6 bg-muted/30 rounded-3xl border-2 border-transparent">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-blue-100 rounded-2xl text-blue-600">
-                            <CloudRain size={28} />
-                        </div>
-                        <span className="font-black text-muted-foreground uppercase text-xs tracking-widest">Total Rainfall</span>
-                    </div>
-                    <span className="text-2xl font-black text-foreground">{features.totalRain} mm</span>
-                </div>
-
-                <div className="flex items-center justify-between p-6 bg-muted/30 rounded-3xl border-2 border-transparent">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-teal-100 rounded-2xl text-teal-600">
-                            <Droplets size={28} />
-                        </div>
-                        <span className="font-black text-muted-foreground uppercase text-xs tracking-widest">Avg Humidity</span>
-                    </div>
-                    <span className="text-2xl font-black text-foreground">{features.avgHumidity}%</span>
-                </div>
-            </div>
-
-            {/* Trend Analysis Section */}
-            <div className="bg-primary/5 rounded-[2rem] p-6 space-y-4 border-2 border-primary/10">
-                <h4 className="text-sm font-black text-primary uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                    <Gauge size={16} /> Atmospheric Trends
-                </h4>
-                
-                <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-primary/5">
-                        <span className="font-bold text-gray-500">Temperature</span>
-                        <span className={`font-black px-4 py-1 rounded-full text-xs uppercase ${
-                            features.tempTrend === "Increasing" ? "bg-orange-500 text-white" : 
-                            features.tempTrend === "Decreasing" ? "bg-blue-500 text-white" : "bg-gray-400 text-white"
-                        }`}>
-                            {features.tempTrend}
-                        </span>
-                    </div>
-
-                    <div className="flex justify-between items-center py-2 border-b border-primary/5">
-                        <span className="font-bold text-gray-500">Rainfall</span>
-                        <span className={`font-black px-4 py-1 rounded-full text-xs uppercase ${
-                            features.rainTrend === "Increasing" ? "bg-blue-600 text-white" : 
-                            features.rainTrend === "Decreasing" ? "bg-orange-400 text-white" : "bg-gray-400 text-white"
-                        }`}>
-                            {features.rainTrend}
-                        </span>
-                    </div>
-
-                    <div className="flex justify-between items-center py-2">
-                        <span className="font-bold text-gray-500">Humidity</span>
-                        <span className={`font-black px-4 py-1 rounded-full text-xs uppercase ${
-                            features.humidityTrend === "Increasing" ? "bg-teal-600 text-white" : 
-                            features.humidityTrend === "Decreasing" ? "bg-teal-200 text-teal-800" : "bg-gray-400 text-white"
-                        }`}>
-                            {features.humidityTrend}
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Technical Metadata Footer */}
-            <div className="pt-2 text-center">
-                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center justify-center gap-2">
-                    {processedData.length} Points Analyzed • Engine: SeasonPredictor v1.2
-                </p>
-            </div>
         </div>
     );
 };

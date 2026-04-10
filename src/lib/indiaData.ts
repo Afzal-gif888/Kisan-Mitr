@@ -5,7 +5,7 @@
 export const indiaDistricts: Record<string, string[]> = {
   "Andhra Pradesh": [
     "Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool",
-    "Nellore", "Prakasam", "Srikakulam", "Visakhapatnam", "Vizianagaram",
+    "Nellore", "Prakasam", "Srikakulam", "Tirupati", "Visakhapatnam", "Vizianagaram",
     "West Godavari", "YSR Kadapa"
   ],
   "Arunachal Pradesh": [

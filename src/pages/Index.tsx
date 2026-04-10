@@ -39,7 +39,24 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#F5EFE6] relative">
+      {/* GLOBAL LANGUAGE TOGGLE (FLOATING) */}
+      <div className="fixed top-12 right-6 z-[60] flex gap-1.5 p-1 bg-white/20 backdrop-blur-xl rounded-full border border-white/20 shadow-2xl">
+          {["en", "hi", "te"].map((l) => (
+              <button
+                  key={l}
+                  onClick={() => setLanguage(l as Language)}
+                  className={`w-10 h-10 rounded-full text-[10px] font-black uppercase transition-all duration-500 flex items-center justify-center ${
+                      language === l 
+                      ? "bg-[#8B5E3C] text-white shadow-lg scale-110" 
+                      : "text-[#5C3A21]/60 hover:bg-white/20"
+                  }`}
+              >
+                  {l === "en" ? "EN" : l === "hi" ? "हि" : "తె"}
+              </button>
+          ))}
+      </div>
+
       {screen === "home" && (
         <HomeScreen language={language} onLanguageChange={setLanguage} onStart={() => setScreen("location")} />
       )}

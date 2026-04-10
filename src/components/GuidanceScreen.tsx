@@ -27,75 +27,80 @@ const GuidanceScreen = ({ language, cropKey, onBack, onStartOver }: GuidanceScre
   };
 
   const cards = [
-    { icon: <CalendarDays size={36} className="text-primary" />, label: t.sowingTime, value: crop.sowingTime[language], color: "bg-primary/5" },
-    { icon: <Droplets size={36} className="text-secondary" />, label: t.waterNeeded, value: waterLabel, color: "bg-secondary/5" },
-    { icon: <Sprout size={36} className="text-success" />, label: t.fertilizer, value: crop.fertilizer[language], color: "bg-success/5" },
-    { icon: <BarChart3 size={36} className="text-accent" />, label: t.expectedYield, value: crop.yield[language], color: "bg-accent/5" },
+    { icon: <CalendarDays size={28} className="text-[#8B5E3C]" />, label: t.sowingTime, value: crop.sowingTime[language], color: "bg-white" },
+    { icon: <Droplets size={28} className="text-blue-500" />, label: t.waterNeeded, value: waterLabel, color: "bg-white" },
+    { icon: <Sprout size={28} className="text-[#2E7D32]" />, label: t.fertilizer, value: crop.fertilizer[language], color: "bg-white" },
+    { icon: <BarChart3 size={28} className="text-orange-500" />, label: t.expectedYield, value: crop.yield[language], color: "bg-white" },
   ];
 
   return (
-    <div className="min-h-screen bg-background flex flex-col max-w-md mx-auto shadow-2xl">
-      {/* Header */}
-      <div className="bg-primary p-6 flex items-center gap-4 sticky top-0 z-20 shadow-md">
-        <button 
-          onClick={onBack} 
-          className="text-primary-foreground p-3 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-95 transition-all"
-        >
-          <ArrowLeft size={28} />
-        </button>
-        <h2 className="text-2xl font-black text-primary-foreground tracking-tight underline decoration-white/30 decoration-4 underline-offset-4">
-          📕 {t.growingGuide}
-        </h2>
+    <div className="min-h-screen bg-[#F5EFE6] flex flex-col max-w-md mx-auto shadow-2xl overflow-x-hidden pb-10">
+      {/* 1. TOP HEADER (DEEP SOIL) */}
+      <div className="bg-gradient-to-br from-[#5C3A21] to-[#8B5E3C] pt-12 pb-8 px-6 rounded-b-[2.5rem] shadow-lg flex items-center gap-4 relative">
+          <button onClick={onBack} className="text-white p-2.5 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-90 shadow-inner">
+              <ArrowLeft size={24} />
+          </button>
+          <div className="flex-1">
+              <h2 className="text-xl font-black text-white tracking-tight leading-none mb-1">
+                {t.growingGuide}
+              </h2>
+              <p className="text-[#C49A6C] text-[9px] font-black uppercase tracking-widest opacity-80 leading-none">Intelligence Step 04</p>
+          </div>
+          <button onClick={onStartOver} className="text-white/40 hover:text-white transition-colors">
+              <RotateCcw size={24} />
+          </button>
       </div>
 
-      <div className="flex-1 p-6 flex flex-col gap-6">
-        {/* Crop header */}
-        <div className="bg-card rounded-[2.5rem] overflow-hidden shadow-2xl animate-scale-in border-4 border-white">
+      <div className="flex-1 p-6 space-y-6 mt-4 overflow-y-auto">
+        {/* Crop Hero (Minimal) */}
+        <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-xl animate-scale-in border-4 border-white relative">
           <div className="h-48 relative">
             <img src={crop.image} alt={crop.name[language]} className="w-full h-full object-cover" />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6 pt-12">
-              <h3 className="text-4xl font-black text-white flex items-center gap-3">
-                <span className="text-5xl">🌾</span> 
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-6 flex items-center justify-between">
+              <h3 className="text-3xl font-black text-white tracking-tighter">
                 {crop.name[language]}
               </h3>
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-3xl">
+                🌾
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Voice button - Very prominent for farmers */}
+        {/* Voice button - Premium & Minimal */}
         <button
           onClick={handleVoice}
-          className="w-full py-6 bg-secondary text-white rounded-[2rem] text-2xl font-black flex items-center justify-center gap-4 shadow-xl hover:shadow-secondary/40 active:scale-[0.95] transition-all border-b-8 border-secondary/70 animate-pulse hover:animate-none group"
+          className="w-full py-5 bg-[#8B5E3C] text-white rounded-[1.8rem] text-xl font-black flex items-center justify-center gap-4 shadow-xl hover:scale-[1.01] active:scale-[0.98] transition-all group overflow-hidden relative"
         >
-          <div className="p-2 bg-white/20 rounded-2xl group-hover:rotate-12 transition-transform">
-            <Volume2 size={32} />
-          </div>
-          <span>🔊 {t.listenExplanation}</span>
+          <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+          <Volume2 size={24} className="group-hover:rotate-12 transition-transform" />
+          <span>{t.listenExplanation}</span>
         </button>
 
-        {/* Info grid */}
-        <div className="grid grid-cols-1 gap-4 text-left">
+        {/* Info grid (Clean minimalist cards) */}
+        <div className="grid grid-cols-1 gap-4">
           {cards.map((card, i) => (
             <div
               key={i}
-              className={`${card.color} rounded-[2rem] p-6 shadow-sm flex items-start gap-5 animate-fade-in-up border-2 border-white`}
+              className={`${card.color} rounded-[2rem] p-5 shadow-sm flex items-center gap-5 animate-fade-in-up border border-white hover:shadow-md transition-shadow`}
               style={{ animationDelay: `${i * 100}ms` }}
             >
-              <div className="p-3 bg-white rounded-2xl shadow-md shrink-0">{card.icon}</div>
+              <div className="p-3 bg-[#F5EFE6] rounded-xl shadow-inner shrink-0">{card.icon}</div>
               <div className="flex-1">
-                <p className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-1 opacity-60">{card.label}</p>
-                <p className="text-xl font-black text-foreground leading-tight">{card.value}</p>
+                <p className="text-[9px] font-black text-[#8B5E3C]/40 uppercase tracking-[0.2em] mb-1 leading-none">{card.label}</p>
+                <p className="text-lg font-black text-[#5C3A21] leading-tight tracking-tight">{card.value}</p>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Start over - bottom fixed-ish */}
+        {/* Start over - Clean link */}
         <button
           onClick={onStartOver}
-          className="w-full py-5 text-muted-foreground rounded-2xl text-lg font-black flex items-center justify-center gap-3 hover:bg-muted/50 active:scale-[0.98] transition-all opacity-60 hover:opacity-100"
+          className="w-full py-4 text-[#8B5E3C]/40 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:text-[#8B5E3C] transition-all"
         >
-          <RotateCcw size={24} />
+          <RotateCcw size={18} />
           {t.startOver}
         </button>
       </div>
