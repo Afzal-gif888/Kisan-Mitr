@@ -1,0 +1,67 @@
+{
+  "Anantapur": {
+    "type": "dry",
+    "boostCrops": ["Groundnut", "Jowar", "Bajra", "Ragi"],
+    "avoidCrops": ["Paddy", "Sugarcane"]
+  },
+  "Kurnool": {
+    "type": "semi-arid",
+    "boostCrops": ["Groundnut", "Cotton", "Jowar"],
+    "avoidCrops": ["Sugarcane"]
+  },
+  "YSR Kadapa": {
+    "type": "dry",
+    "boostCrops": ["Groundnut", "Red Gram", "Millets"],
+    "avoidCrops": ["Paddy"]
+  },
+  "Chittoor": {
+    "type": "horticulture",
+    "boostCrops": ["Tomato", "Mango", "Groundnut"],
+    "avoidCrops": ["Paddy"]
+  },
+  "Nellore": {
+    "type": "coastal",
+    "boostCrops": ["Paddy", "Sugarcane"],
+    "avoidCrops": ["Millets"]
+  },
+  "Prakasam": {
+    "type": "mixed",
+    "boostCrops": ["Groundnut", "Cotton", "Red Gram"],
+    "avoidCrops": []
+  },
+  "Guntur": {
+    "type": "fertile",
+    "boostCrops": ["Chilli", "Cotton", "Paddy"],
+    "avoidCrops": []
+  },
+  "Krishna": {
+    "type": "delta",
+    "boostCrops": ["Paddy", "Sugarcane"],
+    "avoidCrops": ["Millets"]
+  },
+  "West Godavari": {
+    "type": "delta",
+    "boostCrops": ["Paddy", "Sugarcane"],
+    "avoidCrops": []
+  },
+  "East Godavari": {
+    "type": "delta",
+    "boostCrops": ["Paddy", "Coconut"],
+    "avoidCrops": []
+  },
+  "Visakhapatnam": {
+    "type": "coastal",
+    "boostCrops": ["Paddy", "Cashew"],
+    "avoidCrops": []
+  },
+  "Vizianagaram": {
+    "type": "rainfed",
+    "boostCrops": ["Millets", "Pulses"],
+    "avoidCrops": []
+  },
+  "Srikakulam": {
+    "type": "coastal",
+    "boostCrops": ["Paddy"],
+    "avoidCrops": []
+  }
+}

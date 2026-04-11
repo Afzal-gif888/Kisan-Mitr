@@ -6,7 +6,7 @@ import { indiaDistricts } from "@/lib/indiaData";
 
 interface LocationScreenProps {
   language: Language;
-  onNext: (features: any, season: string) => void;
+  onNext: (result: any) => void;
   onBack: () => void;
 }
 
@@ -20,7 +20,7 @@ const LocationScreen = ({ language, onNext, onBack }: LocationScreenProps) => {
   const [district, setDistrict] = useState("");
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
   const [confirmed, setConfirmed] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState<{features: any, season: string} | null>(null);
+  const [analysisResult, setAnalysisResult] = useState<any>(null);
 
   const handleDetect = () => {
     setDetecting(true);
@@ -37,15 +37,12 @@ const LocationScreen = ({ language, onNext, onBack }: LocationScreenProps) => {
             let sName = comp.state || "Unknown";
             if (sName.includes("Delhi")) sName = "Delhi";
             
-            // Normalize State name to match our keys (Basic check)
             const matchedState = states.find(s => s.toLowerCase() === sName.toLowerCase()) || sName;
             setState(matchedState);
 
             let dName = comp.state_district || comp.county || comp.city || "Unknown";
-            // Clean district name (remove "District", "City" suffixes common in reverse geocoders)
             dName = dName.replace(/ District| City| Division/gi, "").trim();
 
-            // Try to find exact or fuzzy match in our local data
             if (indiaDistricts[matchedState]) {
                 const availableDistricts = indiaDistricts[matchedState];
                 const matchedDistrict = availableDistricts.find(d => 
@@ -72,17 +69,16 @@ const LocationScreen = ({ language, onNext, onBack }: LocationScreenProps) => {
   if (!confirmed) {
     return (
       <div className="min-h-screen bg-[#F5EFE6] flex flex-col max-w-md mx-auto shadow-2xl overflow-x-hidden pb-10">
-        {/* 1. TOP HEADER (DEEP SOIL) */}
+        {/* 1. TOP HEADER */}
         <div className="bg-gradient-to-br from-[#5C3A21] to-[#8B5E3C] pt-12 pb-8 px-6 rounded-b-[2.5rem] shadow-lg flex items-center gap-4 relative">
             <button onClick={onBack} className="text-white p-2.5 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-90 shadow-inner">
                 <ArrowLeft size={24} />
             </button>
             <h2 className="text-xl font-black text-white tracking-tight">{t.detectLocation}</h2>
-            <div className="absolute -bottom-3 right-10 w-24 h-24 bg-white/5 rounded-full blur-2xl animate-pulse" />
         </div>
 
         <div className="flex-1 px-6 pt-8 space-y-8 overflow-y-auto">
-            {/* 2. HERO CARD (EARTHY WARMTH) */}
+            {/* 2. HERO CARD */}
             <div className="bg-gradient-to-br from-[#8B5E3C] to-[#D4A373] text-white p-8 rounded-[2rem] shadow-2xl relative overflow-hidden group">
                 <div className="relative z-10">
                     <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-5 backdrop-blur-md shadow-inner border border-white/20">
@@ -91,108 +87,62 @@ const LocationScreen = ({ language, onNext, onBack }: LocationScreenProps) => {
                     <h1 className="text-2xl font-black leading-tight mb-2 tracking-tighter">
                         {language === "te" ? "మీ పొలం స్థానాన్ని గుర్తిద్దాం" : "Identify Farm Location"}
                     </h1>
-                    <p className="text-sm font-bold opacity-80 leading-relaxed">
-                        {language === "te" ? "ఖచ్చితమైన వాతావరణం కోసం మీ స్థానాన్ని ఎంచుకోండి" : "Select location for precise soil and climate intelligence"}
-                    </p>
                 </div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-white/20 transition-all duration-700" />
             </div>
 
-            {/* 3. LOCATION BUTTON (BROWN THEME) */}
+            {/* 3. LOCATION BUTTON */}
             <button 
                 onClick={handleDetect} 
                 disabled={detecting}
                 className="w-full bg-white/95 p-6 rounded-[2rem] shadow-xl border-2 border-transparent hover:border-[#8B5E3C]/30 hover:scale-[1.02] transition-all duration-500 flex items-center gap-5 group active:scale-95"
             >
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-lg shadow-[#8B5E3C]/10 ${detected ? "bg-[#2E7D32] text-white" : "bg-[#8B5E3C]/5 text-[#8B5E3C] group-hover:bg-[#8B5E3C] group-hover:text-white"}`}>
-                    {detecting ? <Loader2 size={24} className="animate-spin" /> : <MapPin size={28} className="transform group-hover:-translate-y-1 transition-transform" />}
+                    {detecting ? <Loader2 size={24} className="animate-spin" /> : <MapPin size={28} />}
                 </div>
                 <div className="text-left flex-1">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1.5">
-                        {t.detectLocation}
-                    </p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1.5">{t.detectLocation}</p>
                     <p className="text-lg font-black text-[#5C3A21] truncate">
-                        {detecting ? (t.fetchingLocation || "...") : detected ? `${tLoc(district)}, ${tLoc(state)}` : tLoc("Click here to detect")}
+                        {detecting ? "Locating..." : detected ? `${tLoc(district)}, ${tLoc(state)}` : "Click here to detect"}
                     </p>
                 </div>
-                {detected && <CheckCircle2 className="text-[#2E7D32]" size={28} />}
             </button>
 
-            {/* 4. MANUAL SELECT (EARTH CARD STYLE) */}
+            {/* 4. MANUAL SELECT */}
             <div className="space-y-5">
                 <div className="flex items-center gap-3 px-2">
                     <div className="h-px flex-1 bg-[#8B5E3C]/10" />
                     <span className="text-[10px] font-black text-[#8B5E3C]/40 uppercase tracking-[0.4em]">{t.orSelectManually}</span>
                     <div className="h-px flex-1 bg-[#8B5E3C]/10" />
                 </div>
-
-                <div className="grid grid-cols-1 gap-5">
-                    {/* State Selector */}
-                    <div className="bg-white/90 backdrop-blur-sm rounded-[2rem] p-6 shadow-xl border border-white/50 space-y-3 group hover:shadow-[#8B5E3C]/5 transition-all duration-500">
-                        <div className="flex items-center gap-2">
-                            <span className="text-lg">🏕</span>
-                            <label className="text-[10px] font-black text-[#8B5E3C]/40 uppercase tracking-widest leading-none">{t.selectState}</label>
-                        </div>
-                        <div className="relative">
-                            <select 
-                                value={state} 
-                                onChange={(e) => { setState(e.target.value); setDistrict(""); setCoords(null); setDetected(false); }} 
-                                className="w-full py-4 px-6 bg-[#F5EFE6]/50 rounded-2xl border-2 border-transparent focus:border-[#8B5E3C]/20 outline-none text-lg font-black text-[#5C3A21] appearance-none cursor-pointer transition-all"
-                            >
-                                <option value="">{t.selectState}</option>
-                                {states.map((s) => <option key={s} value={s}>{tLoc(s)}</option>)}
-                            </select>
-                        </div>
-                    </div>
-
-                    {/* District Selector */}
-                    {state && (
-                        <div className="bg-white/90 backdrop-blur-sm rounded-[2rem] p-6 shadow-xl border border-white/50 space-y-3 group hover:shadow-[#8B5E3C]/5 transition-all duration-500 animate-in slide-in-from-top-6">
-                            <div className="flex items-center gap-2">
-                                <span className="text-lg">🏡</span>
-                                <label className="text-[10px] font-black text-[#8B5E3C]/40 uppercase tracking-widest leading-none">{t.selectDistrict}</label>
-                            </div>
-                            <div className="relative">
-                                <select 
-                                    value={district} 
-                                    onChange={(e) => setDistrict(e.target.value)} 
-                                    className="w-full py-4 px-6 bg-[#F5EFE6]/50 rounded-2xl border-2 border-transparent focus:border-[#8B5E3C]/20 outline-none text-lg font-black text-[#5C3A21] appearance-none cursor-pointer transition-all"
-                                >
-                                    <option value="">{t.selectDistrict}</option>
-                                    {(indiaDistricts[state] || []).map((d) => <option key={d} value={d}>{tLoc(d)}</option>)}
-                                </select>
-                            </div>
-                        </div>
-                    )}
-                </div>
+                <select 
+                    value={state} 
+                    onChange={(e) => { setState(e.target.value); setDistrict(""); setCoords(null); setDetected(false); }} 
+                    className="w-full py-4 px-6 bg-white rounded-2xl border-2 border-[#F5EFE6] text-lg font-black text-[#5C3A21]"
+                >
+                    <option value="">{t.selectState}</option>
+                    {states.map((s) => <option key={s} value={s}>{tLoc(s)}</option>)}
+                </select>
+                {state && (
+                    <select 
+                        value={district} 
+                        onChange={(e) => setDistrict(e.target.value)} 
+                        className="w-full py-4 px-6 bg-white rounded-2xl border-2 border-[#F5EFE6] text-lg font-black text-[#5C3A21]"
+                    >
+                        <option value="">{t.selectDistrict}</option>
+                        {(indiaDistricts[state] || []).map((d) => <option key={d} value={d}>{tLoc(d)}</option>)}
+                    </select>
+                )}
             </div>
-
-            {/* 5. VISUAL FEEDBACK */}
-            {state && district && (
-                <div className="bg-[#2E7D32]/5 border-2 border-[#2E7D32]/10 p-6 rounded-[2rem] flex items-center justify-between shadow-inner animate-in zoom-in-95 duration-700">
-                    <div className="flex items-center gap-5">
-                        <div className="bg-[#2E7D32] text-white p-3.5 rounded-2xl shadow-lg shadow-[#2E7D32]/20">
-                            <CheckCircle2 size={24} />
-                        </div>
-                        <div>
-                            <p className="text-[10px] font-black text-[#2E7D32] uppercase tracking-[0.2em] mb-1">{language === "te" ? "స్థానం ధృవీకరించబడింది" : "Location Confirmed"}</p>
-                            <p className="text-lg font-black text-[#5C3A21]">{tLoc(district)}, {tLoc(state)}</p>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
 
-        {/* 6. CTA BUTTON (HARVEST GREEN) */}
         <div className="px-6 mt-10">
             <button 
                 disabled={!state || !district || detecting}
                 onClick={() => setConfirmed(true)} 
-                className="w-full py-6 bg-[#2E7D32] text-white rounded-[2.5rem] text-2xl font-black shadow-2xl hover:shadow-[#2E7D32]/40 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-4 disabled:opacity-50 disabled:grayscale group relative overflow-hidden"
+                className="w-full py-6 bg-[#2E7D32] text-white rounded-[2.5rem] text-2xl font-black shadow-2xl flex items-center justify-center gap-4"
             >
-                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                <span className="relative">{language === "te" ? "తదుపరి" : "Continue"}</span>
-                <ArrowRight size={28} className="relative group-hover:translate-x-3 transition-transform" />
+                <span>{language === "te" ? "తదుపరి" : "Continue"}</span>
+                <ArrowRight size={28} />
             </button>
         </div>
       </div>
@@ -200,18 +150,15 @@ const LocationScreen = ({ language, onNext, onBack }: LocationScreenProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F6F9F6] p-4 flex flex-col items-center max-w-md mx-auto shadow-2xl relative overflow-y-auto">
-      {/* HEADER WITH BACK */}
-      <button onClick={() => setConfirmed(false)} className="absolute top-4 left-4 p-2.5 bg-white/80 backdrop-blur-md rounded-full shadow-lg text-slate-400 hover:text-primary transition-all active:scale-90 z-20 border border-white">
+    <div className="min-h-screen bg-[#F5F1EB] p-4 flex flex-col items-center max-w-md mx-auto shadow-2xl relative overflow-y-auto">
+      <button onClick={() => setConfirmed(false)} className="absolute top-4 left-4 p-2.5 bg-white rounded-full shadow-lg text-slate-400 z-20">
         <ArrowLeft size={20} />
       </button>
 
-      {/* 📍 LOCATION BREADCRUMB */}
-      <div className="text-xs text-slate-400 mb-6 font-bold mt-12 flex items-center gap-1.5 opacity-80 uppercase tracking-widest">
+      <div className="text-[10px] text-[#8B5E3C] mb-6 font-black mt-12 uppercase tracking-[0.2em] opacity-80">
          📍 {tLoc(district)}, {tLoc(state)}
       </div>
 
-      {/* COMPONENTIZED WEATHER BLOCKS */}
       <div className="w-full">
         <WeatherModule 
           lat={coords?.lat} 
@@ -222,7 +169,7 @@ const LocationScreen = ({ language, onNext, onBack }: LocationScreenProps) => {
           onAnalysisComplete={(res: any) => {
             setAnalysisResult(res);
             if (res.triggerNext) {
-              onNext(res.features, res.season);
+              onNext(res);
             }
           }}
         />

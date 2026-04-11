@@ -15,17 +15,15 @@ const Index = () => {
   const [soil, setSoil] = useState<SoilType>("loamy");
   const [selectedCrop, setSelectedCrop] = useState("rice");
 
-  const [weatherFeatures, setWeatherFeatures] = useState<any>(null);
-  const [season, setSeason] = useState<string>("Normal");
+  const [weatherResult, setWeatherResult] = useState<any>(null);
 
   const handleSoilSelect = (s: SoilType) => {
     setSoil(s);
     setScreen("recommendation");
   };
 
-  const handleLocationNext = (feat: any, seas: string) => {
-    setWeatherFeatures(feat);
-    setSeason(seas);
+  const handleLocationNext = (result: any) => {
+    setWeatherResult(result);
     setScreen("soil");
   };
 
@@ -57,8 +55,7 @@ const Index = () => {
         <RecommendationScreen 
           language={language} 
           soil={soil} 
-          features={weatherFeatures}
-          season={season}
+          weatherResult={weatherResult}
           onViewGuide={handleViewGuide} 
           onBack={() => setScreen("soil")} 
         />

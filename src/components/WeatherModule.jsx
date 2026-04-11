@@ -6,8 +6,6 @@ import { advancedSeasonPrediction } from "@/utils/seasonalEngine";
 import { generateFarmerInsights } from "@/utils/farmerInsightEngine";
 import { weatherText } from "@/translations/weather";
 import { HeroCard, SeasonalSummary, RiskAlert, FinalAdvice } from './SeasonalPrediction';
-import { getAPCropRecommendations } from "@/utils/cropRecommendationEngine";
-import CropRecommendations from './CropRecommendations';
 
 const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete }) => {
     const t = weatherText[language] || weatherText.en;
@@ -123,30 +121,24 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             const fiveDayForecast = Object.values(dailyData).slice(0, 5);
 
             const season = advancedIntelligence.season;
-            const weatherResultForCrops = {
+            const weatherResult = {
                 condition: season,
                 summary: {
                     rain: farmerInsights ? farmerInsights.rain.level : analysis.summary.rain,
                     heat: farmerInsights ? farmerInsights.temperature.level : analysis.summary.heat,
                     moisture: farmerInsights ? farmerInsights.moisture.level : analysis.summary.moisture
                 },
-                risks: [...analysis.risks, ...advancedIntelligence.anomalies]
+                risks: [...analysis.risks, ...advancedIntelligence.anomalies],
+                district: districtName,
+                features,
+                farmerInsights,
+                fiveDayForecast
             };
 
-            const cropRecs = getAPCropRecommendations(weatherResultForCrops, language);
-
-            setPrediction({
-                season,
-                summary: analysis.summary,
-                risks: weatherResultForCrops.risks,
-                farmerInsights,
-                fiveDayForecast,
-                cropRecommendations: cropRecs.recommendedCrops,
-                features
-            });
+            setPrediction(weatherResult);
 
             if (onAnalysisComplete) {
-                onAnalysisComplete({ features, season: analysis.condition });
+                onAnalysisComplete({ ...weatherResult, triggerNext: false });
             }
         } catch (err) {
             setError(err.message);
@@ -174,18 +166,19 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
 
     if (!prediction) return null;
 
-    const rLevel = prediction.farmerInsights ? prediction.farmerInsights.rain.level : prediction.summary.rain;
-    const tLevel = prediction.farmerInsights ? prediction.farmerInsights.temperature.level : prediction.summary.heat;
-    const mLevel = prediction.farmerInsights ? prediction.farmerInsights.moisture.level : prediction.summary.moisture;
-
     return (
         <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-20 px-3 bg-[#F5F1EB] min-h-screen">
             
             {/* 1. HERO CARD */}
-            <HeroCard season={prediction.season} language={language} t={t} />
+            <HeroCard season={prediction.condition} language={language} t={t} />
 
             {/* 2. SEASONAL SUMMARY */}
-            <SeasonalSummary rLevel={rLevel} tLevel={tLevel} mLevel={mLevel} t={t} />
+            <SeasonalSummary 
+                rLevel={prediction.summary.rain} 
+                tLevel={prediction.summary.heat} 
+                mLevel={prediction.summary.moisture} 
+                t={t} 
+            />
 
             {/* 3. RISK ALERT */}
             <RiskAlert risks={prediction.risks} t={t} />
@@ -211,23 +204,16 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
                 </div>
             </div>
 
-            {/* 5. CROP RECOMMENDATIONS */}
-            <CropRecommendations 
-                recommendations={prediction.cropRecommendations} 
-                language={language} 
-                t={t} 
-            />
-
-            {/* 6. FINAL ADVICE */}
+            {/* 5. FINAL ADVICE */}
             <FinalAdvice advice={prediction.farmerInsights?.summary} t={t} />
 
-            {/* ➡️ FINAL CTA (STICKY) */}
+            {/* ➡️ FINAL CTA (TO SOIL SELECTION) */}
             <div className="mt-8">
                 <button 
-                    onClick={() => onAnalysisComplete && onAnalysisComplete({ features: prediction.features, season: prediction.season, triggerNext: true })}
+                    onClick={() => onAnalysisComplete && onAnalysisComplete({ ...prediction, triggerNext: true })}
                     className="w-full py-4 bg-[#2E7D32] text-white rounded-2xl text-lg font-black shadow-lg flex items-center justify-center gap-3 active:scale-95 transition-all"
                 >
-                    <span>{t.next}</span> 
+                    <span>{language === "te" ? "మట్టి ఎంపిక" : "Select Soil"}</span> 
                     <ArrowRight size={20} />
                 </button>
             </div>

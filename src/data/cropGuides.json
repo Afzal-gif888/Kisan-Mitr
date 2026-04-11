@@ -1,0 +1,198 @@
+{
+  "paddy": {
+    "id": "paddy",
+    "name": { "en": "Paddy", "te": "వరి" },
+    "growing_season": ["Kharif", "Rabi"],
+    "soil_preference": {
+      "types": ["Clay", "Clayey Loam"],
+      "ph_range": "5.5–7.5",
+      "te": "బంకమట్టి మరియు జిగురు నేలలు"
+    },
+    "water_profile": {
+      "requirement": "Very High",
+      "method": "Standing water (3-5 cm)",
+      "critical_stages": ["Transplanting", "Tillering", "Panicle Initiation"],
+      "te": "నీటి అవసరం చాలా ఎక్కువ - పొలంలో ఎప్పుడూ 3-5 సెం.మీ నీరు ఉండాలి"
+    },
+    "climate_profile": {
+      "ideal_temp": "20–35°C",
+      "rainfall_range": "1000–1500 mm",
+      "sensitivity": "Highly sensitive to water shortage at flowering stage",
+      "te": "వేడి మరియు తేమ గల వాతావరణం అనుకూలం"
+    },
+    "growth_stages": [
+      { "stage": "Land Preparation", "description": "Puddling and leveling is essential to retain water", "te": "దుక్కి దున్నడం మరియు దమ్ము చేయడం" },
+      { "stage": "Nursery Management", "description": "Raise seedlings for 25-30 days before transplanting", "te": "నారుమడి యాజమాన్యం" },
+      { "stage": "Transplanting", "description": "Maintain proper spacing (20x15 cm) for better tillering", "te": "నాట్లు వేయడం" },
+      { "stage": "Tillering", "description": "Critical for yield; ensure constant water level", "te": "పిలకలు వేసే దశ" },
+      { "stage": "Harvesting", "description": "Drain water 10 days before harvest to ensure uniform ripening", "te": "కోత కోయడం" }
+    ],
+    "duration_days": 120,
+    "inputs": {
+      "fertilizer": "NPK (120:60:40) + Zinc Sulphate",
+      "seed_rate": "20–25 kg/acre (Transplanting)"
+    },
+    "risks": [
+      "Stem Borer attack during vegetative phase",
+      "Blast disease in high humidity",
+      "Water scarcity at panicle stage leads to empty grains"
+    ],
+    "expected_yield": "20–25 quintals/acre"
+  },
+  "groundnut": {
+    "id": "groundnut",
+    "name": { "en": "Groundnut", "te": "వేరుశెనగ" },
+    "growing_season": ["Kharif", "Rabi"],
+    "soil_preference": {
+      "types": ["Sandy Loam", "Red Sandy"],
+      "ph_range": "6.0–7.5",
+      "te": "ఇసుక మిశ్రమ ఎర్ర నేలలు"
+    },
+    "water_profile": {
+      "requirement": "Low to Medium",
+      "method": "Irrigation at critical intervals",
+      "critical_stages": ["Flowering", "Pegging", "Pod development"],
+      "te": "మధ్యస్థ నీరు - ఊడలు దిగే దశలో తడి తప్పనిసరి"
+    },
+    "climate_profile": {
+      "ideal_temp": "25–30°C",
+      "rainfall_range": "500–700 mm",
+      "sensitivity": "Highly sensitive to excess rain and waterlogging",
+      "te": "పొడి వాతావరణం మరియు సూర్యరశ్మి అవసరం"
+    },
+    "growth_stages": [
+      { "stage": "Seed Treatment", "description": "Treat seeds with Mancozeb to prevent root rot", "te": "విత్తన శుద్ధి" },
+      { "stage": "Sowing", "description": "Deep sowing (5 cm) in moist soil ensures uniform germination", "te": "విత్తడం" },
+      { "stage": "Pegging", "description": "CRITICAL: Do not disturb soil during peg entry into ground", "te": "ఊడలు దిగే దశ (అత్యంత ముఖ్యం)" },
+      { "stage": "Pod Development", "description": "Apply Gypsum (200kg/acre) for calcium and sulfur", "te": "కాయ ఊరే దశ" },
+      { "stage": "Stripping", "description": "Harvest when leaf turns yellow and pod interior is blackish", "te": "పంట సేకరణ" }
+    ],
+    "duration_days": 105,
+    "inputs": {
+      "fertilizer": "NPK (10:20:20) + Gypsum",
+      "seed_rate": "60–70 kg/acre (Kernels)"
+    },
+    "risks": [
+      "Aflatoxin buildup in high moisture",
+      "Leaf Spot (Tikka disease)",
+      "Wild boar damage during pod stage"
+    ],
+    "expected_yield": "10–15 quintals/acre"
+  },
+  "cotton": {
+    "id": "cotton",
+    "name": { "en": "Cotton", "te": "పత్తి" },
+    "growing_season": ["Kharif"],
+    "soil_preference": {
+      "types": ["Black Cotton Soil", "Deep Alluvial"],
+      "ph_range": "7.0–8.5",
+      "te": "నల్ల రేగడి నేలలు"
+    },
+    "water_profile": {
+      "requirement": "Medium",
+      "method": "Drip or furrow irrigation",
+      "critical_stages": ["Squaring", "Flowering", "Boll development"],
+      "te": "మధ్యస్థ నీరు - పూత దశలో నీటి ఎద్దడి ఉండకూడదు"
+    },
+    "climate_profile": {
+      "ideal_temp": "21–35°C",
+      "rainfall_range": "750–1000 mm",
+      "sensitivity": "Needs 180 frost-free days and bright sunshine for boll opening",
+      "te": "ఎక్కువ ఎండ మరియు తక్కువ వర్షం అనుకూలం"
+    },
+    "growth_stages": [
+      { "stage": "Land Preparation", "description": "Deep plowing to remove old stalks and debris", "te": "లోతు దుక్కి" },
+      { "stage": "Squaring", "description": "The visual appearance of flower buds (squares)", "te": "మొగ్గ దశ" },
+      { "stage": "Boll Bursting", "description": "Needs dry weather; rain at this stage ruins quality", "te": "కాయలు పగిలే దశ" },
+      { "stage": "Picking", "description": "Hand-pick cotton when bolls are fully dry and open", "te": "పత్తి ఏరడం" }
+    ],
+    "duration_days": 180,
+    "inputs": {
+      "fertilizer": "NPK (60:30:30) + Magnesium Sulphate",
+      "seed_rate": "1–2 kg/acre (Hybrid BT)"
+    },
+    "risks": [
+      "Pink Bollworm (Most devastating pest)",
+      "Root Rot in waterlogged conditions",
+      "Sucking pests (Aphids, Jassids)"
+    ],
+    "expected_yield": "8–12 quintals/acre"
+  },
+  "redgram": {
+    "id": "redgram",
+    "name": { "en": "Red Gram (Tur)", "te": "కందులు" },
+    "growing_season": ["Kharif"],
+    "soil_preference": {
+      "types": ["Well drained Sandy Loam", "Black"],
+      "ph_range": "6.5–7.5",
+      "te": "నీరు నిల్వ ఉండని సారవంతమైన నేలలు"
+    },
+    "water_profile": {
+      "requirement": "Low",
+      "method": "Rainfed usually; supplemental irrigation if dry",
+      "critical_stages": ["Branching", "Flowering", "Pod filling"],
+      "te": "ముఖ్యంగా వర్షాధార పంట - తక్కువ నీరు సరిపోతుంది"
+    },
+    "climate_profile": {
+      "ideal_temp": "25–35°C",
+      "rainfall_range": "600–800 mm",
+      "sensitivity": "Highly drought tolerant; cannot stand waterlogging for even 24 hours",
+      "te": "ఎక్కువ వేడిని తట్టుకోగలదు"
+    },
+    "growth_stages": [
+      { "stage": "Sowing", "description": "Maintain row spacing of 60-90 cm for canopy growth", "te": "విత్తడం" },
+      { "stage": "Branching", "description": "Deep roots develop to reach subsoil moisture", "te": "కొమ్మలు తొడిగే దశ" },
+      { "stage": "Harvesting", "description": "Cut plants when 80% pods turn brown", "te": "కోత కోయడం" }
+    ],
+    "duration_days": 160,
+    "inputs": {
+      "fertilizer": "NPK (20:50:0) + Rhizobium treatment",
+      "seed_rate": "5 kg/acre"
+    },
+    "risks": [
+      "Pod Borer (Maruca)",
+      "Wilt disease in heavy soils",
+      "Frost (in high altitudes)"
+    ],
+    "expected_yield": "6–8 quintals/acre"
+  },
+  "sugarcane": {
+    "id": "sugarcane",
+    "name": { "en": "Sugarcane", "te": "చెరకు" },
+    "growing_season": ["Year Round"],
+    "soil_preference": {
+      "types": ["Deep Loamy", "Clayey"],
+      "ph_range": "6.5–8.0",
+      "te": "బలమైన లోమి నేలలు"
+    },
+    "water_profile": {
+      "requirement": "Very High",
+      "method": "Canal or lift irrigation (weekly cycles)",
+      "critical_stages": ["Germination", "Formative", "Grand Growth"],
+      "te": "అత్యధిక నీరు అవసరం - వారం వారం నీరు ఇవ్వాలి"
+    },
+    "climate_profile": {
+      "ideal_temp": "20–35°C",
+      "rainfall_range": "1500–2500 mm",
+      "sensitivity": "Sensitive to severe frost and drought during formative stage",
+      "te": "తేమ మరియు వేడి ఉన్న ప్రాంతాలు ఉత్తమం"
+    },
+    "growth_stages": [
+      { "stage": "Set Preparation", "description": "Select top 1/3 portion for planting sets", "te": "విత్తన కనుపుల ఎంపిక" },
+      { "stage": "Planting", "description": "Deep furrow planting (30 cm) promotes stability", "te": "నాటడం" },
+      { "stage": "Earthing Up", "description": "Prevent lodging by mounding soil around stalks", "te": "మట్టిని ఎగదోయడం" },
+      { "stage": "Maturation", "description": "Sugar content (Brix) peaks 11-12 months after planting", "te": "ముదిరే దశ" }
+    ],
+    "duration_days": 360,
+    "inputs": {
+      "fertilizer": "Nitrogen (high), Phosphorus, Potash (250:100:100)",
+      "seed_rate": "3–4 sets per meter"
+    },
+    "risks": [
+      "Red Rot (Most serious disease)",
+      "Stalk Borer",
+      "Salinity in soil reduces sugar content"
+    ],
+    "expected_yield": "30–40 tons/acre"
+  }
+}
