@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, CalendarDays, Sprout, CloudRain, Thermometer, Droplets, AlertTriangle } from 'lucide-react';
-import { extractFeatures } from "@/engine/FeatureExtraction";
-import { analyzeWeather } from "@/engine/comparisonEngine";
-import { advancedSeasonPrediction } from "@/engine/seasonalEngine";
-import { generateFarmerInsights } from "@/engine/farmerInsightEngine";
-import { weatherText } from "@/translations/weather";
-// HeroCard removed as it was part of a deleted component
+import { extractFeatures } from "../utils/FeatureExtraction";
+import { analyzeWeather } from "../utils/comparisonEngine";
+import { advancedSeasonPrediction } from "../utils/seasonalEngine";
+import { generateFarmerInsights } from "../utils/farmerInsightEngine";
+import { weatherText } from "../translations/weather";
 
 const WeatherModule = ({ lat = null, lon = null, state = null, district, language, onAnalysisComplete }) => {
     const t = weatherText[language] || weatherText.en;
@@ -18,6 +17,8 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
             fetchWeather(lat, lon, null, null);
         } else if (district && state) {
             fetchWeather(null, null, district, state);
+        } else if (district) {
+            fetchWeather(null, null, district, "Andhra Pradesh");
         }
     }, [lat, lon, district, state]);
 
@@ -163,16 +164,16 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
     if (loading) return (
         <div className="p-10 flex flex-col items-center justify-center space-y-4 min-h-[40vh] bg-white text-center">
             <div className="w-10 h-10 border-4 border-[#1B5E20]/10 border-t-[#1B5E20] rounded-full animate-spin mx-auto" />
-            <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.3em]">{t.analyzing}</p>
+            <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.3em] italic">{t.analyzing}</p>
         </div>
     );
 
     if (error) return (
-        <div className="p-8 text-center space-y-6 bg-white rounded-[2rem] border border-[#F1F8E9] max-w-xs mx-auto mt-20 shadow-xl">
+        <div className="p-8 text-center space-y-6 bg-white rounded-[2rem] border border-[#F1F8E9] max-w-xs mx-auto mt-20 shadow-xl italic tracking-tighter">
             <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto text-2xl">⚠️</div>
             <div className="space-y-2">
-               <p className="text-lg font-black text-slate-800 tracking-tight">{t.connectionIssue}</p>
-               <p className="text-[10px] font-bold text-slate-400">Please check your internet and try again.</p>
+               <p className="text-lg font-black text-slate-800 tracking-tight uppercase">Connection Issue</p>
+               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Please check your internet and try again.</p>
             </div>
             <button onClick={() => window.location.reload()} className="w-full py-4 bg-[#F1F8E9] rounded-2xl text-[10px] font-black uppercase text-[#1B5E20] tracking-widest active:scale-95 transition-all">
                 {t.retry}
@@ -183,40 +184,35 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
     if (!prediction) return null;
 
     return (
-        <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-6 px-4 bg-white min-h-screen space-y-4">
+        <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-6 px-4 bg-white min-h-screen space-y-4 overflow-y-auto">
             
-            {/* 🏷️ MAIN PAGE HEADING */}
             <div className="pt-2 pb-1 flex flex-col items-center">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-[#F1F8E9] rounded-2xl flex items-center justify-center text-[#1B5E20] shadow-sm">
                         <CalendarDays size={22} className="opacity-80" />
                     </div>
-                    <h1 className="text-2xl font-black text-[#1B5E20] tracking-tighter uppercase text-center">
+                    <h1 className="text-2xl font-black text-[#1B5E20] tracking-tighter uppercase text-center italic">
                         {t.mainTitle}
                     </h1>
                 </div>
                 <div className="w-24 h-1 bg-[#1B5E20]/10 rounded-full mt-3" />
             </div>
 
-            {/* 📍 HERO CARD (Crop Image Card) */}
-            {/* HeroCard removed - replace with a dedicated image or illustration if needed */}
-
-            {/* 🛡️ COMBINED SECTION 1: SEASONAL INTELLIGENCE (Stats + Risks) */}
             <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 space-y-4 overflow-hidden">
                 <div className="space-y-4">
                     <div className="flex items-center gap-2">
                         <Sprout size={18} className="text-[#1B5E20]" />
-                        <h2 className="text-sm font-black text-[#1B5E20] uppercase tracking-[0.15em]">{t.seasonalTitleBrief}</h2>
+                        <h2 className="text-sm font-black text-[#1B5E20] uppercase tracking-[0.15em] italic">{t.seasonalTitleBrief}</h2>
                     </div>
                     
                     <div className="space-y-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 shadow-sm"><CloudRain size={18} /></div>
-                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{t.rain}</span>
+                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none">{t.rain}</span>
                             </div>
                             <div className="text-right space-y-1">
-                                <p className="text-base font-black text-slate-800">{getLabel(prediction.summary.rain)}</p>
+                                <p className="text-base font-black text-slate-800 uppercase italic leading-none">{getLabel(prediction.summary.rain)}</p>
                                 {renderDots(prediction.summary.rain)}
                             </div>
                         </div>
@@ -224,10 +220,10 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="w-9 h-9 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500 shadow-sm"><Thermometer size={18} /></div>
-                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{t.heat}</span>
+                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none">{t.heat}</span>
                             </div>
                             <div className="text-right space-y-1">
-                                <p className="text-base font-black text-slate-800">{getLabel(prediction.summary.heat)}</p>
+                                <p className="text-base font-black text-slate-800 uppercase italic leading-none">{getLabel(prediction.summary.heat)}</p>
                                 {renderDots(prediction.summary.heat)}
                             </div>
                         </div>
@@ -235,10 +231,10 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center text-[#1B5E20] shadow-sm"><Droplets size={18} /></div>
-                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{t.moisture}</span>
+                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none">{t.moisture}</span>
                             </div>
                             <div className="text-right space-y-1">
-                                <p className="text-base font-black text-slate-800">{getLabel(prediction.summary.moisture)}</p>
+                                <p className="text-base font-black text-slate-800 uppercase italic leading-none">{getLabel(prediction.summary.moisture)}</p>
                                 {renderDots(prediction.summary.moisture)}
                             </div>
                         </div>
@@ -246,34 +242,33 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                 </div>
 
                 {prediction.risks && prediction.risks.length > 0 && (
-                    <div className="bg-[#FFF3E0] -mx-6 -mb-6 p-5 border-t border-orange-200/30 flex items-start gap-4">
+                    <div className="bg-[#FFF3E0] -mx-6 -mb-6 p-5 border-t border-orange-200/30 flex items-start gap-4 italic uppercase">
                         <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm border border-orange-50 shrink-0">
                             <AlertTriangle size={20} className="animate-pulse" />
                         </div>
                         <div className="space-y-1">
-                            <p className="text-[10px] font-black text-orange-800/60 uppercase tracking-[0.2em]">{t.risk}</p>
+                            <p className="text-[10px] font-black text-orange-800/60 uppercase tracking-[0.2em]">SITUATIONAL RISK</p>
                             <p className="text-sm font-black text-orange-950 leading-relaxed">{prediction.risks[0]}</p>
                         </div>
                     </div>
                 )}
             </div>
 
-            {/* 📅 COMBINED SECTION 2: DAILY ACTION PLAN (Forecast + Advice) */}
             <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 space-y-4">
                 <div className="space-y-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-[#F1F8E9] rounded-xl flex items-center justify-center text-[#1B5E20] shadow-sm">
                             <CalendarDays size={22} className="opacity-80" />
                         </div>
-                        <h2 className="text-sm font-black text-[#1B5E20] uppercase tracking-[0.2em]">{t.next5days}</h2>
+                        <h2 className="text-sm font-black text-[#1B5E20] uppercase tracking-[0.2em] italic">{t.next5days}</h2>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-3">
                         {prediction.fiveDayForecast.map((day, idx) => {
                             const dateObj = new Date(day.dt * 1000);
-                            const dayName = dateObj.toLocaleDateString(language === "te" ? "te-IN" : language === "hi" ? "hi-IN" : "en-IN", { weekday: 'short' });
+                            const dayName = dateObj.toLocaleDateString(language === "te" ? "te-IN" : "en-IN", { weekday: 'short' });
                             return (
-                                <div key={idx} className="bg-[#F1F8E9]/30 rounded-3xl py-3 px-4 shadow-inner border border-[#1B5E20]/5 transition-all active:scale-95 text-center flex flex-col items-center justify-center">
+                                <div key={idx} className="bg-[#F1F8E9]/30 rounded-3xl py-3 px-4 shadow-inner border border-[#1B5E20]/5 transition-all active:scale-95 text-center flex flex-col items-center justify-center italic">
                                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{dayName}</p>
                                     <div className="text-2xl mb-1">{day.icon}</div>
                                     <p className="text-[10px] font-black text-slate-800 uppercase tracking-tighter line-clamp-1">{day.text}</p>
@@ -289,18 +284,17 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                     </div>
                     <div className="text-center">
                         <p className="text-[10px] font-black text-[#1B5E20]/60 uppercase tracking-[0.2em] mb-2">{t.adviceTitle}</p>
-                        <p className="text-base font-black text-slate-800 leading-tight italic tracking-tight opacity-90">
+                        <p className="text-base font-black text-slate-800 leading-tight italic tracking-tight opacity-90 uppercase">
                             "{prediction.farmerInsights?.summary}"
                         </p>
                     </div>
                 </div>
             </div>
 
-            {/* ➡️ FINAL CTA */}
             <div className="pb-4 pt-2">
                 <button 
                     onClick={() => onAnalysisComplete && onAnalysisComplete({ ...prediction, triggerNext: true })}
-                    className="w-full py-5 bg-[#1B5E20] text-white rounded-[2rem] text-xl font-black shadow-[0_15px_30px_rgba(27,94,32,0.3)] flex items-center justify-center gap-3 active:scale-95 hover:scale-[1.02] transition-all"
+                    className="w-full py-5 bg-[#1B5E20] text-white rounded-[2rem] text-xl font-black shadow-[0_15px_30px_rgba(27,94,32,0.3)] flex items-center justify-center gap-3 active:scale-95 hover:scale-[1.02] transition-all italic uppercase tracking-tighter"
                 >
                     <span>{language === "te" ? "మట్టి ఎంపిక" : "Select Soil"}</span> 
                     <ArrowRight size={24} />

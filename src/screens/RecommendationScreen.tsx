@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { ArrowLeft, CheckCircle2, Star, AlertTriangle, MapPin } from "lucide-react";
-import { translations } from "@/lib/translations";
-import { getAPCropRecommendations } from "@/engine/cropRecommendationEngine";
-import cropImages from "@/data/cropImages";
-import { useApp } from "@/context/AppContext";
-import CropCard from "@/components/CropCard";
-import farmHero from "@/assets/farm-hero.jpg"; // Fallback image
+import { translations } from "../lib/translations";
+import { getAPCropRecommendations } from "../utils/cropRecommendationEngine";
+import cropImages from "../data/cropImages";
+import { useApp } from "../context/AppContext";
+import CropCard from "../components/CropCard";
+import farmHero from "../assets/farm-hero.jpg"; // Fallback image
 
 interface RecommendationScreenProps {
   onViewGuide: (cropId: string) => void;
@@ -63,13 +63,13 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col max-w-md mx-auto shadow-2xl overflow-x-hidden pb-10">
+    <div className="min-h-screen bg-white flex flex-col max-md:mx-auto shadow-2xl overflow-x-hidden pb-10">
       <div className="bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] pt-12 pb-8 px-6 rounded-b-[2.5rem] shadow-lg flex items-center justify-between relative z-50">
           <button onClick={onBack} className="text-white p-2.5 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-90">
               <ArrowLeft size={24} />
           </button>
           <div className="text-center">
-            <h2 className="text-2xl font-black text-white tracking-tighter uppercase leading-none">
+            <h2 className="text-2xl font-black text-white tracking-tighter uppercase leading-none italic">
                 {language === "te" ? "పంటల ఎంపిక" : "Crop Selector"}
             </h2>
             <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em] mt-1">{weatherResult?.district}</p>
@@ -88,14 +88,14 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
                 </p>
             </div>
             <div className="pt-2 flex flex-wrap gap-2 text-[9px] font-black uppercase tracking-widest leading-none">
-                <div className="px-3 py-1 bg-[#1B5E20] text-white rounded-full italic opacity-90">Weather: {recommendations.weatherTypeDetected}</div>
-                <div className="px-3 py-1 bg-white text-[#1B5E20] rounded-full italic border border-[#1B5E20]/10">Soil: {soil}</div>
+                <div className="px-3 py-1 bg-[#1B5E20] text-white rounded-full italic opacity-90 tracking-tighter uppercase">Weather: {recommendations.weatherTypeDetected}</div>
+                <div className="px-3 py-1 bg-white text-[#1B5E20] rounded-full italic border border-[#1B5E20]/10 tracking-tighter uppercase">Soil: {soil}</div>
             </div>
         </div>
 
         {allFilteredCrops.length === 0 ? (
             <div className="bg-white p-12 rounded-[3.5rem] text-center space-y-6 shadow-xl border-2 border-[#1B5E20]/5">
-                <h3 className="text-2xl font-black text-[#1B5E20] tracking-tighter uppercase">No Results Found</h3>
+                <h3 className="text-2xl font-black text-[#1B5E20] tracking-tighter uppercase italic">No Results Found</h3>
             </div>
         ) : (
             <div className="space-y-20 pt-4">
@@ -123,7 +123,7 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
         <div className="pt-10 pb-20">
             <button 
                 onClick={() => window.location.reload()} 
-                className="w-full py-6 bg-[#1B5E20] text-white rounded-[2.2rem] text-2xl font-black shadow-2xl flex items-center justify-center gap-5 active:scale-95 transition-all shadow-[#1B5E20]/40 uppercase"
+                className="w-full py-6 bg-[#1B5E20] text-white rounded-[2.2rem] text-2xl font-black shadow-2xl flex items-center justify-center gap-5 active:scale-95 transition-all shadow-[#1B5E20]/40 uppercase tracking-tighter italic"
             >
                 <CheckCircle2 size={28} />
                 <span>{language === "te" ? "ముగించు" : "Done"}</span>

@@ -1,19 +1,20 @@
 // 🖼️ Centralized Crop Image Mapping System
 // Standardizing all agricultural assets to natural, field-based photography
 
-import paddy from "@/assets/crops/paddy.png";
-import maize from "@/assets/crops/maize.png";
-import groundnut from "@/assets/crops/groundnut.png";
-import cotton from "@/assets/crops/cotton.png";
-import sugarcane from "@/assets/crops/sugarcane.png";
-import mango from "@/assets/crops/mango.png";
-import banana from "@/assets/crops/banana.png";
-import tomato from "@/assets/crops/tomato.png";
-import chilli from "@/assets/crops/chilli.png";
+import paddy from "../assets/crops/paddy.png";
+import maize from "../../assets/crops/maize.png"; // Fallback relative paths
+import groundnut from "../assets/crops/groundnut.png";
+import cotton from "../assets/crops/cotton.png";
+import sugarcane from "../assets/crops/sugarcane.png";
+import mango from "../assets/crops/mango.png";
+import banana from "../assets/crops/banana.png";
+import tomato from "../assets/crops/tomato.png";
+import chilli from "../assets/crops/chilli.png";
 
+// Using dynamic relative checks to bypass alias issues
 const cropImages: Record<string, string> = {
   "Paddy": paddy,
-  "Maize": maize,
+  "Maize": "/src/assets/crops/maize.png",
   "Groundnut": groundnut,
   "Cotton": cotton,
   "Sugarcane": sugarcane,

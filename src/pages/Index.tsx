@@ -1,23 +1,17 @@
-import { useApp } from "@/context/AppContext";
-import HomeScreen from "@/screens/HomeScreen";
-import LocationScreen from "@/screens/LocationScreen";
-import WeatherScreen from "@/screens/WeatherScreen";
-import SoilSelectionScreen from "@/screens/SoilSelectionScreen";
-import RecommendationScreen from "@/screens/RecommendationScreen";
-import GuidanceScreen from "@/screens/GuidanceScreen";
+import { useApp } from "../context/AppContext";
+import HomeScreen from "../screens/HomeScreen";
+import LocationScreen from "../screens/LocationScreen";
+import WeatherScreen from "../screens/WeatherScreen";
+import SoilSelectionScreen from "../screens/SoilSelectionScreen";
+import RecommendationScreen from "../screens/RecommendationScreen";
+import GuidanceScreen from "../screens/GuidanceScreen";
 
 const Index = () => {
   const { 
     screen, setScreen, 
-    language, setLanguage,
     soil, setSoil,
-    district, setDistrict,
-    weatherResult, setWeatherResult,
-    selectedCrop, setSelectedCrop
+    setSelectedCrop
   } = useApp() as any; 
-
-  // Since I just created useApp, I'll match the state in the next step.
-  // Wait, I should update AppContext to include setScreen.
 
   return (
     <div className="min-h-screen bg-[#F5EFE6] relative">

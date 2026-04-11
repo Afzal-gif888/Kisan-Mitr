@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { ArrowLeft, Volume2, Droplets, Clock, CalendarCheck, RotateCcw, AlertCircle, CheckCircle2, Thermometer, Info, CloudRain, AlertTriangle, Lightbulb, Sprout } from "lucide-react";
-import { translations } from "@/lib/translations";
-import { generateFarmingGuide } from "@/engine/farmingGuideEngine";
-import cropImages from "@/data/cropImages";
-import { useApp } from "@/context/AppContext";
-import farmHero from "@/assets/farm-hero.jpg"; // Fallback image
+import { translations } from "../lib/translations";
+import { generateFarmingGuide } from "../utils/farmingGuideEngine";
+import cropImages from "../data/cropImages";
+import { useApp } from "../context/AppContext";
+import farmHero from "../assets/farm-hero.jpg"; // Fallback image
 
 interface GuidanceScreenProps {
   onBack: () => void;
@@ -28,7 +28,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
         </div>
         <div className="space-y-4">
             <h2 className="text-3xl font-black text-[#5C3A21] tracking-tighter uppercase">Registry Missing</h2>
-            <p className="text-sm font-bold text-[#8B5E3C]/60 italic leading-relaxed max-w-xs">
+            <p className="text-sm font-bold text-[#8B5E3C]/60 italic leading-relaxed max-w-xs uppercase">
                 {language === "te" 
                    ? `"${cropKey}" పంటకు సంబంధించిన సమాచారం ప్రస్తుతానికి అందుబాటులో లేదు.`
                    : `Data for "${cropKey}" is currently missing from our expert registry.`
@@ -91,7 +91,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
             <AlertTriangle className="text-amber-600 shrink-0" size={24} />
             <div className="space-y-1">
               <p className="text-xs font-black text-amber-800 uppercase tracking-wider">REGIONAL ALERT</p>
-              <p className="text-[13px] font-bold text-amber-900/80 leading-snug">
+              <p className="text-[13px] font-bold text-amber-900/80 leading-snug italic">
                 {language === 'te' 
                   ? `${weatherResult?.district} లో ఈ పంట సాగు సాధారణం కాదు. జాగ్రత్త వహించండి.`
                   : `This crop is not native to ${weatherResult?.district}. Proceed with caution.`}
@@ -169,7 +169,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
                  <CalendarCheck size={28} />
               </div>
               <div>
-                <h4 className="text-xl font-black text-[#1E3A1A] leading-none mb-1 italic">{language === "te" ? "సాగు దశలు" : "Sowing Protocol"}</h4>
+                <h4 className="text-xl font-black text-[#1E3A1A] leading-none mb-1 italic uppercase tracking-tighter">{language === "te" ? "సాగు దశలు" : "Sowing Protocol"}</h4>
                 <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.1em] leading-none">Step-by-step Execution</p>
               </div>
            </div>

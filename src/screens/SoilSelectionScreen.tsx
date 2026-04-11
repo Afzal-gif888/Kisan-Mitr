@@ -1,10 +1,10 @@
 import { useMemo, useEffect } from "react";
 import { ArrowLeft, MapPin } from "lucide-react";
-import { SoilType } from "@/lib/types";
+import { SoilType } from "../lib/types";
 import districtSoilMap from "../data/districtSoilMap.json";
 import soilImageMap, { defaultSoilImg } from "../utils/soilImageMap";
-import { useApp } from "@/context/AppContext";
-import SoilCard from "@/components/SoilCard";
+import { useApp } from "../context/AppContext";
+import SoilCard from "../components/SoilCard";
 
 interface SoilSelectionScreenProps {
   onSelect: (soil: SoilType) => void;
