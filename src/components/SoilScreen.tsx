@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { ArrowLeft, Check, Sprout, MapPin } from "lucide-react";
 import { Language } from "@/lib/translations";
 import { SoilType } from "@/lib/cropData";
@@ -34,6 +34,11 @@ const SOIL_TEXT: Record<string, any> = {
 };
 
 const SoilScreen = ({ language, district, onSelect, onBack }: SoilScreenProps) => {
+  // RESET SCROLL ON MOUNT
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
   const availableSoils = useMemo(() => {
     const formattedDistrict = district?.trim().toLowerCase() || "";
     const normalizedMap = Object.fromEntries(
@@ -43,37 +48,37 @@ const SoilScreen = ({ language, district, onSelect, onBack }: SoilScreenProps) =
   }, [district]);
 
   return (
-    <div className="min-h-screen bg-[#F5F1E9] flex flex-col max-w-md mx-auto animate-in fade-in duration-700 pb-16 shadow-2xl">
+    <div className="min-h-screen bg-[#F5F1E9] flex flex-col max-w-md mx-auto animate-in fade-in duration-700 shadow-2xl overflow-hidden">
       
-      {/* 📍 HEADER SECTION (Increased padding and size) */}
-      <div className="pt-12 pb-8 px-8 space-y-6">
+      {/* 📍 HEADER SECTION */}
+      <div className="pt-10 pb-4 px-8 space-y-4 shrink-0">
           <div className="flex items-center justify-between">
               <button 
                   onClick={onBack} 
-                  className="p-3.5 bg-white rounded-2xl text-[#1B5E20] shadow-sm active:scale-95 transition-all"
+                  className="p-3 bg-white rounded-2xl text-[#1B5E20] shadow-sm active:scale-95 transition-all"
               >
-                  <ArrowLeft size={28} />
+                  <ArrowLeft size={24} />
               </button>
               <div className="flex flex-col items-end">
-                  <div className="flex items-center gap-2 px-4 py-2 bg-[#1B5E20]/5 rounded-full border border-[#1B5E20]/10 shadow-sm">
-                      <MapPin size={14} className="text-[#1B5E20]" />
-                      <span className="text-[11px] font-black text-[#1B5E20] uppercase tracking-widest">{district}</span>
+                  <div className="flex items-center gap-2 px-3 py-1 bg-[#1B5E20]/5 rounded-full border border-[#1B5E20]/10 shadow-sm">
+                      <MapPin size={12} className="text-[#1B5E20]" />
+                      <span className="text-[10px] font-black text-[#1B5E20] uppercase tracking-widest">{district}</span>
                   </div>
               </div>
           </div>
 
-          <div className="space-y-2 text-center">
+          <div className="space-y-1 text-center">
               <h1 className="text-3xl font-black text-[#1B5E20] tracking-tight leading-none">
                 {language === "te" ? "నేల రకాన్ని ఎంచుకోండి" : "Different soils need different care."}
               </h1>
-              <p className="text-base font-bold text-[#1B5E20]/60 leading-tight italic">
+              <p className="text-sm font-bold text-[#1B5E20]/60 leading-tight italic">
                 {language === "te" ? "మెరుగైన పంట సలహా కోసం మీ మట్టిని ఎంచుకోండి." : "Choose your soil to get better crop advice."}
               </p>
           </div>
       </div>
 
-      {/* 🪴 SOIL LIST (Increased gap) */}
-      <div className="flex-1 px-6 space-y-6">
+      {/* 🪴 SOIL LIST (STRETCHED TO FILL SCREEN) */}
+      <div className="flex-1 px-6 pb-6 flex flex-col gap-4">
         {availableSoils.map((soilName: string) => {
           const image = soilImageMap[soilName] || defaultSoilImg;
           const translatedName = SOIL_TEXT[soilName]?.te || "";
@@ -82,27 +87,25 @@ const SoilScreen = ({ language, district, onSelect, onBack }: SoilScreenProps) =
             <button
               key={soilName}
               onClick={() => onSelect(soilName)}
-              className="w-full group bg-white rounded-[3rem] p-6 flex items-center gap-6 shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:shadow-[0_25px_60px_rgba(27,94,32,0.15)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-500 border border-white hover:border-[#1B5E20]/5"
+              className="flex-1 min-h-[140px] w-full group bg-white rounded-[2.5rem] px-6 flex items-center gap-6 shadow-md transition-all duration-300 border border-white hover:border-[#1B5E20]/5 active:scale-[0.98]"
             >
-              {/* Natural Soil Image Area (Increased Size) */}
-              <div className="w-32 h-32 relative overflow-hidden shrink-0 flex items-center justify-center">
+              {/* Natural Soil Image Area */}
+              <div className="w-24 h-24 sm:w-28 sm:h-28 relative overflow-hidden shrink-0 flex items-center justify-center">
                   <img 
                     src={image} 
                     alt={soilName} 
                     data-pin-nopin="true"
                     data-pin-no-hover="true"
-                    className="w-full h-full object-cover rounded-full shadow-md scale-125 transform group-hover:scale-[1.4] transition-transform duration-1000"
+                    className="w-full h-full object-cover rounded-full shadow-md scale-125"
                     style={{ maskImage: 'radial-gradient(circle, black 60%, transparent 100%)', WebkitMaskImage: 'radial-gradient(circle, black 60%, transparent 100%)' }}
                   />
               </div>
               
-              {/* Text Content (Increased Typography) */}
+              {/* Text Content */}
               <div className="flex-1 text-left min-w-0">
-                <div className="flex items-center gap-2 mb-1.5 opacity-90">
-                    <h3 className="font-black text-2xl text-slate-800 leading-none tracking-tighter group-hover:text-[#1B5E20] transition-colors break-words">
-                      {soilName}
-                    </h3>
-                </div>
+                <h3 className="font-black text-2xl text-slate-800 leading-none tracking-tighter group-hover:text-[#1B5E20] transition-colors break-words">
+                  {soilName}
+                </h3>
                 {language === "te" && (
                     <p className="text-[#1B5E20]/50 font-black text-[11px] uppercase tracking-[0.2em] mt-2 pl-1">
                         ● {translatedName}
@@ -110,23 +113,13 @@ const SoilScreen = ({ language, district, onSelect, onBack }: SoilScreenProps) =
                 )}
               </div>
 
-              {/* Selection Mark (Increased Size) */}
-              <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-200 shadow-inner group-hover:bg-[#1B5E20] group-hover:text-white transition-all shrink-0">
-                <Check size={24} />
+              {/* Selection Mark */}
+              <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-200 shadow-inner group-hover:bg-[#1B5E20] group-hover:text-white transition-all shrink-0">
+                <Check size={20} />
               </div>
             </button>
           );
         })}
-      </div>
-
-      {/* FOOTER NOTE (Filling the bottom) */}
-      <div className="py-12 px-10 text-center opacity-30">
-          <Sprout className="mx-auto mb-4 text-[#1B5E20]" size={32} />
-          <p className="text-[11px] font-black uppercase text-slate-500 tracking-widest leading-relaxed max-w-[200px] mx-auto">
-            {language === "te" 
-              ? "పై మట్టి రకాలను ఎంచుకోవడం ద్వారా మీరు ఖచ్చితమైన విశ్లేషణను పొందవచ్చు."
-              : "Quality of soil determines the quality of your harvest."}
-          </p>
       </div>
 
     </div>
