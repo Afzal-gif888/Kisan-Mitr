@@ -4,18 +4,18 @@ import districtSoilMap from "../data/apDistrictSoilMap.json";
 import soilCropMap from "../data/soilCropMap.json";
 
 /**
- * Supercharged Crop Intelligence v8.2 (DYNAMIC SOIL FIX)
- * Resolves naming mismatches and fallback issues to ensure district-specific soils.
+ * Supercharged Crop Intelligence v8.3 (STRICT COMPLIANCE & REPAIR)
+ * Implements the 10-step Dynamic Soil Mapping Fix
  */
-export const getAPCropRecommendations = (weatherResult, userSoilSelection, districtName, language = "en") => {
+export const getAPCropRecommendations = (weatherResult: any, userSoilSelection: string, districtName: string, language = "en") => {
   if (!weatherResult || !districtName) return { recommendedCrops: [], disclaimer: "" };
 
   const { features } = weatherResult;
   
-  // STEP 1 & 2: NORMALIZE DISTRICT LOOKUP
+  // STEP 2: NORMALIZE DISTRICT NAME
   const formattedDistrict = districtName.trim().toLowerCase();
   
-  // Normalize dataset keys for strict matching
+  // NORMALIZE DATASET KEYS
   const normalizedSoilMap = Object.fromEntries(
       Object.entries(districtSoilMap).map(([k, v]) => [k.toLowerCase(), v])
   );
@@ -23,20 +23,19 @@ export const getAPCropRecommendations = (weatherResult, userSoilSelection, distr
       Object.entries(districtCropMapping).map(([k, v]) => [k.toLowerCase(), v])
   );
 
-  // STEP 3 & 4: DYNAMIC LOOKUP (NO STATIC FALLBACK)
-  const districtSoils = normalizedSoilMap[formattedDistrict];
+  // STEP 3 & 4: FIX LOOKUP LOGIC (NO STATIC DEFAULT FALLBACK)
+  const soils = normalizedSoilMap[formattedDistrict];
   const districtHistoricalCrops = normalizedCropMap[formattedDistrict] || [];
 
-  // STEP 5: DEBUG LOGS (Developer Console)
-  console.log("📍 District Detected:", formattedDistrict);
-  console.log("🌱 Soils Mapping:", districtSoils);
+  // STEP 5: DEBUG LOG
+  console.log("District:", formattedDistrict);
+  console.log("Soils:", soils);
 
   // STEP 6: HANDLE UNDEFINED CASE
-  if (!districtSoils) {
-      console.warn(`⚠️ No soil mapping found for: ${formattedDistrict}`);
+  if (!soils) {
       return { 
           recommendedCrops: [], 
-          disclaimer: "Soil data not available for this region.",
+          disclaimer: language === "te" ? "నేల సమాచారం అందుబాటులో లేదు" : "Soil data not available",
           districtSoils: ["Soil data not available"],
           districtName
       };
@@ -51,9 +50,9 @@ export const getAPCropRecommendations = (weatherResult, userSoilSelection, distr
   else if (temperature < 22) weatherType = "Winter";
   else weatherType = "Hot";
 
-  // Map of all crops scientifically matching soils in THIS district
+  // Map of all crops matching soils in this district
   const districtSoilCompatibleCrops = new Set<string>();
-  districtSoils.forEach(soilType => {
+  soils.forEach((soilType: string) => {
       const cropsForThisSoil = (soilCropMap as any)[soilType] || [];
       cropsForThisSoil.forEach((id: string) => districtSoilCompatibleCrops.add(id));
   });
@@ -89,7 +88,7 @@ export const getAPCropRecommendations = (weatherResult, userSoilSelection, distr
           teReasons.push("ఈ ప్రాంతంలో మంచి దిగుబడి చరిత్ర ఉంది");
       }
 
-      // STRICT INTEGRITY FILTER
+      // STRICT INTEGRITY FILTER (Requirement: Crop must pass ALL 3 conditions)
       if (!soilMatch || !weatherMatch || !districtMatch) {
           return null;
       }
@@ -121,9 +120,9 @@ export const getAPCropRecommendations = (weatherResult, userSoilSelection, distr
 
   return {
     recommendedCrops: recommendations,
-    disclaimer: language === "te" ? "శాస్త్రీయ విశ్లేషణ ఆధారంగా." : "Based on scientific analysis.",
+    disclaimer: language === "te" ? "శాస్త్రీయ విశ్లేషణ ఆధారంగా కూర్చబడింది." : "Based on scientific analysis.",
     weatherTypeDetected: weatherType,
-    districtSoils,
+    districtSoils: soils,
     districtName
   };
 };

@@ -18,7 +18,7 @@ import cropGreengram from "@/assets/crop-greengram.png";
 import cropOnion from "@/assets/crop-onion.png";
 import farmHero from "@/assets/farm-hero.jpg";
 
-export type SoilType = "sandy" | "black" | "red" | "loamy";
+export type SoilType = string;
 
 export interface CropInfo {
   name: Record<string, string>;

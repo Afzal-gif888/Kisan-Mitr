@@ -55,7 +55,12 @@ const Index = () => {
         />
       )}
       {screen === "soil" && (
-        <SoilScreen language={language} onSelect={handleSoilSelect} onBack={() => setScreen("location")} />
+        <SoilScreen 
+          language={language} 
+          district={weatherResult?.district}
+          onSelect={handleSoilSelect} 
+          onBack={() => setScreen("location")} 
+        />
       )}
       {screen === "recommendation" && (
         <RecommendationScreen 

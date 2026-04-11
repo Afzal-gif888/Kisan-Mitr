@@ -3,14 +3,14 @@ import districtMapping from '../data/apDistrictCropMapping.json';
 
 // Comprehensive list of all modern 26 AP districts
 const ALL_AP_DISTRICTS = [
-  "Anantapur", "Sri Sathya Sai", "Kurnool", "Nandyal", "Chittoor", "Tirupati", "Kadapa", "Annamayya",
+  "Anantapur", "Sri Sathya Sai", "Kurnool", "Nandyal", "Chittoor", "Tirupati", "YSR Kadapa", "Annamayya",
   "Nellore", "Prakasam", "Bapatla", "Palnadu", "Guntur", "NTR", "Krishna", "Eluru", "West Godavari",
   "East Godavari", "Kakinada", "Konaseema", "Alluri Sitharama Raju", "Anakapalli", "Visakhapatnam",
   "Vizianagaram", "Parvathipuram Manyam", "Srikakulam"
 ];
 
 const MAJOR_DISTRICTS_ONLY = [
-  "Anantapur", "Chittoor", "Kadapa", "Kurnool",
+  "Anantapur", "Chittoor", "YSR Kadapa", "Kurnool",
   "Srikakulam", "Vizianagaram", "Visakhapatnam",
   "East Godavari", "West Godavari",
   "Krishna", "Guntur", "Prakasam", "Nellore"
