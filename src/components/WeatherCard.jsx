@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, CalendarDays, Sprout, CloudRain, Thermometer, Droplets, AlertTriangle } from 'lucide-react';
 import { extractFeatures } from "@/lib/FeatureExtraction";
 import { analyzeWeather } from "@/utils/comparisonEngine";
-import { advancedSeasonPrediction } from "@/utils/seasonalEngine";
+import { advancedSeasonPrediction } from "@/engine/seasonalEngine";
 import { generateFarmerInsights } from "@/utils/farmerInsightEngine";
 import { weatherText } from "@/translations/weather";
 import { HeroCard } from './SeasonalPrediction';
@@ -161,7 +161,7 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
     };
 
     if (loading) return (
-        <div className="p-10 flex flex-col items-center justify-center space-y-4 min-h-[40vh] bg-white text-center text-center">
+        <div className="p-10 flex flex-col items-center justify-center space-y-4 min-h-[40vh] bg-white text-center">
             <div className="w-10 h-10 border-4 border-[#1B5E20]/10 border-t-[#1B5E20] rounded-full animate-spin mx-auto" />
             <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.3em]">{t.analyzing}</p>
         </div>

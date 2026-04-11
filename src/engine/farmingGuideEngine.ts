@@ -54,9 +54,9 @@ export const generateFarmingGuide = (
     if (language === 'te') adjustments.push('అధిక వర్షపాతం: పొలంలో నీరు నిల్వ ఉండకుండా చూడండి');
     else adjustments.push('Heavy rainfall trend: Prepare drainage channels immediately');
 
-    if (crop.soils.includes('Black Cotton Soil') || crop.id === 'maize') {
+    if (crop.soils.map((s: string) => s.toLowerCase()).includes('black cotton soil') || crop.id === 'maize') {
       if (language === 'te') warnings.push('అధిక తేమ వల్ల వేరు కుళ్ళు వచ్చే అవకాశం ఉంది');
-      else warnings.push('Root Rot Risk: Excess moisture in this soil type may cause fungal infections');
+      else warnings.push('Root Rot Risk: Excess moisture in this black cotton soil may cause fungal infections');
       status = 'critical';
     }
   }

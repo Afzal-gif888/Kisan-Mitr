@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { ArrowLeft, ArrowRight, Droplets, Thermometer, CheckCircle2, Star, Check, AlertTriangle, Info, MapPin, Sprout } from "lucide-react";
 import { Language, translations } from "@/lib/translations";
-import { getAPCropRecommendations } from "@/utils/cropRecommendationEngine";
+import { getAPCropRecommendations } from "@/engine/cropRecommendationEngine";
+import { cropImages } from "@/data/cropImages";
 import farmHero from "@/assets/farm-hero.jpg"; // Fallback image
 
 interface RecommendationScreenProps {
@@ -49,14 +50,30 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
                           className="bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border-2 border-transparent transition-all hover:scale-[1.02] active:scale-95"
                       >
                           <div className="relative h-48 sm:h-52 overflow-hidden bg-slate-200">
-                              <img 
-                                  src={crop.image} 
-                                  alt={crop.englishName} 
-                                  className="w-full h-full object-cover"
-                                  onError={(e: any) => { e.target.onerror = null; e.target.src = farmHero; }}
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                              {(() => {
+                                  const imgSource = (cropImages as any)[crop.englishName] || farmHero;
+                                  console.log("🖼️ DEBUG: Crop Image Mapping", {
+                                      crop: crop.englishName,
+                                      source: imgSource
+                                  });
+                                  return (
+                                    <div className="relative w-full h-full">
+                                        <img 
+                                            src={imgSource} 
+                                            alt={crop.englishName} 
+                                            className="w-full h-full object-cover"
+                                            onError={(e: any) => { e.target.onerror = null; e.target.src = farmHero; }}
+                                        />
+                                        <div className="absolute inset-0 bg-black/30 rounded-xl" />
+                                    </div>
+                                  );
+                              })()}
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                               
+                              <h3 className="absolute bottom-4 left-6 text-2xl font-black text-white tracking-tighter drop-shadow-lg">
+                                 {language === 'te' ? crop.teluguName : crop.englishName}
+                              </h3>
+
                               <div className={`absolute top-4 right-4 px-5 py-2 rounded-full bg-gradient-to-r ${getSuitabilityColor(crop.score)} text-white shadow-2xl border border-white/20`}>
                                   <span className="text-[10px] font-black uppercase tracking-widest">{crop.suitabilityLabel}</span>
                               </div>
@@ -64,10 +81,7 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
 
                           <div className="p-6 space-y-6">
                               <div>
-                                  <h3 className="text-2xl font-black text-[#1B5E20] tracking-tighter mb-2">
-                                      {language === 'te' ? crop.teluguName : crop.englishName}
-                                  </h3>
-                                  <div className="space-y-1.5 mt-4">
+                                  <div className="space-y-1.5">
                                       <div className="flex items-start gap-2.5">
                                           <div className={`rounded-full p-1 mt-0.5 shrink-0 bg-[#1B5E20]`}>
                                               <Check size={10} className="text-white" />

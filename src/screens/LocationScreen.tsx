@@ -1,7 +1,7 @@
 import { MapPin, ArrowLeft, ArrowRight, Loader2, Navigation2 } from "lucide-react";
 import { useState } from "react";
 import { Language, translations } from "@/lib/translations";
-import WeatherModule from "./WeatherModule";
+import WeatherModule from "@/components/WeatherCard";
 import { indiaDistricts } from "@/lib/indiaData";
 
 interface LocationScreenProps {

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import HomeScreen from "@/components/HomeScreen";
-import LocationScreen from "@/components/LocationScreen";
-import SoilScreen from "@/components/SoilScreen";
-import RecommendationScreen from "@/components/RecommendationScreen";
-import GuidanceScreen from "@/components/GuidanceScreen";
+import HomeScreen from "@/screens/HomeScreen";
+import LocationScreen from "@/screens/LocationScreen";
+import SoilScreen from "@/screens/SoilScreen";
+import RecommendationScreen from "@/screens/RecommendationScreen";
+import GuidanceScreen from "@/screens/GuidanceScreen";
 import { Language } from "@/lib/translations";
-import { SoilType } from "@/lib/cropData";
+import { SoilType } from "@/lib/types";
 import { validateDistrictMapping } from "@/utils/validateDistrictMapping";
 
 type Screen = "home" | "location" | "soil" | "recommendation" | "guidance";
@@ -13,7 +13,7 @@ type Screen = "home" | "location" | "soil" | "recommendation" | "guidance";
 const Index = () => {
   const [screen, setScreen] = useState<Screen>("home");
   const [language, setLanguage] = useState<Language>("en");
-  const [soil, setSoil] = useState<SoilType>("loamy");
+  const [soil, setSoil] = useState<SoilType>("Red Loamy Soil");
   const [selectedCrop, setSelectedCrop] = useState("rice");
 
   const [weatherResult, setWeatherResult] = useState<any>(null);

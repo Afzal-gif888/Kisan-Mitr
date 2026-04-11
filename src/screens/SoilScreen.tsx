@@ -1,8 +1,8 @@
 import { useMemo, useEffect } from "react";
 import { ArrowLeft, Check, Sprout, MapPin } from "lucide-react";
 import { Language } from "@/lib/translations";
-import { SoilType } from "@/lib/cropData";
-import districtSoilMap from "../data/apDistrictSoilMap.json";
+import { SoilType } from "@/lib/types";
+import districtSoilMap from "../data/districtSoilMap.json";
 import soilImageMap, { defaultSoilImg } from "../utils/soilImageMap";
 
 interface SoilScreenProps {
@@ -86,7 +86,7 @@ const SoilScreen = ({ language, district, onSelect, onBack }: SoilScreenProps) =
           return (
             <button
               key={soilName}
-              onClick={() => onSelect(soilName)}
+              onClick={() => onSelect(soilName as SoilType)}
               className="flex-1 min-h-[140px] w-full group bg-white rounded-[2.5rem] px-6 flex items-center gap-6 shadow-md transition-all duration-300 border border-white hover:border-[#1B5E20]/5 active:scale-[0.98]"
             >
               {/* Natural Soil Image Area */}

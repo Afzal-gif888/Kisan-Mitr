@@ -1,0 +1,161 @@
+[
+  { "id":"paddy","name":{ "en": "Paddy", "te": "వరి" },"category":"cereal",
+  "soils":["alluvial soil","clay soil"],"districts":["east godavari","west godavari","krishna","guntur","nellore","vizianagaram","visakhapatnam"],
+  "seasons":["kharif","rabi"],"weather":["rainy","normal"],"details":{"water":"High","duration":"135 days"}},
+  
+  { "id":"maize","name":{ "en": "Maize", "te": "మొక్కజొన్న" },"category":"cereal",
+  "soils":["red soil","black cotton soil","loamy soil"],"districts":["krishna","guntur","kurnool","prakasam","west godavari"],
+  "seasons":["kharif","rabi"],"weather":["normal","rainy"],"details":{"water":"Medium","duration":"110 days"}},
+  
+  { "id":"jowar","name":{ "en": "Jowar", "te": "జొన్న" },"category":"cereal",
+  "soils":["red soil","sandy soil","black cotton soil"],"districts":["anantapur","kurnool","kadapa","vizianagaram","tirupati"],
+  "seasons":["kharif","rabi"],"weather":["hot","dry"],"details":{"water":"Low","duration":"105 days"}},
+  
+  { "id":"bajra","name":{ "en": "Bajra", "te": "సజ్జ" },"category":"cereal",
+  "soils":["sandy soil","red soil"],"districts":["anantapur","kadapa","tirupati","vizianagaram"],
+  "seasons":["kharif"],"weather":["hot","dry"],"details":{"water":"Low","duration":"90 days"}},
+  
+  { "id":"ragi","name":{ "en": "Ragi", "te": "రాగి" },"category":"cereal",
+  "soils":["red soil","sandy soil"],"districts":["chittoor","anantapur","vizianagaram"],
+  "seasons":["kharif"],"weather":["normal"],"details":{"water":"Low","duration":"120 days"}},
+  
+  { "id":"redgram","name":{ "en": "Red Gram", "te": "కంది" },"category":"pulse",
+  "soils":["red soil","loamy soil"],"districts":["anantapur","kadapa","prakasam"],
+  "seasons":["kharif"],"weather":["dry","normal"],"details":{"water":"Low","duration":"180 days"}},
+  
+  { "id":"greengram","name":{ "en": "Green Gram", "te": "పెసలు" },"category":"pulse",
+  "soils":["sandy soil","red soil","loamy soil"],"districts":["guntur","prakasam","nellore"],
+  "seasons":["zaid","kharif"],"weather":["hot","normal"],"details":{"water":"Low","duration":"70 days"}},
+  
+  { "id":"blackgram","name":{ "en": "Black Gram", "te": "మినుములు" },"category":"pulse",
+  "soils":["clay soil","black cotton soil"],"districts":["nellore","krishna","guntur","vizianagaram","prakasam"],
+  "seasons":["rabi","kharif"],"weather":["normal"],"details":{"water":"Medium","duration":"80 days"}},
+  
+  { "id":"bengalgram","name":{ "en": "Bengal Gram", "te": "సెనగలు" },"category":"pulse",
+  "soils":["black cotton soil"],"districts":["kurnool","anantapur","kadapa","prakasam"],
+  "seasons":["rabi"],"weather":["cold","dry"],"details":{"water":"Low","duration":"100 days"}},
+  
+  { "id":"horsegram","name":{ "en": "Horse Gram", "te": "ఉలవలు" },"category":"pulse",
+  "soils":["red soil","sandy soil"],"districts":["anantapur","kadapa"],
+  "seasons":["rabi"],"weather":["dry"],"details":{"water":"Low","duration":"120 days"}},
+  
+  { "id":"cowpea","name":{ "en": "Cowpea", "te": "అలసందలు" },"category":"pulse",
+  "soils":["sandy soil","red soil"],"districts":["nellore","prakasam"],
+  "seasons":["zaid","kharif"],"weather":["hot"],"details":{"water":"Low","duration":"85 days"}},
+  
+  { "id":"groundnut","name":{ "en": "Groundnut", "te": "వేరుశెనగ" },"category":"oilseed",
+  "soils":["red soil","sandy soil","red loamy soil"],"districts":["anantapur","tirupati","kadapa","kurnool","nellore","chittoor"],
+  "seasons":["kharif","zaid"],"weather":["hot","dry"],"details":{"water":"Low","duration":"105 days"}},
+  
+  { "id":"sunflower","name":{ "en": "Sunflower", "te": "సూర్యకాంతి" },"category":"oilseed",
+  "soils":["red soil","black cotton soil"],"districts":["kadapa","kurnool","anantapur"],
+  "seasons":["rabi","kharif"],"weather":["normal"],"details":{"water":"Low","duration":"95 days"}},
+  
+  { "id":"sesame_black","name":{ "en": "Black Sesame", "te": "నల్ల నువ్వులు" },"category":"oilseed",
+  "soils":["sandy soil","red soil"],"districts":["prakasam"],
+  "seasons":["zaid","kharif"],"weather":["hot"],"details":{"water":"Low","duration":"85 days"}},
+  
+  { "id":"sesame_white","name":{ "en": "White Sesame", "te": "తెల్ల నువ్వులు" },"category":"oilseed",
+  "soils":["sandy soil","red soil"],"districts":["guntur"],
+  "seasons":["zaid","kharif"],"weather":["hot"],"details":{"water":"Low","duration":"85 days"}},
+  
+  { "id":"castor","name":{ "en": "Castor", "te": "ఆముదం" },"category":"oilseed",
+  "soils":["red soil","sandy soil"],"districts":["kurnool","anantapur"],
+  "seasons":["kharif"],"weather":["dry"],"details":{"water":"Low","duration":"150 days"}},
+  
+  { "id":"cotton","name":{ "en": "Cotton", "te": "పత్తి" },"category":"commercial",
+  "soils":["black cotton soil","clay soil"],"districts":["guntur","kurnool","prakasam"],
+  "seasons":["kharif"],"weather":["hot","normal"],"details":{"water":"Medium","duration":"180 days"}},
+  
+  { "id":"sugarcane","name":{ "en": "Sugarcane", "te": "చెరకు" },"category":"commercial",
+  "soils":["alluvial soil","clay soil","loamy soil"],"districts":["krishna","east godavari","west godavari"],
+  "seasons":["kharif","rabi"],"weather":["rainy","normal"],"details":{"water":"High","duration":"300 days"}},
+  
+  { "id":"tobacco","name":{ "en": "Tobacco", "te": "పొగాకు" },"category":"commercial",
+  "soils":["black cotton soil","sandy soil"],"districts":["prakasam","guntur"],
+  "seasons":["rabi"],"weather":["normal"],"details":{"water":"Medium","duration":"120 days"}},
+  
+  { "id":"oilpalm","name":{ "en": "Oil Palm", "te": "ఆయిల్ పామ్" },"category":"commercial",
+  "soils":["alluvial soil","loamy soil"],"districts":["east godavari","west godavari"],
+  "seasons":["year-round"],"weather":["humid","rainy"],"details":{"water":"High","duration":"year-round"}},
+  
+  { "id":"mango","name":{ "en": "Mango", "te": "మామిడి" },"category":"fruit",
+  "soils":["red soil","red loamy soil","loamy soil"],"districts":["chittoor","tirupati","kadapa"],
+  "seasons":["summer","year-round"],"weather":["hot","normal"],"details":{"water":"Medium","duration":"year-round"}},
+  
+  { "id":"banana","name":{ "en": "Banana", "te": "అరటి" },"category":"fruit",
+  "soils":["alluvial soil","delta alluvial soil","loamy soil"],"districts":["east godavari","west godavari","visakhapatnam"],
+  "seasons":["year-round"],"weather":["rainy","humid"],"details":{"water":"High","duration":"year-round"}},
+  
+  { "id":"coconut","name":{ "en": "Coconut", "te": "కొబ్బరి" },"category":"fruit",
+  "soils":["coastal sandy soil","alluvial soil"],"districts":["east godavari","nellore","west godavari","visakhapatnam"],
+  "seasons":["year-round"],"weather":["humid","coastal"],"details":{"water":"Medium","duration":"year-round"}},
+  
+  { "id":"guava","name":{ "en": "Guava", "te": "జామ" },"category":"fruit",
+  "soils":["loamy soil","red soil"],"districts":["chittoor","kadapa"],
+  "seasons":["year-round"],"weather":["normal"],"details":{"water":"Medium","duration":"year-round"}},
+  
+  { "id":"papaya","name":{ "en": "Papaya", "te": "బొప్పాయి" },"category":"fruit",
+  "soils":["loamy soil","sandy soil"],"districts":["kadapa","tirupati","chittoor"],
+  "seasons":["year-round"],"weather":["normal"],"details":{"water":"Medium","duration":"year-round"}},
+  
+  { "id":"sapota","name":{ "en": "Sapota", "te": "చిక్కు" },"category":"fruit",
+  "soils":["loamy soil"],"districts":["chittoor"],
+  "seasons":["year-round"],"weather":["normal"],"details":{"water":"Medium","duration":"year-round"}},
+  
+  { "id":"tomato","name":{ "en": "Tomato", "te": "టమోటా" },"category":"vegetable",
+  "soils":["loamy soil","red soil","sandy soil"],"districts":["chittoor","tirupati","kadapa"],
+  "seasons":["rabi","kharif"],"weather":["normal"],"details":{"water":"Medium","duration":"90 days"}},
+  
+  { "id":"chilli","name":{ "en": "Chilli", "te": "మిర్చి" },"category":"vegetable",
+  "soils":["black cotton soil","loamy soil","red soil"],"districts":["guntur","tirupati"],
+  "seasons":["kharif","rabi"],"weather":["hot","normal"],"details":{"water":"Medium","duration":"150 days"}},
+  
+  { "id":"brinjal","name":{ "en": "Brinjal", "te": "వంకాయ" },"category":"vegetable",
+  "soils":["loamy soil","sandy soil"],"districts":["guntur","krishna"],
+  "seasons":["rabi","kharif"],"weather":["normal"],"details":{"water":"Medium","duration":"120 days"}},
+  
+  { "id":"onion","name":{ "en": "Onion", "te": "ఉల్లి" },"category":"vegetable",
+  "soils":["sandy soil","loamy soil"],"districts":["kurnool","anantapur","kadapa"],
+  "seasons":["rabi","kharif"],"weather":["normal"],"details":{"water":"Low","duration":"110 days"}},
+  
+  { "id":"okra","name":{ "en": "Okra", "te": "బెండకాయ" },"category":"vegetable",
+  "soils":["loamy soil","clay soil"],"districts":["krishna","guntur"],
+  "seasons":["kharif","rabi"],"weather":["hot","normal"],"details":{"water":"Medium","duration":"90 days"}},
+  
+  { "id":"drumstick","name":{ "en": "Drumstick", "te": "మునగ" },"category":"vegetable",
+  "soils":["red soil","sandy soil"],"districts":["kadapa","anantapur"],
+  "seasons":["year-round"],"weather":["hot","dry"],"details":{"water":"Low","duration":"year-round"}},
+  
+  { "id":"turmeric","name":{ "en": "Turmeric", "te": "పసుపు" },"category":"spice",
+  "soils":["loamy soil","alluvial soil"],"districts":["guntur"],
+  "seasons":["kharif"],"weather":["rainy","humid"],"details":{"water":"High","duration":"240 days"}},
+  
+  { "id":"coriander","name":{ "en": "Coriander", "te": "ధనియాలు" },"category":"spice",
+  "soils":["sandy soil","loamy soil"],"districts":["guntur","kurnool"],
+  "seasons":["rabi"],"weather":["normal"],"details":{"water":"Low","duration":"60 days"}},
+  
+  { "id":"fenugreek","name":{ "en": "Fenugreek", "te": "మెంతులు" },"category":"spice",
+  "soils":["loamy soil","black cotton soil"],"districts":["kurnool"],
+  "seasons":["rabi"],"weather":["cold","normal"],"details":{"water":"Low","duration":"90 days"}},
+  
+  { "id":"mustard","name":{ "en": "Mustard", "te": "ఆవాలు" },"category":"spice",
+  "soils":["sandy soil"],"districts":["kurnool"],
+  "seasons":["rabi"],"weather":["cold"],"details":{"water":"Low","duration":"90 days"}},
+  
+  { "id":"cashew","name":{ "en": "Cashew", "te": "జీడిపప్పు" },"category":"plantation",
+  "soils":["laterite soil","red soil"],"districts":["visakhapatnam","east godavari"],
+  "seasons":["year-round"],"weather":["coastal","humid"],"details":{"water":"Low","duration":"year-round"}},
+  
+  { "id":"arecanut","name":{ "en": "Arecanut", "te": "పుగాకాయ" },"category":"plantation",
+  "soils":["coastal sandy soil","alluvial soil"],"districts":["visakhapatnam","west godavari"],
+  "seasons":["year-round"],"weather":["humid"],"details":{"water":"High","duration":"year-round"}},
+
+  { "id":"coffee","name":{ "en": "Coffee", "te": "కాఫీ" },"category":"plantation",
+  "soils":["forest soil","red soil"],"districts":["alluri sitharama raju","visakhapatnam"],
+  "seasons":["year-round"],"weather":["cool","humid"],"details":{"water":"Medium","duration":"year-round"}},
+
+  { "id":"pepper","name":{ "en": "Black Pepper", "te": "మిరియాలు" },"category":"spice",
+  "soils":["forest soil","loamy soil"],"districts":["alluri sitharama raju","visakhapatnam"],
+  "seasons":["year-round"],"weather":["rainy","humid"],"details":{"water":"High","duration":"year-round"}}
+]
