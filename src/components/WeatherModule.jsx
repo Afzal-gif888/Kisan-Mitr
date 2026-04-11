@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, CalendarDays } from 'lucide-react';
+import { ArrowRight, CalendarDays, Sprout, CloudRain, Thermometer, Droplets, AlertTriangle } from 'lucide-react';
 import { extractFeatures } from "@/lib/FeatureExtraction";
 import { analyzeWeather } from "@/utils/comparisonEngine";
 import { advancedSeasonPrediction } from "@/utils/seasonalEngine";
 import { generateFarmerInsights } from "@/utils/farmerInsightEngine";
 import { weatherText } from "@/translations/weather";
-import { HeroCard, SeasonalSummary, RiskAlert, FinalAdvice } from './SeasonalPrediction';
+import { HeroCard } from './SeasonalPrediction';
 
 const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete }) => {
     const t = weatherText[language] || weatherText.en;
@@ -20,6 +20,23 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             fetchWeather(null, null, district, state);
         }
     }, [lat, lon, district, state]);
+
+    const getLabel = (l) => {
+        const map = { "Very Low": t.veryLow, "Low": t.low, "Normal": t.normal, "High": t.high, "Very High": t.veryHigh, "Extreme": t.veryHigh, "Moderate": t.normal, "Mild": t.low, "Dry": t.low, "Wet": t.high };
+        return map[l] || l;
+    };
+
+    const renderDots = (level) => {
+        const map = { "Very Low": 1, "Low": 1, "Mild": 1, "Cool": 1, "Dry": 1, "Normal": 3, "Moderate": 3, "High": 4, "Extreme": 5, "Very High": 5, "Wet": 5 };
+        const count = map[level] || 2;
+        return (
+            <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                    <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < count ? "bg-[#1B5E20]" : "bg-[#1B5E20]/15"}`} />
+                ))}
+            </div>
+        );
+    };
 
     const geocodeLocation = async (dist, st, apiKey) => {
         const cleanName = (name) => name.replace(/\(.*?\)/g, '').replace(/\s+/g, ' ').trim();
@@ -83,7 +100,7 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             const currentMonth = new Date().getMonth() + 1; 
 
             const districtName = dist || district || "";
-            const analysis = analyzeWeather(districtName, features, currentMonth);
+            const analysis = analyzeWeather(districtName, features, currentMonth, language);
 
             const advancedIntelligence = advancedSeasonPrediction(districtName, features, analysis, currentMonth);
 
@@ -91,7 +108,7 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
                 rainDeviationPercent: (analysis.comparison.rainRatio - 1) * 100,
                 tempDeviation: analysis.comparison.tempDiff,
                 humidityDeviation: analysis.comparison.humDiff
-            }) : null;
+            }, language) : { summary: analysis.message };
 
             const dailyData = {};
             rawData.list.forEach(item => {
@@ -123,12 +140,8 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             const season = advancedIntelligence.season;
             const weatherResult = {
                 condition: season,
-                summary: {
-                    rain: farmerInsights ? farmerInsights.rain.level : analysis.summary.rain,
-                    heat: farmerInsights ? farmerInsights.temperature.level : analysis.summary.heat,
-                    moisture: farmerInsights ? farmerInsights.moisture.level : analysis.summary.moisture
-                },
-                risks: [...analysis.risks, ...advancedIntelligence.anomalies],
+                summary: analysis.summary,
+                risks: analysis.risks,
                 district: districtName,
                 features,
                 farmerInsights,
@@ -148,8 +161,8 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
     };
 
     if (loading) return (
-        <div className="p-10 flex flex-col items-center justify-center space-y-4 min-h-[40vh] bg-white">
-            <div className="w-10 h-10 border-4 border-[#1B5E20]/10 border-t-[#1B5E20] rounded-full animate-spin" />
+        <div className="p-10 flex flex-col items-center justify-center space-y-4 min-h-[40vh] bg-white text-center text-center">
+            <div className="w-10 h-10 border-4 border-[#1B5E20]/10 border-t-[#1B5E20] rounded-full animate-spin mx-auto" />
             <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.3em]">{t.analyzing}</p>
         </div>
     );
@@ -170,57 +183,124 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
     if (!prediction) return null;
 
     return (
-        <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-20 px-4 bg-white min-h-screen">
+        <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-6 px-4 bg-white min-h-screen space-y-4">
             
-            {/* 1. HERO CARD */}
+            {/* 🏷️ MAIN PAGE HEADING */}
+            <div className="pt-2 pb-1 flex flex-col items-center">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-[#F1F8E9] rounded-2xl flex items-center justify-center text-[#1B5E20] shadow-sm">
+                        <CalendarDays size={22} className="opacity-80" />
+                    </div>
+                    <h1 className="text-2xl font-black text-[#1B5E20] tracking-tighter uppercase text-center">
+                        {t.mainTitle}
+                    </h1>
+                </div>
+                <div className="w-24 h-1 bg-[#1B5E20]/10 rounded-full mt-3" />
+            </div>
+
+            {/* 📍 HERO CARD (Crop Image Card) */}
             <HeroCard season={prediction.condition} language={language} t={t} />
 
-            {/* 2. SEASONAL SUMMARY */}
-            <SeasonalSummary 
-                rLevel={prediction.summary.rain} 
-                tLevel={prediction.summary.heat} 
-                mLevel={prediction.summary.moisture} 
-                t={t} 
-            />
-
-            {/* 3. RISK ALERT */}
-            <RiskAlert risks={prediction.risks} t={t} />
-
-            {/* 4. 5-DAY FORECAST */}
-            <div className="w-full mt-6">
-                <div className="flex items-center gap-3 mb-4 px-1">
-                    <div className="w-8 h-8 bg-[#F1F8E9] rounded-lg flex items-center justify-center text-[#1B5E20]">
-                        <CalendarDays size={16} />
+            {/* 🛡️ COMBINED SECTION 1: SEASONAL INTELLIGENCE (Stats + Risks) */}
+            <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 space-y-4 overflow-hidden">
+                <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <Sprout size={18} className="text-[#1B5E20]" />
+                        <h2 className="text-sm font-black text-[#1B5E20] uppercase tracking-[0.15em]">{t.seasonalTitleBrief}</h2>
                     </div>
-                    <h2 className="text-[10px] font-black text-[#1B5E20]/60 uppercase tracking-[0.2em]">{t.next5days}</h2>
-                    <div className="h-px flex-1 bg-[#1B5E20]/5" />
-                </div>
-                
-                <div className="grid grid-cols-2 gap-3">
-                    {prediction.fiveDayForecast.map((day, idx) => {
-                        const dateObj = new Date(day.dt * 1000);
-                        const dayName = dateObj.toLocaleDateString(language === "te" ? "te-IN" : language === "hi" ? "hi-IN" : "en-IN", { weekday: 'short' });
-                        return (
-                            <div key={idx} className="bg-[#F1F8E9]/40 rounded-[1.5rem] p-4 shadow-sm border border-white hover:border-[#1B5E20]/20 transition-all group active:scale-95">
-                                <p className="text-[10px] font-black text-[#1B5E20]/30 uppercase tracking-widest mb-2">{dayName}</p>
-                                <div className="text-3xl mb-2 flex justify-center group-hover:scale-110 transition-transform">{day.icon}</div>
-                                <p className="text-[10px] font-black text-[#1B5E20] uppercase tracking-tighter text-center">{day.text}</p>
+                    
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 shadow-sm"><CloudRain size={18} /></div>
+                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{t.rain}</span>
                             </div>
-                        );
-                    })}
+                            <div className="text-right space-y-1">
+                                <p className="text-base font-black text-slate-800">{getLabel(prediction.summary.rain)}</p>
+                                {renderDots(prediction.summary.rain)}
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-9 h-9 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500 shadow-sm"><Thermometer size={18} /></div>
+                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{t.heat}</span>
+                            </div>
+                            <div className="text-right space-y-1">
+                                <p className="text-base font-black text-slate-800">{getLabel(prediction.summary.heat)}</p>
+                                {renderDots(prediction.summary.heat)}
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center text-[#1B5E20] shadow-sm"><Droplets size={18} /></div>
+                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{t.moisture}</span>
+                            </div>
+                            <div className="text-right space-y-1">
+                                <p className="text-base font-black text-slate-800">{getLabel(prediction.summary.moisture)}</p>
+                                {renderDots(prediction.summary.moisture)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {prediction.risks && prediction.risks.length > 0 && (
+                    <div className="bg-[#FFF3E0] -mx-6 -mb-6 p-5 border-t border-orange-200/30 flex items-start gap-4">
+                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm border border-orange-50 shrink-0">
+                            <AlertTriangle size={20} className="animate-pulse" />
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-[10px] font-black text-orange-800/60 uppercase tracking-[0.2em]">{t.risk}</p>
+                            <p className="text-sm font-black text-orange-950 leading-relaxed">{prediction.risks[0]}</p>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* 📅 COMBINED SECTION 2: DAILY ACTION PLAN (Forecast + Advice) */}
+            <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 space-y-4">
+                <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-[#F1F8E9] rounded-xl flex items-center justify-center text-[#1B5E20] shadow-sm">
+                            <CalendarDays size={22} className="opacity-80" />
+                        </div>
+                        <h2 className="text-sm font-black text-[#1B5E20] uppercase tracking-[0.2em]">{t.next5days}</h2>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-3">
+                        {prediction.fiveDayForecast.map((day, idx) => {
+                            const dateObj = new Date(day.dt * 1000);
+                            const dayName = dateObj.toLocaleDateString(language === "te" ? "te-IN" : language === "hi" ? "hi-IN" : "en-IN", { weekday: 'short' });
+                            return (
+                                <div key={idx} className="bg-[#F1F8E9]/30 rounded-3xl py-3 px-4 shadow-inner border border-[#1B5E20]/5 transition-all active:scale-95 text-center flex flex-col items-center justify-center">
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{dayName}</p>
+                                    <div className="text-2xl mb-1">{day.icon}</div>
+                                    <p className="text-[10px] font-black text-slate-800 uppercase tracking-tighter line-clamp-1">{day.text}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="bg-white -mx-6 -mb-6 p-6 border-t border-[#1B5E20]/10 flex flex-col items-center">
+                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#1B5E20] mb-3 shadow-sm border border-[#1B5E20]/10">
+                        <Sprout size={20} />
+                    </div>
+                    <div className="text-center">
+                        <p className="text-[10px] font-black text-[#1B5E20]/60 uppercase tracking-[0.2em] mb-2">{t.adviceTitle}</p>
+                        <p className="text-base font-black text-slate-800 leading-tight italic tracking-tight opacity-90">
+                            "{prediction.farmerInsights?.summary}"
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            {/* 5. FINAL ADVICE */}
-            <div className="scale-[0.95] origin-top">
-                <FinalAdvice advice={prediction.farmerInsights?.summary} t={t} />
-            </div>
-
-            {/* ➡️ FINAL CTA (TO SOIL SELECTION) */}
-            <div className="mt-8 mb-6">
+            {/* ➡️ FINAL CTA */}
+            <div className="pb-4 pt-2">
                 <button 
                     onClick={() => onAnalysisComplete && onAnalysisComplete({ ...prediction, triggerNext: true })}
-                    className="w-full py-5 bg-[#1B5E20] text-white rounded-[1.8rem] text-xl font-black shadow-[0_15px_30px_rgba(27,94,32,0.3)] flex items-center justify-center gap-4 active:scale-95 hover:scale-[1.02] transition-all"
+                    className="w-full py-5 bg-[#1B5E20] text-white rounded-[2rem] text-xl font-black shadow-[0_15px_30px_rgba(27,94,32,0.3)] flex items-center justify-center gap-3 active:scale-95 hover:scale-[1.02] transition-all"
                 >
                     <span>{language === "te" ? "మట్టి ఎంపిక" : "Select Soil"}</span> 
                     <ArrowRight size={24} />

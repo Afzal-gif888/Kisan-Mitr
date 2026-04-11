@@ -4,110 +4,56 @@
  * ══════════════════════════════════════════════════════════════
  * 
  *  Transforms complex meteorological deviations (NASA comparison)
- *  into simple, actionable insights for farmers using icons,
- *  colors, and local language (Telugu).
- * 
- *  Rule: Never show raw percentages or degrees to the user.
- * ══════════════════════════════════════════════════════════════
+ *  into simple, actionable insights using icons, colors, and 
+ *  local language based on user selection.
  */
 
-export function generateFarmerInsights(comparisonData) {
+import { weatherText } from '@/translations/weather';
+
+export function generateFarmerInsights(comparisonData, lang = "en") {
     if (!comparisonData) return null;
 
+    const t = weatherText[lang] || weatherText.en;
     const { rainDeviationPercent, tempDeviation, humidityDeviation } = comparisonData;
 
     // --- STEP 1: RAIN ANALYSIS ---
-    let rainResult = {
-        level: "Normal",
-        label: "Good",
-        text: "సాధారణ వర్షపాతం",
-        icon: "🌧️",
-        color: "emerald"
-    };
+    let rainResult = { level: t.normal, text: t.normal, icon: "🌧️" };
 
     if (rainDeviationPercent < -30) {
-        rainResult = {
-            level: "Very Low",
-            label: "Dry Risk",
-            text: "వర్షం తక్కువగా ఉంటుంది",
-            icon: "🌧️❌",
-            color: "orange"
-        };
+        rainResult = { level: t.veryLow, text: t.risk_drought_low, icon: "🌧️❌" };
     } else if (rainDeviationPercent > 20) {
-        rainResult = {
-            level: "High",
-            label: "Flood Risk",
-            text: "వర్షం ఎక్కువగా ఉంటుంది",
-            icon: "🌧️🌊",
-            color: "blue"
-        };
+        rainResult = { level: t.high, text: t.risk_rain_heavy, icon: "🌧️🌊" };
     }
 
     // --- STEP 2: TEMPERATURE ANALYSIS ---
-    let tempResult = {
-        level: "Normal",
-        text: "సాధారణ ఉష్ణోగ్రత",
-        icon: "🌡️",
-        color: "emerald"
-    };
+    let tempResult = { level: t.normal, text: t.normal, icon: "🌡️" };
 
     if (tempDeviation > 3) {
-        tempResult = {
-            level: "Hot",
-            text: "ఎక్కువ వేడి ఉంటుంది",
-            icon: "🌡️🔥",
-            color: "red"
-        };
+        tempResult = { level: t.high, text: t.risk_heat_stress, icon: "🌡️🔥" };
     } else if (tempDeviation < -2) {
-        tempResult = {
-            level: "Cool",
-            text: "చల్లగా ఉంటుంది",
-            icon: "🌡️❄️",
-            color: "blue"
-        };
+        tempResult = { level: t.low, text: t.low, icon: "🌡️❄️" };
     }
 
     // --- STEP 3: HUMIDITY ANALYSIS ---
-    let moistureResult = {
-        level: "Normal",
-        text: "సాధారణ తేమ",
-        icon: "💧",
-        color: "emerald"
-    };
+    let moistureResult = { level: t.normal, text: t.normal, icon: "💧" };
 
     if (humidityDeviation > 20) {
-        moistureResult = {
-            level: "High Moisture",
-            text: "తేమ ఎక్కువగా ఉంటుంది",
-            icon: "💧💦",
-            color: "blue"
-        };
+        moistureResult = { level: t.high, text: t.risk_hum_high, icon: "💧💦" };
     } else if (humidityDeviation < -15) {
-        moistureResult = {
-            level: "Dry",
-            text: "తేమ తక్కువగా ఉంటుంది",
-            icon: "💧❌",
-            color: "yellow"
-        };
+        moistureResult = { level: t.low, text: t.risk_hum_low, icon: "💧❌" };
     }
 
     // --- STEP 4: FINAL FARMER SUMMARY ---
-    // Create a natural sounding summary by combining insights
     const summaryParts = [];
+    if (rainDeviationPercent < -30) summaryParts.push(t.risk_drought_low);
+    else if (rainDeviationPercent > 20) summaryParts.push(t.risk_rain_heavy);
     
-    if (rainResult.level !== "Normal") {
-        summaryParts.push(rainResult.text);
-    }
-    
-    if (tempResult.level !== "Normal") {
-        summaryParts.push(tempResult.text);
-    }
+    if (tempDeviation > 3) summaryParts.push(t.risk_heat_stress);
 
     let summary = summaryParts.length > 0 
-        ? summaryParts.join(", ") 
-        : "సాధారణ వాతావరణం — పంటలకు అనుకూలం";
+        ? summaryParts.join(" — ") 
+        : t.msg_stable;
 
-    // --- STEP 5: STRUCTURED OUTPUT ---
     return {
         rain: rainResult,
         temperature: tempResult,

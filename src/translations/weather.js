@@ -1,6 +1,7 @@
 export const weatherText = {
   te: {
-    seasonalTitle: "🌾 రాబోయే 3-4 నెలల వాతావరణం",
+    seasonalTitle: "రాబోయే 3-4 నెలల వాతావరణం",
+    mainTitle: "వాతావరణ నివేదిక",
     seasonalSubtitle: "పంటలకు ముఖ్యమైన సమాచారం",
     rain: "వర్షం",
     heat: "వేడి",
@@ -12,10 +13,10 @@ export const weatherText = {
     veryHigh: "చాలా ఎక్కువ",
     summary: "సారాంశం",
     risk: "ప్రమాదం",
-    adviceTitle: "🌱 సలహా",
+    adviceTitle: "సలహా",
     favorable: "వ్యవసాయానికి అనుకూలంగా ఉంది",
-    seasonalTitleBrief: "🌾 రాబోయే 3-4 నెలలు",
-    next5days: "📅 వచ్చే 5 రోజుల వాతావరణం",
+    seasonalTitleBrief: "రాబోయే 3-4 నెలలు",
+    next5days: "వచ్చే 5 రోజుల వాతావరణం",
     sunny: "ఎండ",
     veryHot: "ఎండ ఎక్కువ",
     rainExpected: "వర్షం వచ్చే అవకాశం",
@@ -28,11 +29,37 @@ export const weatherText = {
     retry: "మళ్ళీ ప్రయత్నించండి",
     next: "తదుపరి",
     cloudy: "మోస్తరు",
-    extremeHeat: "తీవ్రమైన ఎండ"
+    extremeHeat: "తీవ్రమైన ఎండ",
+    
+    // Risk Translation Logic
+    risk_drought_severe: "తీవ్రమైన కరువు ప్రమాదం — నీటి పారుదల పెంచండి",
+    risk_drought_low: "తక్కువ వర్షపాతం — నీటి కొరతకు సిద్ధంగా ఉండండి",
+    risk_rain_excess: "అధిక వర్షపాతం — నీటి నిల్వ మరియు పంట నష్టం ప్రమాదం",
+    risk_rain_heavy: "భారీ వర్షాల ప్రమాదం — మురుగునీటి సౌకర్యం చూసుకోండి",
+    risk_unseasonal_rain: "అకాల వర్షం — కోసిన పంటలను జాగ్రత్త పరచండి",
+    risk_monsoon_dry: "వర్షాకాలంలో పొడి వాతావరణం — నీటి పారుదల పెంచండి",
+    risk_heat_extreme: "తీవ్రమైన వేడి తరంగం — పంటలను మరియు పశువులను రక్షించండి",
+    risk_heat_stress: "అధిక వేడి ఒత్తిడి — నీడ మరియు మల్చింగ్ గురించి ఆలోచించండి",
+    risk_temp_high: "సాధారణం కంటే ఎక్కువ ఉష్ణోగ్రత — పంటను గమనించండి",
+    risk_hum_v_high: "చాలా ఎక్కువ తేమ — శిలీంధ్ర వ్యాధుల ప్రమాదం",
+    risk_hum_high: "ఎక్కువ తేమ — తెగుళ్ల గురించి జాగ్రత్త వహించండి",
+    risk_hum_low: "చాలా తక్కువ తేమ — పంట వాడిపోయే ప్రమాదం",
+
+    // Insight Translation Logic
+    msg_heat_extreme: "తీవ్రమైన వేడి — పంటలను రక్షించండి, తరచుగా నీరు పెట్టండి",
+    msg_drought_severe: "చాలా పొడి పరిస్థితులు — కరువు తట్టుకునే పంటలు మాత్రమే సిఫార్సు చేయబడ్డాయి",
+    msg_rain_excess: "భారీ వర్షాలు — మురుగునీటి సౌకర్యం చూసుకోండి, పొలం పనులు మానుకోండి",
+    msg_unseasonal_rain: "అకాల వర్షం — కోసిన పంటలను పైన కవర్ చేయండి",
+    msg_dry: "పొడి పరిస్థితులు — వేరుశనగ, పొద్దుతిరుగుడు వంటి తక్కువ నీటి పంటలు క్షేమకరం",
+    msg_rainy: "మంచి తేమ — వరి మరియు నీటిని ఇష్టపడే పంటలు అనుకూలం",
+    msg_hot: "వేడి వాతావరణం — బాగా నీరు పెట్టండి, వేడిని తట్టుకునే రకాలను ఎంచుకోండి",
+    msg_cool: "చల్లని వాతావరణం — గోధుమలు, శనగలు మరియు శీతాకాలపు కూరగాయలకు అనువైనది",
+    msg_stable: "వాతావరణం స్థిరంగా ఉంది — మీ ప్రాంతంలోని చాలా పంటలకు అనుకూలం"
   },
 
   hi: {
-    seasonalTitle: "🌾 आने वाले 3-4 महीनों का मौसम",
+    seasonalTitle: "आने वाले 3-4 महीनों का मौसम",
+    mainTitle: "मौसम रिपोर्ट",
     seasonalSubtitle: "फसलों के लिए महत्वपूर्ण जानकारी",
     rain: "बारिश",
     heat: "गर्मी",
@@ -44,10 +71,10 @@ export const weatherText = {
     veryHigh: "बहुत अधिक",
     summary: "सारांश",
     risk: "जोखिम",
-    adviceTitle: "🌱 सलाह",
+    adviceTitle: "सलाह",
     favorable: "कृषि के लिए अनुकूल है",
-    seasonalTitleBrief: "🌾 अगले 3-4 महीने",
-    next5days: "📅 अगले 5 दिनों का मौसम",
+    seasonalTitleBrief: "अगले 3-4 महीने",
+    next5days: "अगले 5 दिनों का मौसम",
     sunny: "धूप",
     veryHot: "बहुत तेज़ धूप",
     rainExpected: "बारिश की संभावना",
@@ -60,11 +87,37 @@ export const weatherText = {
     retry: "पुनः प्रयास करें",
     next: "अगला",
     cloudy: "बादल",
-    extremeHeat: "भीषण गर्मी"
+    extremeHeat: "भीषण गर्मी",
+
+    // Risk Translation Logic
+    risk_drought_severe: "गंभीर सूखे का खतरा — सिंचाई बढ़ाएं",
+    risk_drought_low: "कम बारिश की उम्मीद — पानी की कमी की योजना बनाएं",
+    risk_rain_excess: "अत्यधिक बारिश — जलभराव और फसल के नुकसान का खतरा",
+    risk_rain_heavy: "भारी बारिश का खतरा — जल निकासी सुनिश्चित करें",
+    risk_unseasonal_rain: "बेमौसम बारिश — कटी हुई फसलों को ढकें",
+    risk_monsoon_dry: "मानसून के दौरान शुष्क मौसम — सिंचाई बढ़ाएं",
+    risk_heat_extreme: "भीषण लू — फसलों और पशुओं की रक्षा करें",
+    risk_heat_stress: "उच्च ताप तनाव — छाया और मल्चिंग पर विचार करें",
+    risk_temp_high: "सामान्य से अधिक तापमान — फसल के तनाव की निगरानी करें",
+    risk_hum_v_high: "बहुत उच्च आर्द्रता — कवक रोग का खतरा",
+    risk_hum_high: "उच्च आर्द्रता — कीट गतिविधि पर नज़र रखें",
+    risk_hum_low: "बहुत कम आर्द्रता — फसलों के मुरझाने का खतरा",
+
+    // Insight Translation Logic
+    msg_heat_extreme: "भीषण गर्मी — फसलों की रक्षा करें, बार-बार सिंचाई करें",
+    msg_drought_severe: "बहुत शुष्क स्थिति — केवल सूखा प्रतिरोधी फसलों की सिफारिश",
+    msg_rain_excess: "भारी बारिश — जल निकासी सुनिश्चित करें, खेत के काम से बचें",
+    msg_unseasonal_rain: "बेमौसम बारिश — कटी हुई फसलों को ढकें",
+    msg_dry: "शुष्क स्थिति — मूंगफली, सूरजमुखी जैसी कम पानी वाली फसलें बेहतर हैं",
+    msg_rainy: "अच्छी नमी — चावल और पानी पसंद करने वाली फसलें उपयुक्त हैं",
+    msg_hot: "गर्म मौसम — अच्छी तरह सिंचाई करें, गर्मी सहने वाली किस्में चुनें",
+    msg_cool: "ठंडा मौसम — गेहूं, चना और सर्दियों की सब्जियों के लिए आदर्श",
+    msg_stable: "मौसम स्थिर है — आपके क्षेत्र की अधिकांश फसलों के लिए उपयुक्त"
   },
 
   en: {
-    seasonalTitle: "🌾 Next 3-4 Months Weather",
+    seasonalTitle: "Next 3-4 Months Weather",
+    mainTitle: "Weather Report",
     seasonalSubtitle: "Critical Information for Crops",
     rain: "Rain",
     heat: "Heat",
@@ -76,10 +129,10 @@ export const weatherText = {
     veryHigh: "Very High",
     summary: "Summary",
     risk: "Risk",
-    adviceTitle: "🌱 Advice",
+    adviceTitle: "Advice",
     favorable: "Favorable for agriculture",
-    seasonalTitleBrief: "🌾 Next 3-4 Months",
-    next5days: "📅 Next 5 Days Weather",
+    seasonalTitleBrief: "Next 3-4 Months",
+    next5days: "Next 5 Days Weather",
     sunny: "Sunny",
     veryHot: "Very Hot",
     rainExpected: "Rain Expected",
@@ -92,6 +145,31 @@ export const weatherText = {
     retry: "Retry Connection",
     next: "Next",
     cloudy: "Cloudy",
-    extremeHeat: "Extreme Heat"
+    extremeHeat: "Extreme Heat",
+
+    // Risk Translation Logic
+    risk_drought_severe: "Severe drought risk — increase irrigation",
+    risk_drought_low: "Low rainfall expected — plan for water shortage",
+    risk_rain_excess: "Excess rainfall — risk of waterlogging and crop damage",
+    risk_rain_heavy: "Heavy rainfall risk — ensure drainage",
+    risk_unseasonal_rain: "Unseasonal rain possible — cover harvested crops",
+    risk_monsoon_dry: "Dry spell during monsoon — increase irrigation",
+    risk_heat_extreme: "Extreme heat wave — protect crops and livestock",
+    risk_heat_stress: "High heat stress — consider shade and mulching",
+    risk_temp_high: "Temperature above normal — monitor crop stress",
+    risk_hum_v_high: "Very high humidity — fungal disease risk",
+    risk_hum_high: "High humidity — watch for pest activity",
+    risk_hum_low: "Very low humidity — wilting risk for sensitive crops",
+
+    // Insight Translation Logic
+    msg_heat_extreme: "Extreme heat — protect crops, irrigate frequently",
+    msg_drought_severe: "Very dry conditions — only drought-resistant crops recommended",
+    msg_rain_excess: "Heavy rains — ensure drainage, avoid field work",
+    msg_unseasonal_rain: "Unexpected rain possible — cover harvested crops",
+    msg_dry: "Dry conditions — low water crops like groundnut, sunflower are safer",
+    msg_rainy: "Good moisture — rice, paddy, and water-loving crops are suitable",
+    msg_hot: "Hot weather — irrigate well, prefer heat-tolerant varieties",
+    msg_cool: "Cool season — ideal for wheat, gram, and winter vegetables",
+    msg_stable: "Weather is stable — suitable for most crops in your region"
   }
 };

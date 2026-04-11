@@ -155,7 +155,7 @@ const LocationScreen = ({ language, onNext, onBack }: LocationScreenProps) => {
         <ArrowLeft size={20} />
       </button>
 
-      <div className="text-[10px] text-[#1B5E20] mb-6 font-black mt-12 uppercase tracking-[0.2em] opacity-80">
+      <div className="text-[10px] text-[#1B5E20] font-black mt-6 mb-2 uppercase tracking-[0.2em] opacity-80">
          📍 {tLoc(district)}, {tLoc(state)}
       </div>
 
