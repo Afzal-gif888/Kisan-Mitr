@@ -23,6 +23,18 @@ const Index = () => {
     validateDistrictMapping();
   }, []);
 
+  // 📝 STEP 12: DEBUG LOG VALIDATION
+  useEffect(() => {
+    console.log("--- 🕵️ KISAN-MITR SYSTEM TRACE ---", {
+      screen,
+      language,
+      district: weatherResult?.district || "None",
+      soilSelected: soil,
+      weatherFeatures: weatherResult?.features || "Analyzing...",
+      cropSelected: selectedCrop
+    });
+  }, [screen, language, soil, weatherResult, selectedCrop]);
+
   const handleSoilSelect = (s: SoilType) => {
     setSoil(s);
     setScreen("recommendation");

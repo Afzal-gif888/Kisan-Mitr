@@ -3,9 +3,13 @@ import cropsMaster from '../data/apCropsMaster.json';
 import districtMapping from '../data/apDistrictCropMapping.json';
 
 export interface WeatherData {
-  temperature: number;
-  rainfall: number; // monthly or daily average
-  condition?: string;
+  features?: {
+    avgTemp: string;
+    totalRain: string;
+    avgHumidity: string;
+  };
+  temperature?: number; // fallback
+  rainfall?: number;    // fallback
 }
 
 export interface FarmingGuideOutput {
@@ -19,7 +23,7 @@ export interface FarmingGuideOutput {
 export const generateFarmingGuide = (
   cropId: string,
   district: string,
-  weather: WeatherData,
+  weatherData: any,
   language: Language = 'te'
 ): FarmingGuideOutput => {
   const crop = cropsMaster.find((c: any) => c.id === cropId);
@@ -32,50 +36,45 @@ export const generateFarmingGuide = (
   const warnings: string[] = [];
   let status: 'optimal' | 'warning' | 'critical' = 'optimal';
 
-  // Weather Logic
-  
-  // Rainfall logic
-  if (weather.rainfall < 50) { // Very low rainfall
-    if (language === 'te') adjustments.push('నీటి పారుదల పెంచండి (Increase Irrigation)');
-    else if (language === 'hi') adjustments.push('सिंचाई बढ़ाएं (Increase Irrigation)');
-    else adjustments.push('Increase Irrigation');
+  // Extract real weather features
+  const temp = parseFloat(weatherData?.features?.avgTemp || weatherData?.temperature || "28");
+  const rain = parseFloat(weatherData?.features?.totalRain || weatherData?.rainfall || "0");
 
-    if (crop.water.requirement === 'High' || crop.water.requirement === 'Very High') {
-      if (language === 'te') warnings.push('జాగ్రత్త: నీటి ఎద్దడి పంట దిగుబడిని తగ్గిస్తుంది');
-      else if (language === 'hi') warnings.push('सावधान: पानी की कमी से उपज कम हो सकती है');
-      else warnings.push('Warning: Water stress will reduce yield');
+  // --- LOGIC 1: RAINFALL ADJUSTMENTS ---
+  if (rain < 30) { 
+    if (language === 'te') adjustments.push('తక్కువ వర్షపాతం ఉంది: క్రమం తప్పకుండా నీరు పెట్టండి (Increase Irrigation)');
+    else adjustments.push('Low rainfall detected: Ensure regular irrigation for healthy growth');
+
+    if (crop.details.water === 'High' || crop.details.water === 'Very High') {
+      if (language === 'te') warnings.push('జాగ్రత్త: నీటి ఎద్దడి వల్ల దిగుబడి తగ్గే అవకాశం ఉంది');
+      else warnings.push('Critical Warning: High-water requirement crop may suffer from current low-rain trend');
       status = 'warning';
     }
-  } else if (weather.rainfall > 200) { // Heavy rainfall
-    if (language === 'te') adjustments.push('నీరు నిల్వ కాకుండా కాలువలు సిద్ధం చేయండి');
-    else if (language === 'hi') adjustments.push('जल निकासी के लिए नालियां तैयार करें');
-    else adjustments.push('Prepare drainage channels to prevent waterlogging');
+  } else if (rain > 120) { 
+    if (language === 'te') adjustments.push('అధిక వర్షపాతం: పొలంలో నీరు నిల్వ ఉండకుండా చూడండి');
+    else adjustments.push('Heavy rainfall trend: Prepare drainage channels immediately');
 
-    if (crop.soil.types.includes('Black Cotton') || crop.id === 'maize') {
-      if (language === 'te') warnings.push('అధిక వర్షం వల్ల వేరు కుళ్ళు తెగులు వచ్చే అవకాశం ఉంది');
-      else if (language === 'hi') warnings.push('भारी बारिश के कारण जड़ सड़न का खतरा');
-      else warnings.push('Risk of root rot due to high rainfall');
+    if (crop.soils.includes('Black Cotton Soil') || crop.id === 'maize') {
+      if (language === 'te') warnings.push('అధిక తేమ వల్ల వేరు కుళ్ళు వచ్చే అవకాశం ఉంది');
+      else warnings.push('Root Rot Risk: Excess moisture in this soil type may cause fungal infections');
       status = 'critical';
     }
   }
 
-  // Temperature logic
-  if (weather.temperature > 35) {
-    if (language === 'te') adjustments.push('విత్తనాన్ని ఆలస్యం చేయండి లేదా ఉదయం వేళల్లో నీరు పెట్టండి');
-    else if (language === 'hi') adjustments.push('बुवाई में देरी करें या सुबह जल्दी सिंचाई करें');
-    else adjustments.push('Delay sowing or irrigate during early morning');
+  // --- LOGIC 2: TEMPERATURE ADJUSTMENTS ---
+  if (temp > 35) {
+    if (language === 'te') adjustments.push('తీవ్రమైన ఎండలు: మల్చింగ్ (Mulching) పద్ధతిని వాడండి');
+    else adjustments.push('Heatwave trend: Use organic mulching to retain soil moisture');
 
-    if (crop.category === 'vegetables') {
-      if (language === 'te') warnings.push('అధిక ఉష్ణోగ్రత వల్ల పూత రాలిపోయే అవకాశం ఉంది');
-      else if (language === 'hi') warnings.push('उच्च तापमान के कारण फूल गिर सकते हैं');
-      else warnings.push('High temperature may cause flower drop');
+    if (crop.name.en.toLowerCase().includes('tomato') || crop.name.en.toLowerCase().includes('chilli')) {
+      if (language === 'te') warnings.push('అధిక వేడి వల్ల పూత మరియు పిందె రాలిపోయే అవకాశం ఉంది');
+      else warnings.push('Heat Stress: May cause significant flower and fruit drop in this crop');
       status = 'warning';
     }
-  } else if (weather.temperature < 15) {
-     if (crop.id === 'paddy' || crop.id === 'maize') {
-       if (language === 'te') warnings.push('తక్కువ ఉష్ణోగ్రత వల్ల ఎదుగుదల నెమ్మదిస్తుంది');
-       else if (language === 'hi') warnings.push('कम तापमान के कारण विकास धीमा हो जाएगा');
-       else warnings.push('Low temperature will slow down growth');
+  } else if (temp < 18) {
+     if (crop.id === 'paddy') {
+       if (language === 'te') warnings.push('తక్కువ ఉష్ణోగ్రత వల్ల వరి ఎదుగుదల మందగిస్తుంది');
+       else warnings.push('Cold Stress: Growth rate may be significantly slower than average');
      }
   }
 
