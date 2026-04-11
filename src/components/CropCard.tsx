@@ -19,6 +19,8 @@ const CropCard = ({ crop, language, suitabilityColor, onViewGuide, imgSource, fa
                   src={imgSource} 
                   alt={crop.englishName} 
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                   onError={(e: any) => { e.target.onerror = null; e.target.src = farmHero; }}
               />
               <div className="absolute inset-0 bg-black/30" />
