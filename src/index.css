@@ -4,45 +4,46 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
-    --background: 35 30% 93%; /* #F5EFE6 */
-    --foreground: 30 20% 15%;
+    /* AGRI-GREEN & WHITE PALETTE v1.0 */
+    --background: 100 0% 100%; /* Pure White */
+    --foreground: 120 40% 10%; /* Very Deep Green */
 
     --card: 0 0% 100%;
-    --card-foreground: 30 20% 15%;
+    --card-foreground: 120 40% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 30 20% 15%;
+    --popover-foreground: 120 40% 10%;
 
-    --primary: 25 40% 39%; /* #8B5E3C - Soil Brown */
+    --primary: 142 70% 25%; /* #1B5E20 - Deep Agriculture Green */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 33 45% 60%; /* #C49A6C - Light Brown */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 142 40% 90%; /* #E8F5E9 - Light Mint */
+    --secondary-foreground: 142 70% 25%;
 
-    --muted: 33 20% 90%;
-    --muted-foreground: 33 10% 45%;
+    --muted: 142 10% 95%;
+    --muted-foreground: 142 30% 40%;
 
-    --accent: 142 46% 34%; /* #2E7D32 - Harvest Green */
+    --accent: 142 70% 35%; /* #2E7D32 */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 33 20% 88%;
-    --input: 33 20% 88%;
-    --ring: 25 40% 39%;
+    --border: 142 20% 90%;
+    --input: 142 20% 90%;
+    --ring: 142 70% 25%;
 
     --radius: 1.5rem;
 
-    --success: 130 60% 40%;
+    --success: 142 70% 25%;
     --success-foreground: 0 0% 100%;
     
-    --soil-dark: 26 47% 25%; /* #5C3A21 */
-    --soil-light: 35 30% 90%; /* #F5EFE6 light version */
-    --harvest-gold: 30 55% 65%; /* #D4A373 */
+    /* Custom Agri Tokens */
+    --agri-dark: 142 70% 15%; /* #0D3B0D */
+    --agri-light: 142 40% 96%; /* #F1F8E9 */
+    --agri-leaf: 142 50% 50%; /* #4CAF50 */
   }
 }
 
