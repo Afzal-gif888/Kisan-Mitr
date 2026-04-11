@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HomeScreen from "@/components/HomeScreen";
 import LocationScreen from "@/components/LocationScreen";
 import SoilScreen from "@/components/SoilScreen";
@@ -6,6 +6,7 @@ import RecommendationScreen from "@/components/RecommendationScreen";
 import GuidanceScreen from "@/components/GuidanceScreen";
 import { Language } from "@/lib/translations";
 import { SoilType } from "@/lib/cropData";
+import { validateDistrictMapping } from "@/utils/validateDistrictMapping";
 
 type Screen = "home" | "location" | "soil" | "recommendation" | "guidance";
 
@@ -16,6 +17,11 @@ const Index = () => {
   const [selectedCrop, setSelectedCrop] = useState("rice");
 
   const [weatherResult, setWeatherResult] = useState<any>(null);
+
+  useEffect(() => {
+    // 🔍 Run district mapping validation once on startup
+    validateDistrictMapping();
+  }, []);
 
   const handleSoilSelect = (s: SoilType) => {
     setSoil(s);
@@ -61,7 +67,13 @@ const Index = () => {
         />
       )}
       {screen === "guidance" && (
-        <GuidanceScreen language={language} cropKey={selectedCrop} onBack={() => setScreen("recommendation")} onStartOver={handleStartOver} />
+        <GuidanceScreen 
+          language={language} 
+          cropKey={selectedCrop} 
+          weatherResult={weatherResult}
+          onBack={() => setScreen("recommendation")} 
+          onStartOver={handleStartOver} 
+        />
       )}
     </div>
   );
