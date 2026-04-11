@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ArrowLeft, ArrowRight, Droplets, Thermometer, CheckCircle2, Star, Check, AlertTriangle, Info } from "lucide-react";
+import { ArrowLeft, ArrowRight, Droplets, Thermometer, CheckCircle2, Star, Check, AlertTriangle, Info, MapPin, Sprout } from "lucide-react";
 import { Language, translations } from "@/lib/translations";
 import { getAPCropRecommendations } from "@/utils/cropRecommendationEngine";
 import farmHero from "@/assets/farm-hero.jpg"; // Fallback image
@@ -19,16 +19,16 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
 
   const allFilteredCrops = recommendations.recommendedCrops;
 
-  // Group by Suitability
+  // Group by Suitability based on score
   const groupedCrops = {
-      best: allFilteredCrops.filter(c => c.score >= 105), // Perfect Match Bonus
-      suitable: allFilteredCrops.filter(c => c.score >= 90 && c.score < 105),
-      tryCarefully: allFilteredCrops.filter(c => c.score < 90)
+      best: allFilteredCrops.filter(c => c.score >= 105),
+      suitable: allFilteredCrops.filter(c => c.score >= 85 && c.score < 105),
+      tryCarefully: allFilteredCrops.filter(c => c.score < 85)
   };
 
   const getSuitabilityColor = (score: number) => {
       if (score >= 105) return "from-emerald-600 to-emerald-400";
-      if (score >= 90) return "from-blue-600 to-blue-400";
+      if (score >= 85) return "from-blue-600 to-blue-400";
       return "from-amber-600 to-amber-400";
   };
 
@@ -37,16 +37,16 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
       return (
           <div className="space-y-6">
               <div className="flex items-center gap-3 px-2">
-                  <div className="p-2 bg-white rounded-xl shadow-sm">{icon}</div>
+                  <div className="p-2 bg-white rounded-xl shadow-sm border border-slate-100">{icon}</div>
                   <h3 className="text-xl font-black text-[#5C3A21] tracking-tighter uppercase italic">
                       {language === "te" ? teTitle : title}
                   </h3>
               </div>
               <div className="space-y-8 mt-4">
-                  {crops.map((crop, idx) => (
+                  {crops.map((crop) => (
                       <div 
                           key={crop.id} 
-                          className="bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border-2 border-transparent transition-all hover:scale-[1.02]"
+                          className="bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border-2 border-transparent transition-all hover:scale-[1.02] active:scale-95"
                       >
                           <div className="relative h-48 sm:h-52 overflow-hidden bg-slate-200">
                               <img 
@@ -72,7 +72,7 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
                                           <div className={`rounded-full p-1 mt-0.5 shrink-0 ${crop.score >= 100 ? 'bg-emerald-500' : 'bg-[#8B5E3C]'}`}>
                                               <Check size={10} className="text-white" />
                                           </div>
-                                          <p className="text-sm font-black text-[#8B5E3C] leading-none">{crop.reason}</p>
+                                          <p className="text-sm font-black text-[#8B5E3C] leading-none italic">{crop.reason}</p>
                                       </div>
                                       <div className="flex items-start gap-2.5">
                                           <div className="bg-[#8B5E3C]/80 rounded-full p-1 mt-0.5 shrink-0">
@@ -127,7 +127,7 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
           </button>
           <div className="text-center">
             <h2 className="text-2xl font-black text-white tracking-tighter">
-                {language === "te" ? "మీ పంటల ఎంపిక" : "Crop Choices"}
+                {language === "te" ? "పంటల ఎంపిక" : "Crop Selector"}
             </h2>
             <p className="text-[#C49A6C] text-[10px] font-black uppercase tracking-[0.2em] opacity-80 leading-none">{weatherResult.district}</p>
           </div>
@@ -136,38 +136,58 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
           </div>
       </div>
 
-      <div className="flex-1 p-5 space-y-12 overflow-y-auto pt-10">
+      <div className="flex-1 p-5 space-y-10 overflow-y-auto pt-10">
         
-        {/* DISTRICT CONTEXT LABEL */}
-        {recommendations.districtAdvice && (
-            <div className="px-2">
-                <p className="text-[10px] font-black text-[#8B5E3C] uppercase tracking-[0.3em] opacity-60">
-                    📍 {recommendations.districtAdvice}
+        {/* DISTRICT SOIL INTELLIGENCE CARD */}
+        <div className="bg-white rounded-[2.5rem] p-6 shadow-xl border-t-4 border-[#8B5E3C] space-y-6">
+            <div className="flex items-center gap-3">
+                <MapPin className="text-red-500 shrink-0" size={20} />
+                <p className="text-lg font-black text-[#5C3A21] uppercase tracking-tighter">
+                    {language === "te" ? `జిల్లా: ${weatherResult.district}` : `District: ${weatherResult.district}`}
                 </p>
-                <div className="mt-1 flex items-center gap-1.5">
-                    <div className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[8px] font-black rounded-full uppercase">Weather: {recommendations.weatherTypeDetected}</div>
-                    <div className="px-2 py-0.5 bg-amber-50 text-amber-600 text-[8px] font-black rounded-full uppercase">Soil: {soil}</div>
+            </div>
+            
+            <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                    <Sprout className="text-emerald-500" size={18} />
+                    <h4 className="text-sm font-black text-slate-800 uppercase tracking-widest leading-none">
+                        {language === "te" ? "మీ ప్రాంతంలో నేలలు:" : "Soils in your location:"}
+                    </h4>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                    {recommendations.districtSoils?.map((soilType, idx) => (
+                        <div key={idx} className="flex items-center gap-2 bg-[#F5F1EB] px-3 py-2 rounded-xl border border-slate-100">
+                           <div className="bg-emerald-500 rounded-full p-0.5"><Check size={8} className="text-white" /></div>
+                           <span className="text-[10px] font-bold text-[#5C3A21] leading-none">{soilType}</span>
+                        </div>
+                    ))}
                 </div>
             </div>
-        )}
+
+            <div className="pt-2 flex gap-3 text-[9px] font-black uppercase tracking-widest leading-none">
+                <div className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full italic opacity-80">Season: {recommendations.weatherTypeDetected}</div>
+                <div className="px-3 py-1 bg-amber-50 text-amber-600 rounded-full italic opacity-80">Selected: {soil}</div>
+            </div>
+        </div>
 
         {allFilteredCrops.length === 0 ? (
-            <div className="bg-white p-10 rounded-[3rem] text-center space-y-6 shadow-xl">
-                <div className="p-6 bg-amber-50 rounded-[2rem] w-fit mx-auto border-2 border-amber-100">
-                    <Info size={48} className="text-amber-500" />
+            <div className="bg-white p-12 rounded-[3.5rem] text-center space-y-6 shadow-xl border-2 border-slate-100">
+                <div className="w-24 h-24 bg-amber-50 rounded-full mx-auto flex items-center justify-center border-2 border-amber-100">
+                    <Info size={40} className="text-amber-500" />
                 </div>
-                <div className="space-y-2">
-                    <h3 className="text-xl font-black text-[#5C3A21] uppercase tracking-tighter">No Crops Found</h3>
-                    <p className="text-xs font-bold text-[#8B5E3C]/60 italic leading-relaxed">
+                <div className="space-y-3">
+                    <h3 className="text-2xl font-black text-[#5C3A21] tracking-tighter uppercase">No Perfect Matches</h3>
+                    <p className="text-xs font-bold text-[#8B5E3C]/60 italic leading-snug px-4">
                         {language === "te" 
-                            ? "ప్రస్తుత పరిస్థితులకు సరిపోయే పంటలు లేవు. మళ్ళీ ప్రయత్నించండి."
-                            : "No crops strictly match these current conditions. Try selecting a different soil or district."}
+                            ? "ప్రస్తుత మట్టి మరియు వాతావరణ పరిస్థితులకు సరిపోయే పంటలు ఏవీ లేవు. దయచేసి వివరాలను సరిచూసుకోండి."
+                            : "We couldn't find crops that strictly match these conditions. Ensure your district and soil are correctly selected."}
                     </p>
                 </div>
-                <button onClick={onBack} className="w-full py-4 bg-[#8B5E3C] text-white rounded-2xl font-black uppercase tracking-widest text-xs">Adjust Filters</button>
+                <button onClick={onBack} className="w-full py-5 bg-[#8B5E3C] text-white rounded-2xl font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg">Adjust Filters</button>
             </div>
         ) : (
-            <div className="space-y-16">
+            <div className="space-y-20 pt-4">
                 <RenderCropSection 
                     title="🔥 Best Suitable" 
                     teTitle="అత్యంత అనుకూలం"
@@ -192,7 +212,7 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
         )}
 
         {/* 🏁 CTA BUTTON */}
-        <div className="pt-6 pb-20">
+        <div className="pt-10 pb-20">
             <button 
                 onClick={() => window.location.reload()} 
                 className="w-full py-6 bg-[#2E7D32] text-white rounded-[2rem] text-2xl font-black shadow-2xl flex items-center justify-center gap-5 active:scale-95 transition-all"

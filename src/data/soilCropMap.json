@@ -1,0 +1,19 @@
+{
+  "Red Soil": ["groundnut", "maize", "jowar", "redgram", "pomegranate", "mango", "citrus", "cashew", "mulberry"],
+  "Red Sandy Loam": ["groundnut", "tomato", "onion", "maize", "pomegranate", "mango"],
+  "Red Loamy Soil": ["groundnut", "mango", "tomato", "cashew"],
+  "Black Cotton Soil": ["cotton", "chilli", "bengalgram", "tobacco", "maize", "jowar", "sunflower", "turmeric"],
+  "Black Clay Soil": ["sugarcane", "paddy", "cotton", "tobacco"],
+  "Alluvial Soil": ["paddy", "banana", "coconut", "sugarcane", "lemon", "citrus", "mango", "vegetables"],
+  "Delta Alluvial Soil": ["paddy", "sugarcane", "banana", "oil_palm"],
+  "Coastal Alluvial Soil": ["paddy", "coconut", "banana"],
+  "Laterite Soil": ["cashew", "mango", "coffee", "pepper", "mulberry"],
+  "Coastal Sandy Soil": ["coconut", "cashew", "citrus"],
+  "Sandy Soil": ["groundnut", "cashew", "citrus", "watermelon"],
+  "Clay Soil": ["paddy", "sugarcane", "cotton", "bengalgram", "onion"],
+  "Saline Soil": ["paddy"],
+  "Alkaline Soil": ["paddy", "cotton"],
+  "Marshy Soil": ["paddy", "banana", "oil_palm"],
+  "Gravelly Soil": ["groundnut", "jowar", "cashew", "pomegranate"],
+  "Forest Soil": ["coffee", "pepper", "mango", "cashew"]
+}
