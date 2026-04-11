@@ -1,0 +1,47 @@
+# MASTER REGISTRY: INDIAN SOILS & CROPS
+
+## I. MASTER LIST: INDIAN SOIL TYPES
+1.  Alluvial Soil: (Indo-Gangetic Plains) - Richest and most widespread.
+2.  Black Soil (Regur): (Deccan Lava Plateau) - Ideal for moisture-loving crops like Cotton.
+3.  Red & Yellow Soil: (Southern/Eastern Peninsula) - Iron-rich, porous, good for Millets.
+4.  Laterite Soil: (Hilly areas with high rainfall) - Acidic, used for Cashews and Coffee.
+5.  Arid / Desert Soil: (West Rajasthan) - High salt, low moisture, for drought-resistant crops.
+6.  Mountain / Forest Soil: (Himalayas) - Rich in humus and organic matter, for fruits/spices.
+7.  Saline & Alkaline Soil: (Coastal/Dry areas) - High salt content, usually infertile.
+8.  Peaty & Marshy Soil: (High rainfall/Waterlogged areas) - Heavy, black, and highly organic.
+
+---
+
+## II. MASTER LIST: INDIAN CROP CATEGORIES
+
+### 1. Food Grains (Cereals)
+Rice (Paddy), Wheat, Maize (Corn), Jowar (Sorghum), Bajra (Pearl Millet), Ragi (Finger Millet), Barley.
+
+### 2. Pulses (Legumes)
+Gram (Chickpea), Red Gram (Tur/Arhar), Black Gram (Urad), Green Gram (Moong), Lentils (Masur), Peas.
+
+### 3. Oilseeds
+Groundnut, Mustard, Rapeseed, Soybean, Sunflower, Sesamum (Til), Linseed, Castor Seed.
+
+### 4. Cash Crops (Industrial)
+Sugarcane, Cotton, Jute, Tobacco.
+
+### 5. Plantation Crops
+Tea, Coffee, Rubber, Coconut, Areca Nut (Supari), Cocoa.
+
+### 6. Horticulture: Fruits
+Mango, Apple, Banana, Citrus (Orange/Lime), Grapes, Pomegranate, Papaya, Guava, Pineapple, Jackfruit, Litchi.
+
+### 7. Horticulture: Vegetables
+- Tuber/Root: Potato, Onion, Garlic, Sweet Potato, Carrot, Radish.
+- Mainstream: Tomato, Brinjal, Okra (Bhindi), Cauliflower, Cabbage, Green Peas.
+- Gourds: Bottle Gourd (Lauki), Bitter Gourd (Karela), Ridge Gourd, Pumpkin, Cucumber.
+
+### 8. Leafy Vegetables
+Spinach (Palak), Fenugreek (Methi), Amaranthus (Thotakura), Gongura (Roselle), Coriander, Mint.
+
+### 9. Spices & Condiments
+Turmeric, Ginger, Red Chilli, Black Pepper, Cardamom (Green/Black), Cumin (Jeera), Coriander Seeds, Cloves, Cinnamon, Fennel (Saunf), Saffron.
+
+### 10. Medicinal & Aromatic Crops
+Ashwagandha, Aloe Vera, Mentha (Mint), Isabgol, Lemon Grass.

@@ -1,0 +1,81 @@
+# KISAN-MITR: PAN-INDIA ARCHITECTURAL EXPANSION PLAN
+Version: 2.0 (National Transition)
+
+This document outlines the in-depth technical and data implementation strategy to 
+transition the platform from a regional Andhra Pradesh tool to a
+ Pan-India Agricultural Intelligence Engine.
+
+---
+
+## PILLAR 1: DATA SCALABILITY (The National Agronomy Layer)
+
+### 1.1 Hierarchical Crop Registry (NationalCropGuides.json)
+- Implementation: Transition from a flat JSON to a state-indexed registry.
+- Target: 60+ crops covering Cereals, Pulses, Oilseeds, Horticulture, and Plantation.
+- Key Attribute: "State Specific Variants". (e.g., Basmati Rice in Punjab vs. Sona Masuri in AP).
+
+### 1.2 District-Locking 2.0
+- Implementation: Master District Database (766 Districts).
+- Logic: Each district node will contain "Historical Crop Success Patterns" and "Primary Soil Composition".
+- Requirement: Map data from ICAR (Indian Council of Agricultural Research) for each zone.
+
+---
+
+## PILLAR 2: INTELLIGENT CORE (Multi-Parameter Engine)
+
+### 2.1 Live Market Outlook (Price-Driven Guard)
+- Integration: AGMARKNET API (Directorate of Marketing & Inspection).
+- Logic: The recommendation engine will apply a "Market weightage" score (0.0 to 1.0). If Wheat prices are
+ trending high in the user's nearest Mandi, the engine gives Wheat a priority boost.
+
+### 2.2 Climate Risk Assessment
+- Implementation: Integration with IMD (India Meteorological Department) API.
+- Regional Context: 
+  - North India: Cold wave/Fog risk detection.
+  - Coastal India: Cyclone/Salinity warning.
+  - Central India: Heatwave/Drought monitoring.
+
+---
+
+## PILLAR 3: THE FARMER EXPERIENCE (Accessibility & Trust)
+
+### 3.1 Dynamic Localization Framework
+- Tech: I18next with support for 12+ major Indian languages (Hindi, Marathi, Punjabi, Bengali, etc.).
+- Regional Dialect Mapping: The Telugu engine currently uses standard Telugu; future iterations will support Telangana/Rayalaseema dialects for higher trust.
+
+### 3.2 Voice-First Advisory (The "Kisan-Mitr" Voice)
+- Logic: Every "Smart Action" will have a corresponding local-language audio snippet.
+- Implementation: Text-to-Speech (TTS) using regional voices to explain WHY a specific crop or tactical advice is being given.
+
+---
+
+## PILLAR 4: TECHNOLOGICAL HARDENING (Edge Computing)
+
+### 4.1 AI Field Diagnostics (Computer Vision)
+- Goal: Crop health monitoring.
+- Implementation: TensorFlow.js models loaded in the browser to identify 50+ common Indian pests and diseases locally (No internet required for detection).
+
+### 4.2 Offline-First Architecture
+- Implementation: Full PWA (Progressive Web App) with Service Workers.
+- Caching: All situational guides must be cached in IndexedDB so a farmer can view full growth stages in a zero-network field environment.
+
+---
+
+## PILLAR 5: IMPLEMENTATION ROADMAP (Phase-wise)
+
+### PHASE 1: Data Integration (Months 1-2)
+- Build the 766-District mapping registry.
+- Standardize the National Crop Dataset (Including Wheat, Mustard, Soybean).
+
+### PHASE 2: Intelligence Layer (Months 3-4)
+- Deploy the integrated weather-market recommendation engine.
+- Launch the multi-lingual i18n engine with Hindi and Marathi support.
+
+### PHASE 3: Field Diagnostics (Months 5-6)
+- Launch the Image-based Pest Detection system.
+- Deploy the Community Support & Mandi-tracking features.
+
+---
+
+## KEY KPI FOR SUCCESS
+"A farmer in Punjab and a farmer in Kerala should receive advice that is as hyper-localized as the current farmer in Anantapur."
