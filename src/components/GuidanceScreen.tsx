@@ -83,29 +83,7 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
 
       <div className="flex-1 p-6 space-y-8 mt-4 overflow-y-auto">
         
-        {/* 2. SMART ADVICE SECTION (SITUATIONAL) */}
-        <div className="bg-white rounded-[2.5rem] p-8 shadow-2xl border-l-[12px] border-emerald-500 space-y-6 animate-in slide-in-from-top-6 duration-700">
-            <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 shadow-inner">
-                    <Lightbulb size={28} className="fill-current animate-pulse" />
-                </div>
-                <div>
-                   <h4 className="text-lg font-black text-[#1E3A1A] leading-tight uppercase tracking-tight">{language === "te" ? "నేటి క్షేత్ర సలహా" : "Smart Field Advice"}</h4>
-                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Weather + Regional Logic</p>
-                </div>
-            </div>
-            
-            <div className="space-y-4 pt-2">
-                {situationalAdvice.map((advice, i) => (
-                    <div key={i} className="flex gap-4 group">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 mt-2 shrink-0 shadow-[0_0_10px_#10B981]" />
-                        <p className="text-sm font-black text-[#5C3A21] leading-tight tracking-tight italic">
-                            {advice[language]}
-                        </p>
-                    </div>
-                ))}
-            </div>
-        </div>
+
 
         {/* 3. CROP HERO (MINIMALIST) */}
         <div className="bg-white rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white relative group animate-in zoom-in-95 duration-700">
@@ -178,7 +156,7 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
                 <h4 className="text-2xl font-black text-red-900 tracking-tighter leading-none">{language === "te" ? "ప్రమాద హెచ్చరికలు" : "Risk Factors"}</h4>
             </div>
             <div className="space-y-4">
-                {guide.risks.map((risk: string, idx: number) => (
+                {(Array.isArray(guide.risks) ? guide.risks : (guide.risks[language] || guide.risks.en)).map((risk: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-4">
                         <div className="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0" />
                         <p className="text-base font-black text-[#5C3A21] leading-none italic">{risk}</p>

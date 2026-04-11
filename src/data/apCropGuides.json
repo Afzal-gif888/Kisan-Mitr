@@ -15,7 +15,10 @@
       { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "గింజలు ముదిరిన తర్వాత కోయాలి" }
     ],
     "inputs": { "fertilizer": "Urea + DAP + MOP", "seed_rate": "25 kg/acre" },
-    "risks": ["Stem borer", "Blast disease", "Flash floods"],
+    "risks": {
+      "en": ["Stem borer", "Blast disease", "Flash floods"],
+      "te": ["కాండం తొలిచే పురుగు", "అగ్గి తెగులు", "ఆకస్మిక వరదలు"]
+    },
     "farmer_advice_te": ["నీటి నాణ్యతను తనిఖీ చేయండి", "పిలక దశలో నీరు నిల్వ ఉంచండి"]
   },
   {
@@ -34,7 +37,10 @@
       { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "ఆకులు పసుపు రంగులోకి మారినప్పుడు పంట తీయాలి" }
     ],
     "inputs": { "fertilizer": "Gypsum + NPK", "seed_rate": "70 kg/acre" },
-    "risks": ["Leaf spot", "Root rot", "Wild boars"],
+    "risks": {
+      "en": ["Leaf spot", "Root rot", "Wild boars"],
+      "te": ["ఆకు మచ్చ తెగులు", "వేరు కుళ్ళు తెగులు", "అడవి పందులు"]
+    },
     "farmer_advice_te": ["అధిక నీరు వద్దు", "విత్తన శుద్ధి తప్పనిసరి"]
   },
   {
@@ -53,7 +59,10 @@
       { "stage_en": "Picking", "stage_te": "ఏరడం", "details_te": "ఎండిన తర్వాత పత్తిని ఏరాలి" }
     ],
     "inputs": { "fertilizer": "NPK + Magnesium Sulphate", "seed_rate": "2 kg/acre" },
-    "risks": ["Pink bollworm", "Whitefly", "Wilt"],
+    "risks": {
+      "en": ["Pink bollworm", "Whitefly", "Wilt"],
+      "te": ["గులాబీ రంగు పురుగు", "తెల్ల దోమ", "వంకర తెగులు"]
+    },
     "farmer_advice_te": ["గులాబీ రంగు పురుగు నివారణకు కృషి చేయండి", "నత్రజని ఎరువులు అధికంగా వేయవద్దు"]
   },
   {
@@ -72,7 +81,10 @@
       { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కాయలు ఎండిన తర్వాత కోయాలి" }
     ],
     "inputs": { "fertilizer": "DAP + Phosphorus", "seed_rate": "5 kg/acre" },
-    "risks": ["Pod borer", "Wilt disease"],
+    "risks": {
+      "en": ["Pod borer", "Wilt disease"],
+      "te": ["కాయ తొలిచే పురుగు", "వాడ తెగులు"]
+    },
     "farmer_advice_te": ["నీరు నిల్వ ఉండకుండా చూసుకోండి", "పూత దశలో పురుగు మందులు వాడండి"]
   },
   {
@@ -91,7 +103,10 @@
       { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కంకులు ఎండిన తర్వాత కోయాలి" }
     ],
     "inputs": { "fertilizer": "NPK + Zinc", "seed_rate": "8 kg/acre" },
-    "risks": ["Fall armyworm", "Stem borer", "Dry spell"],
+    "risks": {
+      "en": ["Fall armyworm", "Stem borer", "Dry spell"],
+      "te": ["కత్తెర పురుగు", "కాండం తొలిచే పురుగు", "అనావృష్టి"]
+    },
     "farmer_advice_te": ["కత్తెర పురుగు పట్ల జాగ్రత్త", "తేమ శాతం పడిపోకుండా చూడండి"]
   },
   {
@@ -110,7 +125,10 @@
       { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "11-12 నెలల తర్వాత కోయాలి" }
     ],
     "inputs": { "fertilizer": "Urea + Potash + Organic Manure", "seed_rate": "30,000 sets/acre" },
-    "risks": ["Red rot", "Early shoot borer", "Water scarcity"],
+    "risks": {
+      "en": ["Red rot", "Early shoot borer", "Water scarcity"],
+      "te": ["ఎర్ర కుళ్ళు తెగులు", "అంకురం తొలిచే పురుగు", "నీటి ఎద్దడి"]
+    },
     "farmer_advice_te": ["క్రమం తప్పకుండా నీరు ఇవ్వండి", "చెరకు పడిపోకుండా కట్టండి"]
   },
   {
@@ -129,7 +147,10 @@
       { "stage_en": "Pickings", "stage_te": "కోత", "details_te": "పండిన కాయలను కోయాలి" }
     ],
     "inputs": { "fertilizer": "NPK + Micronutrients", "seed_rate": "1 kg/acre" },
-    "risks": ["Thrips", "Mites", "Leaf curl virus"],
+    "risks": {
+      "en": ["Thrips", "Mites", "Leaf curl virus"],
+      "te": ["తామర పురుగులు", "నల్లి", "ఆకు ముడత తెగులు"]
+    },
     "farmer_advice_te": ["నల్ల తామర పురుగు నియంత్రణ ముఖ్యం", "సేంద్రియ ఎరువులు అధికంగా వాడండి"]
   },
   {
@@ -145,10 +166,13 @@
         { "stage_en": "Sowing", "stage_te": "విత్తనం వేయడం", "details_te": "వరుసల పద్ధతిలో విత్తాలి" },
         { "stage_en": "Flowering", "stage_te": "పూత దశ", "details_te": "మొక్క ఆరోగ్యంగా ఉండేలా చూడాలి" },
         { "stage_en": "Pod filling", "stage_te": "కాయ ఊరడం", "details_te": "తేమను గమనించాలి" },
-        { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "90% కాయలు ఎండినప్పుడు కోయాలి" }
+        { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "90% కాయలు ఎండిప్పుడు కోయాలి" }
       ],
       "inputs": { "fertilizer": "DAP + Phosphorus", "seed_rate": "8 kg/acre" },
-      "risks": ["Mosaic virus", "Spodoptera litura"],
+      "risks": {
+        "en": ["Mosaic virus", "Spodoptera litura"],
+        "te": ["పసుపు బారిన తెగులు", "లద్దె పురుగు"]
+      },
       "farmer_advice_te": ["విత్తన శుద్ధి తప్పనిసరి", "పల్లాకు తెగులును నివారించండి"]
   },
   {
@@ -167,7 +191,10 @@
         { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కాయలు నలుపు రంగులోకి వచ్చినప్పుడు కోయాలి" }
       ],
       "inputs": { "fertilizer": "DAP", "seed_rate": "6 kg/acre" },
-      "risks": ["Powdery mildew", "Yellow mosaic virus"],
+      "risks": {
+        "en": ["Powdery mildew", "Yellow mosaic virus"],
+        "te": ["బూడిద తెగులు", "పసుపు బారిన తెగులు"]
+      },
       "farmer_advice_te": ["తక్కువ కాలంలో చేతికి వస్తుంది", "నీరు నిల్వ ఉండకుండా చూసుకోండి"]
   },
   {
@@ -186,7 +213,10 @@
         { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "గింజలు గలగలలాడినప్పుడు కోయాలి" }
       ],
       "inputs": { "fertilizer": "SSP + DAP", "seed_rate": "40 kg/acre" },
-      "risks": ["Gram pod borer", "Wilt", "Dry root rot"],
+      "risks": {
+        "en": ["Gram pod borer", "Wilt", "Dry root rot"],
+        "te": ["శనగ పచ్చ పురుగు", "వాడ తెగులు", "వేరు కుళ్ళు తెగులు"]
+      },
       "farmer_advice_te": ["లోతుగా విత్తండి", "శనగ పురుగు పట్ల అప్రమత్తంగా ఉండండి"]
   },
   {
@@ -205,7 +235,10 @@
         { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "ఆకులు ఎండిన తర్వాత దుంపలు తవ్వాలి" }
       ],
       "inputs": { "fertilizer": "NPK + Neem Cake + FYM", "seed_rate": "1000 kg/acre" },
-      "risks": ["Rhizome rot", "Leaf spot", "Stem borer"],
+      "risks": {
+        "en": ["Rhizome rot", "Leaf spot", "Stem borer"],
+        "te": ["దుంప కుళ్ళు తెగులు", "ఆకు మచ్చ తెగులు", "కాండం తొలిచే పురుగు"]
+      },
       "farmer_advice_te": ["విత్తనం కోసం నాణ్యమైన దుంపలు వాడండి", "నీరు నిల్వ కాకుండా జాగ్రత్త పడండి"]
   },
   {
@@ -224,7 +257,10 @@
         { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కంకి ముదిరిన తర్వాత కోయాలి" }
       ],
       "inputs": { "fertilizer": "NPK", "seed_rate": "4 kg/acre" },
-      "risks": ["Shoot fly", "Stem borer", "Birds"],
+      "risks": {
+        "en": ["Shoot fly", "Stem borer", "Birds"],
+        "te": ["ఈగ పురుగు", "కాండం తొలిచే పురుగు", "పక్షులు"]
+      },
       "farmer_advice_te": ["మొక్కజొన్న కంటే తక్కువ నీరు సరిపోతుంది", "సరైన సమయంలో విత్తండి"]
   },
   {
@@ -243,7 +279,10 @@
         { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కంకులు ఎండిన తర్వాత కోయాలి" }
       ],
       "inputs": { "fertilizer": "Organic manure + NPK", "seed_rate": "4 kg/acre" },
-      "risks": ["Blast disease", "Grasshoppers"],
+      "risks": {
+        "en": ["Blast disease", "Grasshoppers"],
+        "te": ["అగ్గి తెగులు", "మిడతలు"]
+      },
       "farmer_advice_te": ["పోషక విలువలు చాలా ఎక్కువ", "తక్కువ ఖర్చుతో పండించవచ్చు"]
   },
   {
@@ -262,7 +301,10 @@
         { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కంకులు బాగా ఎండినప్పుడు కోయాలి" }
       ],
       "inputs": { "fertilizer": "NPK", "seed_rate": "2 kg/acre" },
-      "risks": ["Ergot", "Downy mildew", "Birds"],
+      "risks": {
+        "en": ["Ergot", "Downy mildew", "Birds"],
+        "te": ["ఎర్గోట్ తెగులు", "డౌనీ మిల్డ్యూ తెగులు", "పక్షులు"]
+      },
       "farmer_advice_te": ["అత్యల్ప నీటితో పండుతుంది", "వేడిని బాగా తట్టుకుంటుంది"]
   },
   {
@@ -281,7 +323,10 @@
         { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "పువ్వు వెనుక భాగం పసుపు రంగులోకి వచ్చాక కోయాలి" }
       ],
       "inputs": { "fertilizer": "NPK + Boron", "seed_rate": "4 kg/acre" },
-      "risks": ["Birds", "Head rot", "Alternaria leaf spot"],
+      "risks": {
+        "en": ["Birds", "Head rot", "Alternaria leaf spot"],
+        "te": ["పక్షులు", "తల్లి కుళ్ళు తెగులు", "ఆకు మచ్చ తెగులు"]
+      },
       "farmer_advice_te": ["బోరాన్ లోపం రానివ్వద్దు", "పూత దశలో తేనెటీగలు ముఖ్యమని గుర్తించండి"]
   },
   {
@@ -300,7 +345,10 @@
         { "stage_en": "Neck fall", "stage_te": "మెడ పడిపోవడం", "details_te": "పంట కోతకు సిద్ధమని సంకేతం" }
       ],
       "inputs": { "fertilizer": "NPK + Sulphur", "seed_rate": "8 kg/acre" },
-      "risks": ["Thrips", "Purple blotch", "Bulb rot"],
+      "risks": {
+        "en": ["Thrips", "Purple blotch", "Bulb rot"],
+        "te": ["తామర పురుగులు", "పర్పుల్ బ్లాచ్ తెగులు", "ఉల్లిగడ్డ కుళ్ళు తెగులు"]
+      },
       "farmer_advice_te": ["సరైన సమయంలో నీరు క్లోజ్ చేయండి", "గాలి తగిలేలా నిల్వ చేయండి"]
   },
   {
@@ -319,7 +367,10 @@
         { "stage_en": "Picking", "stage_te": "కోత", "details_te": "దూరాన్ని బట్టి రంగు వచ్చినప్పుడు కోయాలి" }
       ],
       "inputs": { "fertilizer": "NPK + Micronutrients", "seed_rate": "150 grams/acre (Hybrid)" },
-      "risks": ["Fruit borer", "Leaf miner", "Early/Late blight"],
+      "risks": {
+        "en": ["Fruit borer", "Leaf miner", "Early/Late blight"],
+        "te": ["కాయ తొలిచే పురుగు", "ఆకు ముడత పురుగు", "ముడత తెగులు"]
+      },
       "farmer_advice_te": ["మొక్కకు ఊతం (Staking) ఇవ్వడం మరువద్దు", "రసం పీల్చే పురుగుల పట్ల అప్రమత్తంగా ఉండండి"]
   }
 ]
