@@ -5,6 +5,7 @@ This document outlines the in-depth technical and data implementation strategy t
 transition the platform from a regional Andhra Pradesh tool to a
  Pan-India Agricultural Intelligence Engine.
 
+
 ---
 
 ## PILLAR 1: DATA SCALABILITY (The National Agronomy Layer)
