@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Language } from '@/lib/translations';
-import { SoilType } from '@/lib/types';
+import { Language } from '../lib/translations';
+import { SoilType } from '../lib/types';
 
 export type Screen = "home" | "location" | "weather" | "soil" | "recommendation" | "guidance";
 
@@ -9,6 +9,8 @@ interface AppContextType {
   setScreen: (screen: Screen) => void;
   language: Language;
   setLanguage: (lang: Language) => void;
+  userName: string;
+  setUserName: (name: string) => void;
   district: string;
   setDistrict: (district: string) => void;
   soil: SoilType;
@@ -24,6 +26,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [screen, setScreen] = useState<Screen>("home");
   const [language, setLanguage] = useState<Language>('en');
+  const [userName, setUserName] = useState('');
   const [district, setDistrict] = useState('');
   const [soil, setSoil] = useState<SoilType>('Red Loamy Soil');
   const [weatherResult, setWeatherResult] = useState<any>(null);
@@ -33,6 +36,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     <AppContext.Provider value={{
       screen, setScreen,
       language, setLanguage,
+      userName, setUserName,
       district, setDistrict,
       soil, setSoil,
       weatherResult, setWeatherResult,

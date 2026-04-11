@@ -5,6 +5,7 @@ import { analyzeWeather } from "../utils/comparisonEngine";
 import { advancedSeasonPrediction } from "../utils/seasonalEngine";
 import { generateFarmerInsights } from "../utils/farmerInsightEngine";
 import { weatherText } from "../translations/weather";
+import { useApp } from "../context/AppContext";
 
 const WeatherModule = ({ lat = null, lon = null, state = null, district, language, onAnalysisComplete, onBack }) => {
     const t = weatherText[language] || weatherText.en;
@@ -196,7 +197,7 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                             <CalendarDays size={22} className="opacity-80" />
                         </div>
                         <h1 className="text-xl font-black text-[#1B5E20] tracking-tighter uppercase text-center italic leading-none">
-                            {t.mainTitle}
+                            {language === 'te' ? `${useApp().userName} గారు!` : `Namaste, ${useApp().userName}!`}
                         </h1>
                     </div>
                 </div>
