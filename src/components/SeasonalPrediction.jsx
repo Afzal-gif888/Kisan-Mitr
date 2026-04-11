@@ -4,9 +4,8 @@ import {
   Droplets, 
   AlertTriangle, 
   Thermometer, 
-  Info
+  Sprout
 } from "lucide-react";
-import { weatherText } from "@/translations/weather";
 
 // 🌿 SECTION 1: HERO CARD
 export const HeroCard = ({ season, language, t }) => {
@@ -19,7 +18,7 @@ export const HeroCard = ({ season, language, t }) => {
   const seasonNames = {
     "Rainy": { te: "వర్షాకాలం", en: "Rainy Season", hi: "वर्षा ऋतु" },
     "Dry": { te: "ఎండాకాలం", en: "Dry Season", hi: "शुष्क मौसम" },
-    "Hot": { te: "వేసవి కాలం", en: "Hot Season", hi: "गर्मी का मौसम" },
+    "Hot": { te: "వేసవి కాలం", en: "Hot Season", hi: "गर्మీ కా मौसम" },
     "Cool / Dry": { te: "శీతాకాలం", en: "Cool Season", hi: "सर्दी का मौसम" },
     "Normal": { te: "సాధారణ కాలం", en: "Normal Season", hi: "सामान्य मौसम" }
   };
@@ -27,10 +26,12 @@ export const HeroCard = ({ season, language, t }) => {
   const name = seasonNames[season]?.[language] || seasonNames[season]?.en || season;
 
   return (
-    <div className="w-full bg-gradient-to-br from-[#8B5E3C] to-[#C49A6C] rounded-[2.5rem] p-8 text-center shadow-lg border-b-4 border-[#8B5E3C]/20 mt-4 animate-in fade-in zoom-in duration-500">
-        <div className="text-7xl mb-4 drop-shadow-md">{getHeroIcon(season)}</div>
+    <div className="w-full bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] rounded-[2rem] p-6 text-center shadow-[0_12px_24px_rgba(27,94,32,0.2)] mt-4 animate-in fade-in zoom-in duration-500">
+        <div className="text-6xl mb-3 drop-shadow-xl translate-y-[-5px]">{getHeroIcon(season)}</div>
         <h1 className="text-2xl font-black text-white uppercase tracking-tighter mb-1">{name}</h1>
-        <p className="text-sm font-bold text-white/80">{t.favorable}</p>
+        <div className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full border border-white/20 text-[9px] font-black uppercase text-white tracking-widest">
+            {t.favorable}
+        </div>
     </div>
   );
 };
@@ -43,7 +44,7 @@ export const SeasonalSummary = ({ rLevel, tLevel, mLevel, t }) => {
     return (
       <div className="flex gap-1">
         {[...Array(5)].map((_, i) => (
-          <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < count ? "bg-[#8B5E3C]" : "bg-[#8B5E3C]/20"}`} />
+          <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < count ? "bg-[#1B5E20]" : "bg-[#1B5E20]/15"}`} />
         ))}
       </div>
     );
@@ -55,39 +56,42 @@ export const SeasonalSummary = ({ rLevel, tLevel, mLevel, t }) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-[2rem] p-6 shadow-sm border border-[#F5F1EB] mt-4 space-y-5">
-        <h2 className="text-xs font-black text-[#8B5E3C]/40 uppercase tracking-[0.2em]">{t.seasonalTitleBrief}</h2>
+    <div className="w-full bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 mt-4 space-y-5">
+        <div className="flex items-center gap-2">
+            <Sprout size={14} className="text-[#1B5E20]" />
+            <h2 className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.2em]">{t.seasonalTitleBrief}</h2>
+        </div>
         
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <CloudRain size={20} className="text-blue-500" />
-                    <span className="text-sm font-bold text-[#5C3A21]">{t.rain}</span>
+                    <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-500 shadow-sm"><CloudRain size={16} /></div>
+                    <span className="text-xs font-black text-slate-700">{t.rain}</span>
                 </div>
-                <div className="flex items-center gap-3">
-                    <span className="text-sm font-black text-[#8B5E3C]">{getLabel(rLevel)}</span>
+                <div className="text-right space-y-0.5">
+                    <p className="text-xs font-black text-[#1B5E20]">{getLabel(rLevel)}</p>
                     {renderDots(rLevel)}
                 </div>
             </div>
 
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <Thermometer size={20} className="text-orange-500" />
-                    <span className="text-sm font-bold text-[#5C3A21]">{t.heat}</span>
+                    <div className="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center text-orange-500 shadow-sm"><Thermometer size={16} /></div>
+                    <span className="text-xs font-black text-slate-700">{t.heat}</span>
                 </div>
-                <div className="flex items-center gap-3">
-                    <span className="text-sm font-black text-[#8B5E3C]">{getLabel(tLevel)}</span>
+                <div className="text-right space-y-0.5">
+                    <p className="text-xs font-black text-[#1B5E20]">{getLabel(tLevel)}</p>
                     {renderDots(tLevel)}
                 </div>
             </div>
 
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <Droplets size={20} className="text-emerald-500" />
-                    <span className="text-sm font-bold text-[#5C3A21]">{t.moisture}</span>
+                    <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center text-[#1B5E20] shadow-sm"><Droplets size={16} /></div>
+                    <span className="text-xs font-black text-slate-700">{t.moisture}</span>
                 </div>
-                <div className="flex items-center gap-3">
-                    <span className="text-sm font-black text-[#8B5E3C]">{getLabel(mLevel)}</span>
+                <div className="text-right space-y-0.5">
+                    <p className="text-xs font-black text-[#1B5E20]">{getLabel(mLevel)}</p>
                     {renderDots(mLevel)}
                 </div>
             </div>
@@ -100,11 +104,13 @@ export const SeasonalSummary = ({ rLevel, tLevel, mLevel, t }) => {
 export const RiskAlert = ({ risks, t }) => {
   if (!risks || risks.length === 0) return null;
   return (
-    <div className="w-full bg-orange-100 rounded-[2rem] p-5 mt-4 border border-orange-200 flex items-start gap-4 animate-pulse-subtle">
-        <AlertTriangle size={24} className="text-orange-600 shrink-0" />
+    <div className="w-full bg-[#FFF3E0] rounded-[2rem] p-5 mt-4 border border-orange-200/30 flex items-start gap-4 shadow-sm">
+        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm border border-orange-50 shrink-0">
+            <AlertTriangle size={20} className="animate-pulse" />
+        </div>
         <div>
-            <p className="text-sm font-black text-orange-900 leading-tight mb-1">{risks[0]}</p>
-            <p className="text-[10px] font-bold text-orange-800/60 uppercase tracking-widest">{t.risk}</p>
+            <p className="text-[9px] font-black text-orange-800/50 uppercase tracking-[0.2em] mb-0.5">{t.risk}</p>
+            <p className="text-xs font-black text-orange-950 leading-tight">{risks[0]}</p>
         </div>
     </div>
   );
@@ -114,10 +120,14 @@ export const RiskAlert = ({ risks, t }) => {
 export const FinalAdvice = ({ advice, t }) => {
   if (!advice) return null;
   return (
-    <div className="w-full bg-gradient-to-br from-[#8B5E3C] to-[#5C3A21] rounded-[2.5rem] p-8 text-center shadow-xl mt-4 relative overflow-hidden group">
-        <div className="relative z-10">
-            <h4 className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em] mb-3">{t.adviceTitle}</h4>
-            <p className="text-xl font-black text-white leading-tight tracking-tight italic">
+    <div className="w-full bg-white rounded-[2rem] p-6 text-center shadow-[0_12px_30px_rgba(0,0,0,0.04)] border border-slate-100 mt-4 relative overflow-hidden group">
+        <div className="absolute top-0 left-0 w-1.5 h-full bg-[#1B5E20]" />
+        <div className="relative z-10 flex flex-col items-center">
+            <div className="w-8 h-8 bg-[#F1F8E9] rounded-full flex items-center justify-center text-[#1B5E20] mb-3">
+                <Sprout size={16} />
+            </div>
+            <h4 className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.3em] mb-3 bg-[#F1F8E9] px-3 py-1 rounded-full">{t.adviceTitle}</h4>
+            <p className="text-xl font-black text-slate-800 leading-tight tracking-tight italic">
                 "{advice}"
             </p>
         </div>
@@ -126,8 +136,6 @@ export const FinalAdvice = ({ advice, t }) => {
 };
 
 const SeasonalPrediction = ({ ...props }) => {
-  // This component is now just a container for the sub-components if needed in legacy code
-  // But we will call sub-components directly in WeatherModule for the specific order.
   return null; 
 };
 

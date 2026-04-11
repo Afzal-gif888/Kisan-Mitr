@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, CalendarDays } from 'lucide-react';
 import { extractFeatures } from "@/lib/FeatureExtraction";
 import { analyzeWeather } from "@/utils/comparisonEngine";
 import { advancedSeasonPrediction } from "@/utils/seasonalEngine";
@@ -148,17 +148,20 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
     };
 
     if (loading) return (
-        <div className="p-10 flex flex-col items-center justify-center space-y-4 min-h-[40vh] bg-[#F5F1EB]">
-            <div className="w-12 h-12 border-4 border-[#8B5E3C]/20 border-t-[#8B5E3C] rounded-full animate-spin" />
-            <p className="text-[10px] font-black text-[#8B5E3C]/60 uppercase tracking-widest">{t.analyzing}</p>
+        <div className="p-10 flex flex-col items-center justify-center space-y-4 min-h-[40vh] bg-white">
+            <div className="w-10 h-10 border-4 border-[#1B5E20]/10 border-t-[#1B5E20] rounded-full animate-spin" />
+            <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.3em]">{t.analyzing}</p>
         </div>
     );
 
     if (error) return (
-        <div className="p-8 text-center space-y-4 bg-white rounded-3xl border border-[#F5F1EB] max-w-xs mx-auto mt-20">
-            <div className="text-4xl">⚠️</div>
-            <p className="text-lg font-black text-[#5C3A21]">{t.connectionIssue}</p>
-            <button onClick={() => window.location.reload()} className="w-full py-3 bg-[#F5F1EB] rounded-xl text-[10px] font-black uppercase text-[#8B5E3C]">
+        <div className="p-8 text-center space-y-6 bg-white rounded-[2rem] border border-[#F1F8E9] max-w-xs mx-auto mt-20 shadow-xl">
+            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto text-2xl">⚠️</div>
+            <div className="space-y-2">
+               <p className="text-lg font-black text-slate-800 tracking-tight">{t.connectionIssue}</p>
+               <p className="text-[10px] font-bold text-slate-400">Please check your internet and try again.</p>
+            </div>
+            <button onClick={() => window.location.reload()} className="w-full py-4 bg-[#F1F8E9] rounded-2xl text-[10px] font-black uppercase text-[#1B5E20] tracking-widest active:scale-95 transition-all">
                 {t.retry}
             </button>
         </div>
@@ -167,7 +170,7 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
     if (!prediction) return null;
 
     return (
-        <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-20 px-3 bg-[#F5F1EB] min-h-screen">
+        <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-20 px-4 bg-white min-h-screen">
             
             {/* 1. HERO CARD */}
             <HeroCard season={prediction.condition} language={language} t={t} />
@@ -184,20 +187,24 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             <RiskAlert risks={prediction.risks} t={t} />
 
             {/* 4. 5-DAY FORECAST */}
-            <div className="w-full mt-4">
-                <div className="flex items-center gap-3 mb-3 px-1">
-                    <h2 className="text-sm font-semibold text-[#8B5E3C]/60 uppercase tracking-widest">{t.next5days}</h2>
-                    <div className="h-px w-full bg-[#8B5E3C]/10" />
+            <div className="w-full mt-6">
+                <div className="flex items-center gap-3 mb-4 px-1">
+                    <div className="w-8 h-8 bg-[#F1F8E9] rounded-lg flex items-center justify-center text-[#1B5E20]">
+                        <CalendarDays size={16} />
+                    </div>
+                    <h2 className="text-[10px] font-black text-[#1B5E20]/60 uppercase tracking-[0.2em]">{t.next5days}</h2>
+                    <div className="h-px flex-1 bg-[#1B5E20]/5" />
                 </div>
+                
                 <div className="grid grid-cols-2 gap-3">
                     {prediction.fiveDayForecast.map((day, idx) => {
                         const dateObj = new Date(day.dt * 1000);
                         const dayName = dateObj.toLocaleDateString(language === "te" ? "te-IN" : language === "hi" ? "hi-IN" : "en-IN", { weekday: 'short' });
                         return (
-                            <div key={idx} className="bg-white rounded-[1.8rem] p-4 shadow-sm border border-[#F5F1EB] flex flex-col items-center justify-center">
-                                <p className="text-[10px] font-bold text-[#8B5E3C]/40 uppercase mb-2">{dayName}</p>
-                                <span className="text-3xl mb-1">{day.icon}</span>
-                                <p className="text-xs font-black text-[#5C3A21]">{day.text}</p>
+                            <div key={idx} className="bg-[#F1F8E9]/40 rounded-[1.5rem] p-4 shadow-sm border border-white hover:border-[#1B5E20]/20 transition-all group active:scale-95">
+                                <p className="text-[10px] font-black text-[#1B5E20]/30 uppercase tracking-widest mb-2">{dayName}</p>
+                                <div className="text-3xl mb-2 flex justify-center group-hover:scale-110 transition-transform">{day.icon}</div>
+                                <p className="text-[10px] font-black text-[#1B5E20] uppercase tracking-tighter text-center">{day.text}</p>
                             </div>
                         );
                     })}
@@ -205,16 +212,18 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             </div>
 
             {/* 5. FINAL ADVICE */}
-            <FinalAdvice advice={prediction.farmerInsights?.summary} t={t} />
+            <div className="scale-[0.95] origin-top">
+                <FinalAdvice advice={prediction.farmerInsights?.summary} t={t} />
+            </div>
 
             {/* ➡️ FINAL CTA (TO SOIL SELECTION) */}
-            <div className="mt-8">
+            <div className="mt-8 mb-6">
                 <button 
                     onClick={() => onAnalysisComplete && onAnalysisComplete({ ...prediction, triggerNext: true })}
-                    className="w-full py-4 bg-[#2E7D32] text-white rounded-2xl text-lg font-black shadow-lg flex items-center justify-center gap-3 active:scale-95 transition-all"
+                    className="w-full py-5 bg-[#1B5E20] text-white rounded-[1.8rem] text-xl font-black shadow-[0_15px_30px_rgba(27,94,32,0.3)] flex items-center justify-center gap-4 active:scale-95 hover:scale-[1.02] transition-all"
                 >
                     <span>{language === "te" ? "మట్టి ఎంపిక" : "Select Soil"}</span> 
-                    <ArrowRight size={20} />
+                    <ArrowRight size={24} />
                 </button>
             </div>
 
