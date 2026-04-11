@@ -1,0 +1,325 @@
+[
+  {
+    "id": "paddy",
+    "name": { "en": "Paddy", "te": "వరి" },
+    "district_suitability": ["East Godavari", "West Godavari", "Krishna", "Guntur", "Nellore", "Srikakulam"],
+    "seasons": ["Kharif", "Rabi"],
+    "soil": { "types": ["Clay", "Loamy"], "ph": "5.5–7.0" },
+    "water": { "requirement": "Very High", "critical_stages": ["Transplanting", "Tillering", "Panicle initiation"], "warning": "Do not let soil dry out entirely" },
+    "climate": { "temperature": "20–35°C", "rainfall": "1000–1500 mm", "risk": "Flash floods during harvesting" },
+    "duration_days": 120,
+    "growth_stages": [
+      { "stage_en": "Nursery", "stage_te": "నారుమడి", "details_te": "నారుమడిని 25-30 రోజులు జాగ్రత్తగా పెంచాలి" },
+      { "stage_en": "Transplanting", "stage_te": "నాట్లు", "details_te": "పొలంలో 2-3 సెం.మీ నీరు ఉన్నప్పుడు నాట్లు వేయాలి" },
+      { "stage_en": "Tillering", "stage_te": "పిలక దశ", "details_te": "ఈ దశలో నత్రజని ఎరువులు వేయాలి" },
+      { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "గింజలు ముదిరిన తర్వాత కోయాలి" }
+    ],
+    "inputs": { "fertilizer": "Urea + DAP + MOP", "seed_rate": "25 kg/acre" },
+    "risks": ["Stem borer", "Blast disease", "Flash floods"],
+    "farmer_advice_te": ["నీటి నాణ్యతను తనిఖీ చేయండి", "పిలక దశలో నీరు నిల్వ ఉంచండి"]
+  },
+  {
+    "id": "groundnut",
+    "name": { "en": "Groundnut", "te": "వేరుశెనగ" },
+    "district_suitability": ["Anantapur", "Kurnool", "YSR Kadapa", "Chittoor", "Prakasam"],
+    "seasons": ["Kharif", "Rabi"],
+    "soil": { "types": ["Sandy", "Red Soil"], "ph": "6.0–7.5" },
+    "water": { "requirement": "Low", "critical_stages": ["Flowering", "Pod formation"], "warning": "Excess water causes fungal growth" },
+    "climate": { "temperature": "25–35°C", "rainfall": "500–800 mm", "risk": "Heavy rain during harvesting" },
+    "duration_days": 105,
+    "growth_stages": [
+      { "stage_en": "Sowing", "stage_te": "విత్తనం వేయడం", "details_te": "తేమ ఉన్నప్పుడు విత్తనాలు వేయాలి" },
+      { "stage_en": "Pegging", "stage_te": "ఊడలు దిగడం", "details_te": "ఈ దశలో మట్టిని కదపకూడదు" },
+      { "stage_en": "Pod development", "stage_te": "కాయ అభివృద్ధి", "details_te": "జిప్సం వేయడం వల్ల గింజలు బాగా ఊరుతాయి" },
+      { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "ఆకులు పసుపు రంగులోకి మారినప్పుడు పంట తీయాలి" }
+    ],
+    "inputs": { "fertilizer": "Gypsum + NPK", "seed_rate": "70 kg/acre" },
+    "risks": ["Leaf spot", "Root rot", "Wild boars"],
+    "farmer_advice_te": ["అధిక నీరు వద్దు", "విత్తన శుద్ధి తప్పనిసరి"]
+  },
+  {
+    "id": "cotton",
+    "name": { "en": "Cotton", "te": "పత్తి" },
+    "district_suitability": ["Guntur", "Prakasam", "Kurnool", "Krishna"],
+    "seasons": ["Kharif"],
+    "soil": { "types": ["Black Soil", "Heavy Loams"], "ph": "7.0–8.5" },
+    "water": { "requirement": "Medium", "critical_stages": ["Squaring", "Flowering", "Boll development"], "warning": "Avoid waterlogging" },
+    "climate": { "temperature": "21–35°C", "rainfall": "750–1000 mm", "risk": "Bollworm attack" },
+    "duration_days": 180,
+    "growth_stages": [
+      { "stage_en": "Sowing", "stage_te": "విత్తడం", "details_te": "వరుసల మధ్య తగిన దూరం ఉండాలి" },
+      { "stage_en": "Squaring", "stage_te": "మొగ్గ దశ", "details_te": "రసం పీల్చే పురుగుల పట్ల జాగ్రత్త" },
+      { "stage_en": "Boll burst", "stage_te": "కాయ పగలడం", "details_te": "పక్షుల నుంచి కాపాడుకోవాలి" },
+      { "stage_en": "Picking", "stage_te": "ఏరడం", "details_te": "ఎండిన తర్వాత పత్తిని ఏరాలి" }
+    ],
+    "inputs": { "fertilizer": "NPK + Magnesium Sulphate", "seed_rate": "2 kg/acre" },
+    "risks": ["Pink bollworm", "Whitefly", "Wilt"],
+    "farmer_advice_te": ["గులాబీ రంగు పురుగు నివారణకు కృషి చేయండి", "నత్రజని ఎరువులు అధికంగా వేయవద్దు"]
+  },
+  {
+    "id": "redgram",
+    "name": { "en": "Red Gram", "te": "కందులు" },
+    "district_suitability": ["Anantapur", "Prakasam", "Kurnool", "Guntur"],
+    "seasons": ["Kharif"],
+    "soil": { "types": ["Red Soil", "Black Soil"], "ph": "6.5–7.5" },
+    "water": { "requirement": "Low", "critical_stages": ["Flowering", "Pod development"], "warning": "Extremely sensitive to waterlogging" },
+    "climate": { "temperature": "25–35°C", "rainfall": "600–900 mm", "risk": "Excess rain causes root rot" },
+    "duration_days": 160,
+    "growth_stages": [
+      { "stage_en": "Land Prep", "stage_te": "దుక్కి దున్నడం", "details_te": "లోతు దుక్కి మేలు చేస్తుంది" },
+      { "stage_en": "Sowing", "stage_te": "విత్తడం", "details_te": "జూన్/జూలై నెలలు ఉత్తమం" },
+      { "stage_en": "Flowering", "stage_te": "పూత దశ", "details_te": "పురుగు నివారణకు మందులు పిచికారీ చేయాలి" },
+      { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కాయలు ఎండిన తర్వాత కోయాలి" }
+    ],
+    "inputs": { "fertilizer": "DAP + Phosphorus", "seed_rate": "5 kg/acre" },
+    "risks": ["Pod borer", "Wilt disease"],
+    "farmer_advice_te": ["నీరు నిల్వ ఉండకుండా చూసుకోండి", "పూత దశలో పురుగు మందులు వాడండి"]
+  },
+  {
+    "id": "maize",
+    "name": { "en": "Maize", "te": "మొక్కజొన్న" },
+    "district_suitability": ["Kurnool", "Anantapur", "Guntur", "Krishna"],
+    "seasons": ["Kharif", "Rabi"],
+    "soil": { "types": ["Loamy", "Red Sandy"], "ph": "6.0–7.5" },
+    "water": { "requirement": "Medium", "critical_stages": ["Knee high", "Tasseling", "Silking"], "warning": "Avoid drought at silking stage" },
+    "climate": { "temperature": "18–32°C", "rainfall": "600–800 mm", "risk": "Fall Armyworm" },
+    "duration_days": 110,
+    "growth_stages": [
+      { "stage_en": "Sowing", "stage_te": "విత్తడం", "details_te": "వరుసల పద్ధతిలో విత్తాలి" },
+      { "stage_en": "V6 Stage", "stage_te": "6 ఆకుల దశ", "details_te": "నత్రజని ఎరువులు వేయాలి" },
+      { "stage_en": "Silking", "stage_te": "సిల్కింగ్", "details_te": "తేమ శాతాన్ని సరిగ్గా ఉంచాలి" },
+      { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కంకులు ఎండిన తర్వాత కోయాలి" }
+    ],
+    "inputs": { "fertilizer": "NPK + Zinc", "seed_rate": "8 kg/acre" },
+    "risks": ["Fall armyworm", "Stem borer", "Dry spell"],
+    "farmer_advice_te": ["కత్తెర పురుగు పట్ల జాగ్రత్త", "తేమ శాతం పడిపోకుండా చూడండి"]
+  },
+  {
+    "id": "sugarcane",
+    "name": { "en": "Sugarcane", "te": "చెరకు" },
+    "district_suitability": ["Visakhapatnam", "East Godavari", "West Godavari", "Chittoor", "Krishna"],
+    "seasons": ["Year round"],
+    "soil": { "types": ["Deep Loamy", "Clayey"], "ph": "6.5–8.0" },
+    "water": { "requirement": "Very High", "critical_stages": ["Germination", "Formative", "Grand growth"], "warning": "Requires weekly irrigation" },
+    "climate": { "temperature": "20–35°C", "rainfall": "1500–2500 mm", "risk": "Drought in formative stage" },
+    "duration_days": 360,
+    "growth_stages": [
+      { "stage_en": "Planting", "stage_te": "నాటడం", "details_te": "చెరకు కనుపులను భూమిలో నాటాలి" },
+      { "stage_en": "Tillering", "stage_te": "పిలకల దశ", "details_te": "ఎక్కువ పిలకలు వచ్చేలా చూడాలి" },
+      { "stage_en": "Earthing up", "stage_te": "మట్టిని ఎగదోయడం", "details_te": "మొక్క పడిపోకుండా మట్టి ఎగదోయాలి" },
+      { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "11-12 నెలల తర్వాత కోయాలి" }
+    ],
+    "inputs": { "fertilizer": "Urea + Potash + Organic Manure", "seed_rate": "30,000 sets/acre" },
+    "risks": ["Red rot", "Early shoot borer", "Water scarcity"],
+    "farmer_advice_te": ["క్రమం తప్పకుండా నీరు ఇవ్వండి", "చెరకు పడిపోకుండా కట్టండి"]
+  },
+  {
+    "id": "chillies",
+    "name": { "en": "Chillies", "te": "మిర్చి" },
+    "district_suitability": ["Guntur", "Prakasam", "Kurnool", "Krishna"],
+    "seasons": ["Kharif", "Rabi"],
+    "soil": { "types": ["Loamy", "Black Soil"], "ph": "6.0–7.0" },
+    "water": { "requirement": "Medium", "critical_stages": ["Flowering", "Fruit development"], "warning": "Sensitive to salt in water" },
+    "climate": { "temperature": "20–30°C", "rainfall": "600–1200 mm", "risk": "Viral diseases" },
+    "duration_days": 180,
+    "growth_stages": [
+      { "stage_en": "Nursery", "stage_te": "నారుమడి", "details_te": "ఆరోగ్యకరమైన నారును పెంచాలి" },
+      { "stage_en": "Flowering", "stage_te": "పూత దశ", "details_te": "తేమ శాతం తగ్గకుండా చూడాలి" },
+      { "stage_en": "Fruiting", "stage_te": "కాయ దశ", "details_te": "ఎరువులు మరియు మందులు వాడాలి" },
+      { "stage_en": "Pickings", "stage_te": "కోత", "details_te": "పండిన కాయలను కోయాలి" }
+    ],
+    "inputs": { "fertilizer": "NPK + Micronutrients", "seed_rate": "1 kg/acre" },
+    "risks": ["Thrips", "Mites", "Leaf curl virus"],
+    "farmer_advice_te": ["నల్ల తామర పురుగు నియంత్రణ ముఖ్యం", "సేంద్రియ ఎరువులు అధికంగా వాడండి"]
+  },
+  {
+      "id": "blackgram",
+      "name": { "en": "Black Gram", "te": "మినుములు" },
+      "district_suitability": ["Krishna", "Guntur", "Nellore", "Prakasam"],
+      "seasons": ["Rabi", "Kharif"],
+      "soil": { "types": ["Heavy Soils", "Black Cotton Soil"], "ph": "6.5–8.0" },
+      "water": { "requirement": "Low", "critical_stages": ["Flowering", "Grain formation"], "warning": "Avoid excess water" },
+      "climate": { "temperature": "25–35°C", "rainfall": "600–700 mm", "risk": "Yellow mosaic virus" },
+      "duration_days": 80,
+      "growth_stages": [
+        { "stage_en": "Sowing", "stage_te": "విత్తనం వేయడం", "details_te": "వరుసల పద్ధతిలో విత్తాలి" },
+        { "stage_en": "Flowering", "stage_te": "పూత దశ", "details_te": "మొక్క ఆరోగ్యంగా ఉండేలా చూడాలి" },
+        { "stage_en": "Pod filling", "stage_te": "కాయ ఊరడం", "details_te": "తేమను గమనించాలి" },
+        { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "90% కాయలు ఎండినప్పుడు కోయాలి" }
+      ],
+      "inputs": { "fertilizer": "DAP + Phosphorus", "seed_rate": "8 kg/acre" },
+      "risks": ["Mosaic virus", "Spodoptera litura"],
+      "farmer_advice_te": ["విత్తన శుద్ధి తప్పనిసరి", "పల్లాకు తెగులును నివారించండి"]
+  },
+  {
+      "id": "greengram",
+      "name": { "en": "Green Gram", "te": "పెసలు" },
+      "district_suitability": ["East Godavari", "Krishna", "Guntur", "Visakhapatnam"],
+      "seasons": ["Kharif", "Rabi", "Summer"],
+      "soil": { "types": ["Loamy", "Red Sandy"], "ph": "6.0–7.5" },
+      "water": { "requirement": "Low", "critical_stages": ["Flowering", "Pod development"], "warning": "Short duration crop, needs quick care" },
+      "climate": { "temperature": "25–35°C", "rainfall": "600–750 mm", "risk": "Powdery mildew" },
+      "duration_days": 70,
+      "growth_stages": [
+        { "stage_en": "Sowing", "stage_te": "విత్తడం", "details_te": "తేమ ఉన్నప్పుడు విత్తాలి" },
+        { "stage_en": "Flowering", "stage_te": "పూత దశ", "details_te": "పురుగు మందులు వాడండి" },
+        { "stage_en": "Pod filling", "stage_te": "కాయ ఊరడం", "details_te": "ప్రతి వారం గమనించాలి" },
+        { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కాయలు నలుపు రంగులోకి వచ్చినప్పుడు కోయాలి" }
+      ],
+      "inputs": { "fertilizer": "DAP", "seed_rate": "6 kg/acre" },
+      "risks": ["Powdery mildew", "Yellow mosaic virus"],
+      "farmer_advice_te": ["తక్కువ కాలంలో చేతికి వస్తుంది", "నీరు నిల్వ ఉండకుండా చూసుకోండి"]
+  },
+  {
+      "id": "bengalgram",
+      "name": { "en": "Bengal Gram", "te": "శనగలు" },
+      "district_suitability": ["Kurnool", "Anantapur", "Prakasam", "YSR Kadapa"],
+      "seasons": ["Rabi"],
+      "soil": { "types": ["Black Cotton Soil"], "ph": "7.0–8.5" },
+      "water": { "requirement": "Low", "critical_stages": ["Flowering", "Pod development"], "warning": "Irrigation limited to 1-2 cycles" },
+      "climate": { "temperature": "15–30°C", "rainfall": "400–600 mm", "risk": "Wilt disease" },
+      "duration_days": 110,
+      "growth_stages": [
+        { "stage_en": "Sowing", "stage_te": "విత్తడం", "details_te": "నేలలో తేమ ఉన్నప్పుడు విత్తాలి" },
+        { "stage_en": "Nipping", "stage_te": "మొక్క తొలగించడం", "details_te": "మరిన్ని కొమ్మలు రావడానికి మొగ్గలు చిటికేయాలి" },
+        { "stage_en": "Flowering", "stage_te": "పూత దశ", "details_te": "పురుగు నివారణ ముఖ్యం" },
+        { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "గింజలు గలగలలాడినప్పుడు కోయాలి" }
+      ],
+      "inputs": { "fertilizer": "SSP + DAP", "seed_rate": "40 kg/acre" },
+      "risks": ["Gram pod borer", "Wilt", "Dry root rot"],
+      "farmer_advice_te": ["లోతుగా విత్తండి", "శనగ పురుగు పట్ల అప్రమత్తంగా ఉండండి"]
+  },
+  {
+      "id": "turmeric",
+      "name": { "en": "Turmeric", "te": "పసుపు" },
+      "district_suitability": ["Guntur", "Krishna", "Visakhapatnam", "East Godavari"],
+      "seasons": ["Kharif"],
+      "soil": { "types": ["Sandy Loam", "Alluvial Soils"], "ph": "6.0–7.5" },
+      "water": { "requirement": "High", "critical_stages": ["Rhizome development", "Sprouting"], "warning": "Requires regular moisture" },
+      "climate": { "temperature": "20–30°C", "rainfall": "1500–2500 mm", "risk": "Rhizome rot" },
+      "duration_days": 270,
+      "growth_stages": [
+        { "stage_en": "Planting", "stage_te": "నాటడం", "details_te": "నాణ్యమైన కొమ్ములు నాటాలి" },
+        { "stage_en": "Mulching", "stage_te": "కప్పు వేయడం", "details_te": "గడ్డితో నేలను కప్పి తేమ కాపాడాలి" },
+        { "stage_en": "Earthing up", "stage_te": "మట్టి ఎగదోయడం", "details_te": "దుంపలు బాగా పెరగడానికి మట్టి ఎగదోయాలి" },
+        { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "ఆకులు ఎండిన తర్వాత దుంపలు తవ్వాలి" }
+      ],
+      "inputs": { "fertilizer": "NPK + Neem Cake + FYM", "seed_rate": "1000 kg/acre" },
+      "risks": ["Rhizome rot", "Leaf spot", "Stem borer"],
+      "farmer_advice_te": ["విత్తనం కోసం నాణ్యమైన దుంపలు వాడండి", "నీరు నిల్వ కాకుండా జాగ్రత్త పడండి"]
+  },
+  {
+      "id": "jowar",
+      "name": { "en": "Jowar", "te": "జొన్నలు" },
+      "district_suitability": ["Kurnool", "Anantapur", "Kadapa", "Guntur"],
+      "seasons": ["Kharif", "Rabi"],
+      "soil": { "types": ["All types", "Black soil"], "ph": "6.5–7.5" },
+      "water": { "requirement": "Low", "critical_stages": ["Booting", "Blooming", "Grain filling"], "warning": "Drought resistant" },
+      "climate": { "temperature": "25–35°C", "rainfall": "400–600 mm", "risk": "Grain mold" },
+      "duration_days": 110,
+      "growth_stages": [
+        { "stage_en": "Sowing", "stage_te": "విత్తడం", "details_te": "దుక్కి దున్ని విత్తనాలు చల్లాలి" },
+        { "stage_en": "Heading", "stage_te": "ఈనె దశ", "details_te": "కంకి బయటకు వచ్చే దశ" },
+        { "stage_en": "Milk stage", "stage_te": "పాలు పోసుకునే దశ", "details_te": "పక్షుల నుంచి కాపాడుకోవాలి" },
+        { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కంకి ముదిరిన తర్వాత కోయాలి" }
+      ],
+      "inputs": { "fertilizer": "NPK", "seed_rate": "4 kg/acre" },
+      "risks": ["Shoot fly", "Stem borer", "Birds"],
+      "farmer_advice_te": ["మొక్కజొన్న కంటే తక్కువ నీరు సరిపోతుంది", "సరైన సమయంలో విత్తండి"]
+  },
+  {
+      "id": "ragi",
+      "name": { "en": "Ragi", "te": "రాగి" },
+      "district_suitability": ["Visakhapatnam", "Srikakulam", "Vizianagaram", "Chittoor"],
+      "seasons": ["Kharif", "Rabi"],
+      "soil": { "types": ["Red Soil", "Sandy Loam"], "ph": "5.5–7.5" },
+      "water": { "requirement": "Low", "critical_stages": ["Tillering", "Flowering", "Grain formation"], "warning": "Very resilient crop" },
+      "climate": { "temperature": "20–30°C", "rainfall": "500–1000 mm", "risk": "Blast disease" },
+      "duration_days": 110,
+      "growth_stages": [
+        { "stage_en": "Nursery", "stage_te": "నారుమడి", "details_te": "నారును ప్రధాన పొలంలో మార్చుకోవాలి" },
+        { "stage_en": "Tillering", "stage_te": "పిలకల దశ", "details_te": "మొక్క పుష్టిగా పెరిగేలా చూడాలి" },
+        { "stage_en": "Grain formation", "stage_te": "గింజ ఊరడం", "details_te": "చివరి తడి ఇవ్వాలి" },
+        { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కంకులు ఎండిన తర్వాత కోయాలి" }
+      ],
+      "inputs": { "fertilizer": "Organic manure + NPK", "seed_rate": "4 kg/acre" },
+      "risks": ["Blast disease", "Grasshoppers"],
+      "farmer_advice_te": ["పోషక విలువలు చాలా ఎక్కువ", "తక్కువ ఖర్చుతో పండించవచ్చు"]
+  },
+  {
+      "id": "bajra",
+      "name": { "en": "Bajra", "te": "సజ్జలు" },
+      "district_suitability": ["Anantapur", "Kurnool", "Prakasam"],
+      "seasons": ["Kharif"],
+      "soil": { "types": ["Sandy Soils", "Light Loamy"], "ph": "7.0–8.0" },
+      "water": { "requirement": "Very Low", "critical_stages": ["Heading", "Flowering"], "warning": "Highly drought tolerant" },
+      "climate": { "temperature": "25–40°C", "rainfall": "300–600 mm", "risk": "Ergot disease" },
+      "duration_days": 90,
+      "growth_stages": [
+        { "stage_en": "Sowing", "stage_te": "విత్తనం వేయడం", "details_te": "తేలికపాటి వర్షాల తర్వాత విత్తాలి" },
+        { "stage_en": "Heading", "stage_te": "ఈనె దశ", "details_te": "నీటి ఎద్దడి రాకుండా చూడాలి" },
+        { "stage_en": "Flowering", "stage_te": "పూత దశ", "details_te": "స్పష్టమైన గాలి ముఖ్యం" },
+        { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "కంకులు బాగా ఎండినప్పుడు కోయాలి" }
+      ],
+      "inputs": { "fertilizer": "NPK", "seed_rate": "2 kg/acre" },
+      "risks": ["Ergot", "Downy mildew", "Birds"],
+      "farmer_advice_te": ["అత్యల్ప నీటితో పండుతుంది", "వేడిని బాగా తట్టుకుంటుంది"]
+  },
+  {
+      "id": "sunflower",
+      "name": { "en": "Sunflower", "te": "పొద్దుతిరుగుడు" },
+      "district_suitability": ["Kadapa", "Kurnool", "Anantapur", "Prakasam"],
+      "seasons": ["Rabi", "Kharif"],
+      "soil": { "types": ["Well drained soils", "Loamy"], "ph": "6.5–8.0" },
+      "water": { "requirement": "Medium", "critical_stages": ["Bud initiation", "Flowering", "Grain filling"], "warning": "Sensitive to waterlogging" },
+      "climate": { "temperature": "20–30°C", "rainfall": "500–700 mm", "risk": "Head rot" },
+      "duration_days": 95,
+      "growth_stages": [
+        { "stage_en": "Sowing", "stage_te": "విత్తనం వేయడం", "details_te": "మొక్కల మధ్య దూరం ఉండాలి" },
+        { "stage_en": "Budding", "stage_te": "మొగ్గ దశ", "details_te": "బోరాన్ పిచికారీ చేయాలి" },
+        { "stage_en": "Flowering", "stage_te": "పూత దశ", "details_te": "తేనెటీగలు వచ్చేలా చూడాలి" },
+        { "stage_en": "Harvest", "stage_te": "కోత", "details_te": "పువ్వు వెనుక భాగం పసుపు రంగులోకి వచ్చాక కోయాలి" }
+      ],
+      "inputs": { "fertilizer": "NPK + Boron", "seed_rate": "4 kg/acre" },
+      "risks": ["Birds", "Head rot", "Alternaria leaf spot"],
+      "farmer_advice_te": ["బోరాన్ లోపం రానివ్వద్దు", "పూత దశలో తేనెటీగలు ముఖ్యమని గుర్తించండి"]
+  },
+  {
+      "id": "onion",
+      "name": { "en": "Onion", "te": "ఉల్లి" },
+      "district_suitability": ["Kurnool", "Anantapur", "YSR Kadapa", "Prakasam"],
+      "seasons": ["Kharif", "Rabi"],
+      "soil": { "types": ["Sandy Loam", "Clay Loam"], "ph": "6.0–7.5" },
+      "water": { "requirement": "Moderate", "critical_stages": ["Bulb initiation", "Bulb development"], "warning": "Water should not stay in rows" },
+      "climate": { "temperature": "15–30°C", "rainfall": "750–1000 mm", "risk": "Purple blotch" },
+      "duration_days": 120,
+      "growth_stages": [
+        { "stage_en": "Transplanting", "stage_te": "నాట్లు", "details_te": "నారును ప్రధాన పొలంలో నాటాలి" },
+        { "stage_en": "Sprouting", "stage_te": "మొలక దశ", "details_te": "కలుపు లేకుండా చూడాలి" },
+        { "stage_en": "Bulb formation", "stage_te": "ఉల్లిగడ్డ తయారీ", "details_te": "మట్టి ఎగదోయాలి" },
+        { "stage_en": "Neck fall", "stage_te": "మెడ పడిపోవడం", "details_te": "పంట కోతకు సిద్ధమని సంకేతం" }
+      ],
+      "inputs": { "fertilizer": "NPK + Sulphur", "seed_rate": "8 kg/acre" },
+      "risks": ["Thrips", "Purple blotch", "Bulb rot"],
+      "farmer_advice_te": ["సరైన సమయంలో నీరు క్లోజ్ చేయండి", "గాలి తగిలేలా నిల్వ చేయండి"]
+  },
+  {
+      "id": "tomato",
+      "name": { "en": "Tomato", "te": "టమాటా" },
+      "district_suitability": ["Chittoor", "Anantapur", "Kurnool", "Prakasam"],
+      "seasons": ["Kharif", "Rabi", "Summer"],
+      "soil": { "types": ["Well drained Loamy", "Red Sandy"], "ph": "6.0–7.5" },
+      "water": { "requirement": "High", "critical_stages": ["Flowering", "Fruit development"], "warning": "Avoid fluctuations in water" },
+      "climate": { "temperature": "18–28°C", "rainfall": "600–900 mm", "risk": "Blight and Wilt" },
+      "duration_days": 140,
+      "growth_stages": [
+        { "stage_en": "Transplanting", "stage_te": "నాట్లు", "details_te": "సాయంత్రం వేళల్లో నాటితే మంచిది" },
+        { "stage_en": "Staking", "stage_te": "మద్దతు ఇవ్వడం", "details_te": "మొక్క పడిపోకుండా కర్రలతో కట్టాలి" },
+        { "stage_en": "Flowering", "stage_te": "పూత దశ", "details_te": "పురుగు నివారణ పట్ల జాగ్రత్త" },
+        { "stage_en": "Picking", "stage_te": "కోత", "details_te": "దూరాన్ని బట్టి రంగు వచ్చినప్పుడు కోయాలి" }
+      ],
+      "inputs": { "fertilizer": "NPK + Micronutrients", "seed_rate": "150 grams/acre (Hybrid)" },
+      "risks": ["Fruit borer", "Leaf miner", "Early/Late blight"],
+      "farmer_advice_te": ["మొక్కకు ఊతం (Staking) ఇవ్వడం మరువద్దు", "రసం పీల్చే పురుగుల పట్ల అప్రమత్తంగా ఉండండి"]
+  }
+]
