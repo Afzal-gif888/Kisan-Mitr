@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, CalendarDays, Sprout, CloudRain, Thermometer, Droplets, AlertTriangle } from 'lucide-react';
-import { extractFeatures } from "@/lib/FeatureExtraction";
-import { analyzeWeather } from "@/utils/comparisonEngine";
+import { extractFeatures } from "@/engine/FeatureExtraction";
+import { analyzeWeather } from "@/engine/comparisonEngine";
 import { advancedSeasonPrediction } from "@/engine/seasonalEngine";
-import { generateFarmerInsights } from "@/utils/farmerInsightEngine";
+import { generateFarmerInsights } from "@/engine/farmerInsightEngine";
 import { weatherText } from "@/translations/weather";
-import { HeroCard } from './SeasonalPrediction';
+// HeroCard removed as it was part of a deleted component
 
-const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete }) => {
+const WeatherModule = ({ lat = null, lon = null, state = null, district, language, onAnalysisComplete }) => {
     const t = weatherText[language] || weatherText.en;
     const [prediction, setPrediction] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
 
     useEffect(() => {
         if (lat && lon) {
-            fetchWeather(lat, lon);
+            fetchWeather(lat, lon, null, null);
         } else if (district && state) {
             fetchWeather(null, null, district, state);
         }
@@ -199,7 +199,7 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             </div>
 
             {/* 📍 HERO CARD (Crop Image Card) */}
-            <HeroCard season={prediction.condition} language={language} t={t} />
+            {/* HeroCard removed - replace with a dedicated image or illustration if needed */}
 
             {/* 🛡️ COMBINED SECTION 1: SEASONAL INTELLIGENCE (Stats + Risks) */}
             <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 space-y-4 overflow-hidden">

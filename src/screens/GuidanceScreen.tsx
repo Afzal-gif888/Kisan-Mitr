@@ -1,20 +1,19 @@
 import { useMemo } from "react";
 import { ArrowLeft, Volume2, Droplets, Clock, CalendarCheck, RotateCcw, AlertCircle, CheckCircle2, Thermometer, Info, CloudRain, AlertTriangle, Lightbulb, Sprout } from "lucide-react";
-import { Language, translations } from "@/lib/translations";
-import { generateFarmingGuide } from "@/utils/farmingGuideEngine";
-import { cropImages } from "@/data/cropImages";
+import { translations } from "@/lib/translations";
+import { generateFarmingGuide } from "@/engine/farmingGuideEngine";
+import cropImages from "@/data/cropImages";
+import { useApp } from "@/context/AppContext";
 import farmHero from "@/assets/farm-hero.jpg"; // Fallback image
 
 interface GuidanceScreenProps {
-  language: Language;
-  cropKey: string;
-  weatherResult: any;
   onBack: () => void;
   onStartOver: () => void;
 }
 
-const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver }: GuidanceScreenProps) => {
-  const t = translations[language];
+const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
+  const { language, selectedCrop: cropKey, weatherResult } = useApp();
+  const t = (translations as any)[language];
 
   // 🛡️ ANALYZE & GENERATE INTELLIGENT GUIDE
   const result = useMemo(() => {
@@ -32,15 +31,13 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
             <p className="text-sm font-bold text-[#8B5E3C]/60 italic leading-relaxed max-w-xs">
                 {language === "te" 
                    ? `"${cropKey}" పంటకు సంబంధించిన సమాచారం ప్రస్తుతానికి అందుబాటులో లేదు.`
-                   : language === "hi"
-                   ? `"${cropKey}" फसल के लिए जानकारी अभी उपलब्ध नहीं है।`
                    : `Data for "${cropKey}" is currently missing from our expert registry.`
                 }
             </p>
         </div>
         <button onClick={onBack} className="px-12 py-5 bg-[#8B5E3C] text-white rounded-[2rem] font-black shadow-2xl flex items-center gap-3 active:scale-95 transition-all">
            <ArrowLeft size={20} />
-           {language === "te" ? "మళ్ళీ ఎంచుకోండి" : language === "hi" ? "पीछे जाएं" : "Go Back"}
+           {language === "te" ? "మళ్ళీ ఎంచుకోండి" : "Go Back"}
         </button>
       </div>
     );
@@ -53,11 +50,9 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
       speechSynthesis.cancel();
       const text = language === "te" 
         ? `${crop.name.te}. ఇది ${crop.duration_days} రోజుల పంట. ${crop.farmer_advice_te.join(". ")}`
-        : language === "hi"
-        ? `${crop.name.en}. यह ${crop.duration_days} दिनों की फसल है।`
         : `${crop.name.en}. This is a ${crop.duration_days} day crop. ${crop.water.requirement} water requirement.`;
       const msg = new SpeechSynthesisUtterance(text);
-      msg.lang = language === "te" ? "te-IN" : language === "hi" ? "hi-IN" : "en-US";
+      msg.lang = language === "te" ? "te-IN" : "en-US";
       msg.rate = 0.85;
       speechSynthesis.speak(msg);
     }
@@ -76,11 +71,11 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
               <ArrowLeft size={24} />
           </button>
           <div className="text-center">
-            <h2 className="text-2xl font-black text-white tracking-tighter leading-none mb-1.5">
+            <h2 className="text-2xl font-black text-white tracking-tighter leading-none mb-1.5 uppercase italic">
               {language === 'te' ? crop.name.te : crop.name.en}
             </h2>
             <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.3em] leading-none">
-                {weatherResult?.district} • Guidance v2.0
+                {weatherResult?.district} • Guidance v2.5
             </p>
           </div>
           <button onClick={onStartOver} className="text-white/20 hover:text-white transition-colors">
@@ -95,15 +90,11 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
           <div className="bg-amber-100 border-2 border-amber-300 p-5 rounded-[2rem] flex gap-4 animate-in slide-in-from-top-4">
             <AlertTriangle className="text-amber-600 shrink-0" size={24} />
             <div className="space-y-1">
-              <p className="text-xs font-black text-amber-800 uppercase tracking-wider">
-                {language === 'te' ? 'ప్రాంతీయ హెచ్చరిక' : language === 'hi' ? 'क्षेत्रीय चेतावनी' : 'District Suitability Warning'}
-              </p>
+              <p className="text-xs font-black text-amber-800 uppercase tracking-wider">REGIONAL ALERT</p>
               <p className="text-[13px] font-bold text-amber-900/80 leading-snug">
                 {language === 'te' 
                   ? `${weatherResult?.district} లో ఈ పంట సాగు సాధారణం కాదు. జాగ్రత్త వహించండి.`
-                  : language === 'hi'
-                  ? `${weatherResult?.district} में यह खेती सामान्य नहीं है। सावधानी बरतें।`
-                  : `This crop is not common in ${weatherResult?.district}. Proceed with expert advice.`}
+                  : `This crop is not native to ${weatherResult?.district}. Proceed with caution.`}
               </p>
             </div>
           </div>
@@ -115,7 +106,7 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
             <div className="flex items-center gap-3">
               <CloudRain className="text-blue-500" size={20} />
               <h4 className="text-lg font-black text-slate-800 italic uppercase tracking-tighter">
-                {language === 'te' ? 'వాతావరణ సర్దుబాట్లు' : language === 'hi' ? 'मौसम समायोजन' : 'Weather Adjustments'}
+                {language === 'te' ? 'వాతావరణ సర్దుబాట్లు' : 'Weather Sync'}
               </h4>
             </div>
             
@@ -123,13 +114,13 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
               {weatherWarnings.map((w: string, i: number) => (
                 <div key={i} className="flex gap-3 bg-red-50 p-3 rounded-2xl border border-red-100">
                   <AlertCircle size={16} className="text-red-500 shrink-0 mt-0.5" />
-                  <p className="text-xs font-black text-red-900 leading-tight">{w}</p>
+                  <p className="text-xs font-black text-red-900 leading-tight uppercase italic">{w}</p>
                 </div>
               ))}
               {weatherAdjustments.map((a: string, i: number) => (
                 <div key={i} className="flex gap-3 bg-blue-50 p-3 rounded-2xl border border-blue-100">
                   <Lightbulb size={16} className="text-blue-500 shrink-0 mt-0.5" />
-                  <p className="text-xs font-black text-blue-900 leading-tight">{a}</p>
+                  <p className="text-xs font-black text-blue-900 leading-tight uppercase italic">{a}</p>
                 </div>
               ))}
             </div>
@@ -140,7 +131,7 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
         <div className="bg-slate-200 rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white relative group animate-in zoom-in-95 duration-700">
           <div className="h-48 relative overflow-hidden">
             <img 
-               src={cropImages[crop.id] || crop.image} 
+               src={(cropImages as any)[crop.name.en] || farmHero} 
                alt={crop.name.en} 
                className="w-full h-full object-cover transition-opacity duration-300"
                onError={(e: any) => {
@@ -152,15 +143,7 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
             
             <div className="absolute top-5 right-5 bg-white/20 backdrop-blur-xl px-4 py-2 rounded-2xl flex items-center gap-2 border border-white/20 text-white">
                 <Clock size={14} />
-                <span className="text-[10px] font-black uppercase tracking-widest">{crop.duration_days} {language === 'te' ? 'రోజులు' : language === 'hi' ? 'दिन' : 'Days'}</span>
-            </div>
-            
-            <div className="absolute bottom-4 left-6">
-                <div className="flex gap-2">
-                    <div className="px-3 py-1 bg-white/40 backdrop-blur-lg rounded-full border border-white/20">
-                        <p className="text-[9px] font-black text-white uppercase tracking-widest">{crop.category}</p>
-                    </div>
-                </div>
+                <span className="text-[10px] font-black uppercase tracking-widest">{crop.duration_days} {language === 'te' ? 'రోజులు' : 'Days'}</span>
             </div>
           </div>
         </div>
@@ -169,13 +152,13 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
         <div className="grid grid-cols-2 gap-4">
             <div className="bg-white p-5 rounded-[2.5rem] shadow-lg border border-white flex flex-col items-center text-center space-y-2">
                 <div className="p-3 bg-blue-50 text-blue-500 rounded-xl mb-1"><Droplets size={24} /></div>
-                <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">{language === "te" ? "నీటి అవసరం" : language === 'hi' ? 'पानी की आवश्यकता' : "Water Need"}</p>
-                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none">{crop.water.requirement}</p>
+                <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">{language === "te" ? "నీటి అవసరం" : "Water Need"}</p>
+                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{crop.water.requirement}</p>
             </div>
             <div className="bg-white p-5 rounded-[2.5rem] shadow-lg border border-white flex flex-col items-center text-center space-y-2">
                 <div className="p-3 bg-orange-50 text-orange-500 rounded-xl mb-1"><Thermometer size={24} /></div>
-                <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">{language === "te" ? "వాతావరణం" : language === 'hi' ? 'जलवायु' : "Climate Check"}</p>
-                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none">{crop.climate.temperature}</p>
+                <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">{language === "te" ? "వాతావరణం" : "Climate Check"}</p>
+                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{crop.climate.temperature}</p>
             </div>
         </div>
 
@@ -186,7 +169,7 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
                  <CalendarCheck size={28} />
               </div>
               <div>
-                <h4 className="text-xl font-black text-[#1E3A1A] leading-none mb-1">{language === "te" ? "సాగు దశలు" : language === 'hi' ? 'खेती के चरण' : "Sowing Protocol"}</h4>
+                <h4 className="text-xl font-black text-[#1E3A1A] leading-none mb-1 italic">{language === "te" ? "సాగు దశలు" : "Sowing Protocol"}</h4>
                 <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.1em] leading-none">Step-by-step Execution</p>
               </div>
            </div>
@@ -200,7 +183,7 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
                       {idx + 1}
                    </div>
                    <div className="flex-1 space-y-1.5 pt-0.5">
-                      <h5 className="text-lg font-black text-[#1E3A1A] leading-tight tracking-tight">{s.stage_te}</h5>
+                      <h5 className="text-lg font-black text-[#1E3A1A] leading-tight tracking-tight italic uppercase">{s.stage_te}</h5>
                       <p className="text-[13px] font-bold text-slate-500 leading-tight italic">{s.details_te}</p>
                    </div>
                 </div>
@@ -212,29 +195,13 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
         <div className="bg-red-500/5 rounded-[3rem] p-8 border-2 border-red-500/10 space-y-4">
             <div className="flex items-center gap-3">
                 <AlertCircle size={22} className="text-red-600" />
-                <h4 className="text-xl font-black text-red-900 tracking-tighter leading-none">{language === "te" ? "ప్రమాద హెచ్చరికలు" : language === 'hi' ? 'जोखिम कारक' : "Risk Factors"}</h4>
+                <h4 className="text-xl font-black text-red-900 tracking-tighter leading-none italic uppercase">Risk Factors</h4>
             </div>
             <div className="space-y-3">
                 {crop.risks.map((risk: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
-                        <p className="text-sm font-black text-[#5C3A21] leading-none italic">{risk}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-
-        {/* ADVICE */}
-        <div className="bg-emerald-500/5 rounded-[3rem] p-8 border-2 border-emerald-500/10 space-y-4">
-            <div className="flex items-center gap-3">
-                <CheckCircle2 size={22} className="text-emerald-600" />
-                <h4 className="text-xl font-black text-emerald-900 tracking-tighter leading-none">{language === "te" ? "ముఖ్యమైన సూచనలు" : language === 'hi' ? 'विशेषज्ञ सलाह' : "Expert Advice"}</h4>
-            </div>
-            <div className="space-y-3">
-                {crop.farmer_advice_te.map((advice: string, idx: number) => (
-                    <div key={idx} className="flex items-center gap-3">
-                        <Sprout size={16} className="text-emerald-500 shrink-0" />
-                        <p className="text-sm font-bold text-[#1E3A1A] leading-tight">{advice}</p>
+                        <p className="text-sm font-black text-[#5C3A21] leading-none italic uppercase">{risk}</p>
                     </div>
                 ))}
             </div>
@@ -248,7 +215,7 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
             >
                 <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 <Volume2 size={28} />
-                <span>{language === "te" ? "గైడ్ వినండి" : language === 'hi' ? 'गाइड सुनें' : "Listen Strategy"}</span>
+                <span>{language === "te" ? "గైడ్ వినండి" : "Listen Strategy"}</span>
             </button>
             
             <button
@@ -256,7 +223,7 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
               className="w-full py-4 text-[#8B5E3C]/40 hover:text-[#8B5E3C] transition-all text-[10px] font-black uppercase tracking-[0.4em] flex items-center justify-center gap-4"
             >
                 <RotateCcw size={18} />
-                {language === "te" ? "మొదటినుండి" : language === 'hi' ? 'शुरू करें' : "Reset Flow"}
+                {language === "te" ? "మొదటినుండి" : "Reset Flow"}
             </button>
         </div>
 
