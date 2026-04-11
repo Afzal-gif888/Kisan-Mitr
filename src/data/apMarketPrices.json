@@ -1,0 +1,44 @@
+{
+  "paddy": {
+    "price_per_quintal": 2183,
+    "outlook": "Stable",
+    "demand": "High",
+    "te_advice": "మార్కెట్ ధర స్థిరంగా ఉంది"
+  },
+  "maize": {
+    "price_per_quintal": 1962,
+    "outlook": "Rising",
+    "demand": "High",
+    "te_advice": "ధరలు పెరిగే అవకాశం ఉంది"
+  },
+  "groundnut": {
+    "price_per_quintal": 5850,
+    "outlook": "Stable",
+    "demand": "Medium",
+    "te_advice": "మంచి లాభదాయకమైన ధర"
+  },
+  "cotton": {
+    "price_per_quintal": 6620,
+    "outlook": "Volatile",
+    "demand": "High",
+    "te_advice": "అంతర్జాతీయ మార్కెట్ మీద ఆధారపడి ఉంటుంది"
+  },
+  "redgram": {
+    "price_per_quintal": 7000,
+    "outlook": "Very High",
+    "demand": "Critical",
+    "te_advice": "మార్కెట్లో భారీ డిమాండ్ ఉంది"
+  },
+  "sugarcane": {
+    "price_per_quintal": 315,
+    "outlook": "Fixed",
+    "demand": "Stable",
+    "te_advice": "ప్రభుత్వ ధర స్థిరంగా ఉంటుంది"
+  },
+  "chillies": {
+    "price_per_quintal": 18500,
+    "outlook": "Premium",
+    "demand": "Export",
+    "te_advice": "ఎగుమతులకు మంచి డిమాండ్"
+  }
+}

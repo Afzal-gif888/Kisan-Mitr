@@ -1,9 +1,10 @@
 import cropsDataset from "../data/apCropDataset.json";
 import districtMap from "../data/apDistrictCropMap.json";
+import marketPrices from "../data/apMarketPrices.json";
 
 /**
- * getAPCropRecommendations v4.0 (Location-Aware intelligence)
- * Adds District-specific boosting and removal logic to the precision engine.
+ * getAPCropRecommendations v4.2 (Economically Intelligent)
+ * Now includes market profitability outlook and demand analysis.
  */
 export const getAPCropRecommendations = (weatherResult, soilSelection, districtName, language = "en") => {
   if (!weatherResult || !soilSelection) return { recommendedCrops: [], disclaimer: "" };
@@ -15,13 +16,15 @@ export const getAPCropRecommendations = (weatherResult, soilSelection, districtN
 
   const normalizedSoil = soilSelection.split('-')[0].toLowerCase();
   
-  // District Logic Setup
   const districtInfo = districtMap[districtName] || null;
 
   const recommendations = cropsDataset.map((crop) => {
     let score = 0;
     let weatherReasons = [];
     let districtLabel = "";
+
+    const cropId = crop.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const market = marketPrices[cropId] || null;
 
     // --- RULE: HARD GUARD (Weather Only) ---
     if (summary.rain === "Very Low" && crop.waterRequirement === "high") {
@@ -66,6 +69,7 @@ export const getAPCropRecommendations = (weatherResult, soilSelection, districtN
         ? (summary.rain === "Low" || summary.rain === "Very Low" ? (language === "te" ? "తక్కువ వర్షానికి సరిపోతుంది" : "Suitable for low rain") : (language === "te" ? "సరైన వర్షపాతం" : "Ideal rainfall"))
         : (language === "te" ? "తట్టుకోగలదు" : "Can tolerate current conditions"),
       soilReason: language === "te" ? "మీ నేలకు అనుకూలం" : "Matches your soil type",
+      marketOutlook: market ? (language === "te" ? market.te_advice : market.outlook) : (language === "te" ? "ధర అందుబాటులో లేదు" : "No price info"),
       waterNeed: crop.waterRequirement === "low" ? (language === "te" ? "తక్కువ" : "Low") : crop.waterRequirement === "medium" ? (language === "te" ? "మధ్యస్థం" : "Medium") : (language === "te" ? "ఎక్కువ" : "High"),
       heatTolerance: tempVal > 30 ? (language === "te" ? "ఎక్కువ" : "High") : (language === "te" ? "మధ్యస్థం" : "Medium"),
       score

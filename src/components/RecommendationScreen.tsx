@@ -130,6 +130,16 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
                                         </div>
                                         <p className="text-sm font-bold text-[#5C3A21]/70 leading-none">{crop.soilReason}</p>
                                     </div>
+                                    {crop.marketOutlook && (
+                                        <div className="flex items-start gap-2.5">
+                                            <div className="bg-orange-500 rounded-full p-1 mt-0.5 shrink-0">
+                                                <Star size={10} className="text-white fill-current" />
+                                            </div>
+                                            <p className="text-sm font-black text-orange-600 leading-none uppercase tracking-tighter">
+                                                💰 {crop.marketOutlook}
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
@@ -153,7 +163,10 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
                             </div>
 
                             <button
-                                onClick={() => onViewGuide(crop.englishName.toLowerCase())}
+                                onClick={() => {
+                                    const cropId = crop.englishName.toLowerCase().replace(/[^a-z0-9]/g, '');
+                                    onViewGuide(cropId);
+                                }}
                                 className="w-full py-5 bg-[#8B5E3C]/5 border-2 border-[#8B5E3C]/10 text-[#8B5E3C] rounded-[1.8rem] text-sm font-black uppercase tracking-[0.1em] transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 group"
                             >
                                 <span>{language === "te" ? "సాగు విధానం" : "Farming Guide"}</span>
