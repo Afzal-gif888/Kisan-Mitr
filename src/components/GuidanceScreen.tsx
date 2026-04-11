@@ -124,7 +124,7 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
             <img 
                src={baseCrop?.image || farmHero} 
                alt={guide.name.en} 
-               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-&lsqb;2000ms&rsqb;" 
+               className="w-full h-full object-cover group-hover:scale-110 transition-transform" style={{ transitionDuration: '2000ms' }} 
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
             
