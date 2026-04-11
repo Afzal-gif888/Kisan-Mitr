@@ -7,6 +7,14 @@ import {
   Sprout
 } from "lucide-react";
 
+// REALISTIC SEASON BACKDROPS
+const SEASON_IMAGES = {
+    "Rainy": "https://images.unsplash.com/photo-1534274988757-a28bf1f539cf?auto=format&fit=crop&q=80&w=800",
+    "Dry": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=800",
+    "Hot": "https://images.unsplash.com/photo-1542614471-001ccf90567e?auto=format&fit=crop&q=80&w=800",
+    "Normal": "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&q=80&w=800"
+};
+
 // 🌿 SECTION 1: HERO CARD
 export const HeroCard = ({ season, language, t }) => {
   const getHeroIcon = (s) => {
@@ -18,19 +26,24 @@ export const HeroCard = ({ season, language, t }) => {
   const seasonNames = {
     "Rainy": { te: "వర్షాకాలం", en: "Rainy Season", hi: "वर्षा ऋतु" },
     "Dry": { te: "ఎండాకాలం", en: "Dry Season", hi: "शुष्क मौसम" },
-    "Hot": { te: "వేసవి కాలం", en: "Hot Season", hi: "गर्మీ కా मौसम" },
-    "Cool / Dry": { te: "శీతాకాలం", en: "Cool Season", hi: "सर्दी का मौसम" },
+    "Hot": { te: "వేసవి కాలం", en: "Hot Season", hi: "गर्मी का मौसम" },
+    "Cool / Dry": { te: "శీతాకాలం", en: "Cool Season", hi: "सर्దీ का मौसम" },
     "Normal": { te: "సాధారణ కాలం", en: "Normal Season", hi: "सामान्य मौसम" }
   };
 
   const name = seasonNames[season]?.[language] || seasonNames[season]?.en || season;
+  const bgImage = SEASON_IMAGES[season] || SEASON_IMAGES["Normal"];
 
   return (
-    <div className="w-full bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] rounded-[2rem] p-6 text-center shadow-[0_12px_24px_rgba(27,94,32,0.2)] mt-4 animate-in fade-in zoom-in duration-500">
-        <div className="text-6xl mb-3 drop-shadow-xl translate-y-[-5px]">{getHeroIcon(season)}</div>
-        <h1 className="text-2xl font-black text-white uppercase tracking-tighter mb-1">{name}</h1>
-        <div className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full border border-white/20 text-[9px] font-black uppercase text-white tracking-widest">
-            {t.favorable}
+    <div className="w-full h-48 rounded-[2rem] mt-4 relative overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-500">
+        <img src={bgImage} className="absolute inset-0 w-full h-full object-cover" alt={season} />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1B5E20]/90 to-black/20" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+            <div className="text-5xl mb-2 drop-shadow-xl">{getHeroIcon(season)}</div>
+            <h1 className="text-2xl font-black text-white uppercase tracking-tighter mb-1">{name}</h1>
+            <div className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full border border-white/20 text-[9px] font-black uppercase text-white tracking-widest">
+                {t.favorable}
+            </div>
         </div>
     </div>
   );

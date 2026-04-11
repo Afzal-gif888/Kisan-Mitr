@@ -2,7 +2,7 @@
   {
     "id": "paddy",
     "name": { "en": "Paddy (Rice)", "te": "వరి" },
-    "image": "/assets/crops/paddy.jpg",
+    "image": "https://images.unsplash.com/photo-1563814674092-237198a2eb8a?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Clay Soil", "Clayey", "Loamy", "Alluvial Soil", "Delta Alluvial Soil"],
     "weather": ["rainy", "normal"],
     "seasons": ["kharif", "rabi"],
@@ -16,7 +16,7 @@
   {
     "id": "groundnut",
     "name": { "en": "Groundnut", "te": "వేరుశనగ" },
-    "image": "/assets/crops/groundnut.jpg",
+    "image": "https://images.unsplash.com/photo-1596450514735-31ce7697395e?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Red Soil", "Red Sandy Loam", "Sandy Soil", "Light Loamy"],
     "weather": ["hot", "normal"],
     "seasons": ["kharif", "zaid"],
@@ -30,7 +30,7 @@
   {
     "id": "maize",
     "name": { "en": "Maize", "te": "మొక్కజొన్న" },
-    "image": "/assets/crops/maize.jpg",
+    "image": "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Red Soil", "Black Cotton Soil", "Loamy Soil", "Alluvial Soil"],
     "weather": ["hot", "rainy", "normal"],
     "seasons": ["kharif", "rabi"],
@@ -44,7 +44,7 @@
   {
     "id": "cotton",
     "name": { "en": "Cotton", "te": "పత్తి" },
-    "image": "/assets/crops/cotton.jpg",
+    "image": "https://images.unsplash.com/photo-1594910411242-706f0e74f85e?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Black Cotton Soil", "Deep Black", "Clay Soil"],
     "weather": ["hot", "normal"],
     "seasons": ["kharif"],
@@ -58,7 +58,7 @@
   {
     "id": "chilli",
     "name": { "en": "Chilli", "te": "మిర్చి" },
-    "image": "/assets/crops/chilli.jpg",
+    "image": "https://images.unsplash.com/photo-1596450514735-31ce7697395e?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Black Cotton Soil", "Red Loamy Soil", "Alluvial Soil"],
     "weather": ["hot", "rainy", "normal"],
     "seasons": ["kharif", "rabi"],
@@ -72,7 +72,7 @@
   {
     "id": "tomato",
     "name": { "en": "Tomato", "te": "టమాటా" },
-    "image": "/assets/crops/tomato.jpg",
+    "image": "https://images.unsplash.com/photo-1592841200221-a6898f307bac?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Red Sandy Loam", "Red Soil", "Loamy Soil"],
     "weather": ["normal", "cold"],
     "seasons": ["kharif", "rabi", "zaid"],
@@ -86,7 +86,7 @@
   {
     "id": "bengalgram",
     "name": { "en": "Bengal Gram", "te": "శనగలు" },
-    "image": "/assets/crops/bengalgram.jpg",
+    "image": "https://images.unsplash.com/photo-1515942400420-2b98fed1f515?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Black Cotton Soil", "Clay Soil"],
     "weather": ["cold", "normal"],
     "seasons": ["rabi"],
@@ -100,7 +100,7 @@
   {
     "id": "sugarcane",
     "name": { "en": "Sugarcane", "te": "చెరకు" },
-    "image": "/assets/crops/sugarcane.jpg",
+    "image": "https://images.unsplash.com/photo-1543329037-374186591873?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Alluvial Soil", "Clay Soil", "Black Cotton Soil"],
     "weather": ["rainy", "hot"],
     "seasons": ["kharif", "zaid"],
@@ -114,7 +114,7 @@
   {
     "id": "banana",
     "name": { "en": "Banana", "te": "అరటి" },
-    "image": "/assets/crops/banana.jpg",
+    "image": "https://images.unsplash.com/photo-1528821128474-27fcaecc350a?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Alluvial Soil", "Delta Alluvial Soil", "Loamy Soil"],
     "weather": ["hot", "rainy"],
     "seasons": ["kharif", "rabi", "zaid"],
@@ -128,7 +128,7 @@
   {
     "id": "mango",
     "name": { "en": "Mango", "te": "మామిడి" },
-    "image": "/assets/crops/mango.jpg",
+    "image": "https://images.unsplash.com/photo-1553134304-481d776f1ec0?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Red Sandy Loam", "Red Soil", "Laterite Soil"],
     "weather": ["hot", "normal"],
     "seasons": ["kharif", "zaid"],
@@ -140,23 +140,9 @@
     }
   },
   {
-    "id": "redgram",
-    "name": { "en": "Red Gram", "te": "కందులు" },
-    "image": "/assets/crops/redgram.jpg",
-    "soils": ["Red Soil", "Red Loamy Soil", "Gravelly Soil"],
-    "weather": ["hot", "normal"],
-    "seasons": ["kharif"],
-    "districts": ["Anantapur", "Kurnool", "Prakasam", "YSR Kadapa"],
-    "details": {
-      "water": "Low",
-      "duration": "180 days",
-      "advice": "Control Maruca spotted pod borer at flowering."
-    }
-  },
-  {
     "id": "blackgram",
     "name": { "en": "Black Gram", "te": "మినుములు" },
-    "image": "/assets/crops/blackgram.jpg",
+    "image": "https://images.unsplash.com/photo-1589135398302-383bcdd04cd3?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Black Cotton Soil", "Alluvial Soil"],
     "weather": ["normal", "cold"],
     "seasons": ["rabi", "zaid"],
@@ -168,23 +154,9 @@
     }
   },
   {
-    "id": "tobacco",
-    "name": { "en": "Tobacco", "te": "పొగాకు" },
-    "image": "/assets/crops/tobacco.jpg",
-    "soils": ["Black Cotton Soil", "Light Red soils", "Coastal Sandy Soil"],
-    "weather": ["cold", "normal"],
-    "seasons": ["rabi"],
-    "districts": ["Prakasam", "Nellore", "West Godavari", "Guntur"],
-    "details": {
-      "water": "Low",
-      "duration": "120 days",
-      "advice": "Curing determines leaf quality."
-    }
-  },
-  {
     "id": "coconut",
     "name": { "en": "Coconut", "te": "కొబ్బరి" },
-    "image": "/assets/crops/coconut.jpg",
+    "image": "https://images.unsplash.com/photo-1551609189-eba71b3a8566?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Coastal Sandy Soil", "Alluvial Soil", "Delta Alluvial Soil"],
     "weather": ["rainy", "hot"],
     "seasons": ["kharif", "rabi", "zaid"],
@@ -196,51 +168,9 @@
     }
   },
   {
-    "id": "oil_palm",
-    "name": { "en": "Oil Palm", "te": "ఆయిల్ పామ్" },
-    "image": "/assets/crops/oil_palm.jpg",
-    "soils": ["Delta Alluvial Soil", "Alluvial Soil", "Clay Soil"],
-    "weather": ["rainy", "hot"],
-    "seasons": ["kharif", "rabi", "zaid"],
-    "districts": ["West Godavari", "Eluru", "Konaseema", "Kakinada"],
-    "details": {
-      "water": "Very High",
-      "duration": "Perennial",
-      "advice": "Requires 200+ liters water per day per palm."
-    }
-  },
-  {
-    "id": "sunflower",
-    "name": { "en": "Sunflower", "te": "పొద్దుతిరుగుడు" },
-    "image": "/assets/crops/sunflower.jpg",
-    "soils": ["Black Cotton Soil", "Deep Black", "Red Soil"],
-    "weather": ["hot", "cold", "normal"],
-    "seasons": ["rabi", "zaid"],
-    "districts": ["Anantapur", "Kurnool", "YSR Kadapa"],
-    "details": {
-      "water": "Moderate",
-      "duration": "95 days",
-      "advice": "Keep hives for better pollination."
-    }
-  },
-  {
-    "id": "turmeric",
-    "name": { "en": "Turmeric", "te": "పసుపు" },
-    "image": "/assets/crops/turmeric.jpg",
-    "soils": ["Sandy Clay", "Clayey", "Loamy", "Red Loamy Soil"],
-    "weather": ["rainy", "hot"],
-    "seasons": ["kharif"],
-    "districts": ["Guntur", "YSR Kadapa", "Alluri Sitharama Raju"],
-    "details": {
-      "water": "High",
-      "duration": "270 days",
-      "advice": "Rhizome rot is a major risk in waterlogging."
-    }
-  },
-  {
     "id": "onion",
     "name": { "en": "Onion", "te": "ఉల్లిపాయ" },
-    "image": "/assets/crops/onion.jpg",
+    "image": "https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&q=80&w=1000",
     "soils": ["Red Sandy Loam", "Loamy Soil", "Black Cotton Soil"],
     "weather": ["normal", "cold"],
     "seasons": ["kharif", "rabi"],
@@ -249,34 +179,6 @@
       "water": "Moderate",
       "duration": "110 days",
       "advice": "Stop watering 15 days before harvest."
-    }
-  },
-  {
-    "id": "jowar",
-    "name": { "en": "Jowar", "te": "జొన్నలు" },
-    "image": "/assets/crops/jowar.jpg",
-    "soils": ["Black Cotton Soil", "Red Soil"],
-    "weather": ["hot", "normal"],
-    "seasons": ["kharif", "rabi"],
-    "districts": ["Anantapur", "Kurnool", "Nandyal"],
-    "details": {
-      "water": "Low",
-      "duration": "110 days",
-      "advice": "Very high drought tolerance."
-    }
-  },
-  {
-    "id": "greengram",
-    "name": { "en": "Green Gram", "te": "పెసలు" },
-    "image": "/assets/crops/greengram.jpg",
-    "soils": ["Red Soil", "Black Cotton Soil", "Alluvial Soil"],
-    "weather": ["hot", "normal"],
-    "seasons": ["kharif", "rabi", "zaid"],
-    "districts": ["Srikakulam", "Vizianagaram", "Guntur", "Krishna"],
-    "details": {
-      "water": "Low",
-      "duration": "65 days",
-      "advice": "Grows fast, good for soil health."
     }
   }
 ]

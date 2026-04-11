@@ -4,10 +4,11 @@ import { Language } from "@/lib/translations";
 import { SoilType } from "@/lib/cropData";
 import districtSoilMap from "../data/apDistrictSoilMap.json";
 
-import soilSandy from "@/assets/soil-sandy.jpg";
-import soilBlack from "@/assets/soil-black.jpg";
-import soilRed from "@/assets/soil-red.jpg";
-import soilLoamy from "@/assets/soil-loamy.jpg";
+// REALISTIC SOIL ASSETS (Natural Photography)
+const SOIL_SANDY = "https://images.unsplash.com/photo-1590487395312-e3f1663d1ed8?auto=format&fit=crop&q=80&w=1000";
+const SOIL_BLACK = "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&q=80&w=1000";
+const SOIL_RED = "https://images.unsplash.com/photo-1589135398302-383bcdd04cd3?auto=format&fit=crop&q=80&w=1000";
+const SOIL_LOAMY = "https://images.unsplash.com/photo-1585121401362-7162615f5c5d?auto=format&fit=crop&q=80&w=1000";
 
 interface SoilScreenProps {
   language: Language;
@@ -18,23 +19,23 @@ interface SoilScreenProps {
 
 // Full metadata for all soil types (DYNAMIC BINDING)
 const SOIL_METADATA: Record<string, any> = {
-  "Red Soil": { img: soilRed, icon: "🍂", color: "#1B5E20", desc: { en: "Dry & airy", te: "పొడి మరియు గాలి" } },
-  "Red Sandy Loam": { img: soilRed, icon: "🏜️", color: "#2E7D32", desc: { en: "Sandy Red", te: "ఇసుక ఎర్ర నేల" } },
-  "Red Loamy Soil": { img: soilRed, icon: "🌾", color: "#1B5E20", desc: { en: "Loamy Red", te: "లోమీ ఎర్ర నేల" } },
-  "Black Cotton Soil": { img: soilBlack, icon: "🌒", color: "#1B5E20", desc: { en: "Moist & rich", te: "తేమ మరియు సారవంతమైన" } },
-  "Black Clay Soil": { img: soilBlack, icon: "🌑", color: "#333333", desc: { en: "Clay Black", te: "నల్ల క్లే నేల" } },
-  "Alluvial Soil": { img: soilLoamy, icon: "🌊", color: "#1B5E20", desc: { en: "River Fertile", te: "నది సారవంతమైన నేల" } },
-  "Delta Alluvial Soil": { img: soilLoamy, icon: "🎋", color: "#2E7D32", desc: { en: "Delta Fertile", te: "డెల్టా సారవంతమైన నేల" } },
-  "Coastal Alluvial Soil": { img: soilLoamy, icon: "🏖️", color: "#0288D1", desc: { en: "Coastal Alluvial", te: "కోస్తా అల్యూవియల్" } },
-  "Laterite Soil": { img: soilRed, icon: "🧱", color: "#B71C1C", desc: { en: "Hard Red", te: "గట్టి ఎర్ర నేల" } },
-  "Coastal Sandy Soil": { img: soilSandy, icon: "🏜️", color: "#FBC02D", desc: { en: "Beach Sand", te: "తీరప్రాంత ఇసుక" } },
-  "Sandy Soil": { img: soilSandy, icon: "🏜️", color: "#2E7D32", desc: { en: "Desert Sand", te: "ఇసుక నేల" } },
-  "Clay Soil": { img: soilBlack, icon: "🥯", color: "#4E342E", desc: { en: "Sticky Clay", te: "క్లే నేల" } },
-  "Saline Soil": { img: soilSandy, icon: "🧂", color: "#9E9E9E", desc: { en: "Salt Rich", te: "క్షిార నేల" } },
-  "Alkaline Soil": { img: soilSandy, icon: "🧪", color: "#7B1FA2", desc: { en: "Alkaline Soil", te: "క్షార నేల" } },
-  "Marshy Soil": { img: soilLoamy, icon: "🦠", color: "#1B5E20", desc: { en: "Wet Swamp", te: "చిత్తడి నేల" } },
-  "Gravelly Soil": { img: soilSandy, icon: "🪨", color: "#616161", desc: { en: "Stone Mix", te: "గ్రావెల్ నేల" } },
-  "Forest Soil": { img: soilLoamy, icon: "🌳", color: "#1B5E20", desc: { en: "Organic Rich", te: "అటవీ నేల" } }
+  "Red Soil": { img: SOIL_RED, icon: "🍂", color: "#1B5E20", desc: { en: "Dry & airy", te: "పొడి మరియు గాలి" } },
+  "Red Sandy Loam": { img: SOIL_RED, icon: "🏜️", color: "#2E7D32", desc: { en: "Sandy Red", te: "ఇసుక ఎర్ర నేల" } },
+  "Red Loamy Soil": { img: SOIL_RED, icon: "🌾", color: "#1B5E20", desc: { en: "Loamy Red", te: "లోమీ ఎర్ర నేల" } },
+  "Black Cotton Soil": { img: SOIL_BLACK, icon: "🌒", color: "#1B5E20", desc: { en: "Moist & rich", te: "తేమ మరియు సారవంతమైన" } },
+  "Black Clay Soil": { img: SOIL_BLACK, icon: "🌑", color: "#333333", desc: { en: "Clay Black", te: "నల్ల క్లే నేల" } },
+  "Alluvial Soil": { img: SOIL_LOAMY, icon: "🌊", color: "#1B5E20", desc: { en: "River Fertile", te: "నది సారవంతమైన నేల" } },
+  "Delta Alluvial Soil": { img: SOIL_LOAMY, icon: "🎋", color: "#2E7D32", desc: { en: "Delta Fertile", te: "డెల్టా సారవంతమైన నేల" } },
+  "Coastal Alluvial Soil": { img: SOIL_LOAMY, icon: "🏖️", color: "#0288D1", desc: { en: "Coastal Alluvial", te: "కోస్తా అల్యూవియల్" } },
+  "Laterite Soil": { img: SOIL_RED, icon: "🧱", color: "#B71C1C", desc: { en: "Hard Red", te: "గట్టి ఎర్ర నేల" } },
+  "Coastal Sandy Soil": { img: SOIL_SANDY, icon: "🏜️", color: "#FBC02D", desc: { en: "Beach Sand", te: "తీరప్రాంత ఇసుక" } },
+  "Sandy Soil": { img: SOIL_SANDY, icon: "🏜️", color: "#2E7D32", desc: { en: "Desert Sand", te: "ఇసుక నేల" } },
+  "Clay Soil": { img: SOIL_BLACK, icon: "🥯", color: "#4E342E", desc: { en: "Sticky Clay", te: "క్లే నేల" } },
+  "Saline Soil": { img: SOIL_SANDY, icon: "🧂", color: "#9E9E9E", desc: { en: "Salt Rich", te: "క్షిార నేల" } },
+  "Alkaline Soil": { img: SOIL_SANDY, icon: "🧪", color: "#7B1FA2", desc: { en: "Alkaline Soil", te: "క్షార నేల" } },
+  "Marshy Soil": { img: SOIL_LOAMY, icon: "🦠", color: "#1B5E20", desc: { en: "Wet Swamp", te: "చిత్తడి నేల" } },
+  "Gravelly Soil": { img: SOIL_SANDY, icon: "🪨", color: "#616161", desc: { en: "Stone Mix", te: "గ్రావెల్ నేల" } },
+  "Forest Soil": { img: SOIL_LOAMY, icon: "🌳", color: "#1B5E20", desc: { en: "Organic Rich", te: "అటవీ నేల" } }
 };
 
 const SoilScreen = ({ language, district, onSelect, onBack }: SoilScreenProps) => {

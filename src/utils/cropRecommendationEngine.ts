@@ -10,7 +10,7 @@ export const getAPCropRecommendations = (weatherResult: any, selectedSoil: strin
 
   const { features } = weatherResult;
   const temp = parseFloat(features?.avgTemp || "28");
-  const rain = parseFloat(features?.avgRain || "300");
+  const rain = parseFloat(features?.totalRain || "0");
 
   // --- STEP 2: SEASON DETECTION ---
   const month = new Date().getMonth() + 1;
@@ -20,9 +20,9 @@ export const getAPCropRecommendations = (weatherResult: any, selectedSoil: strin
   else season = "zaid";
 
   // Optional NASA rainy trend (Step 2)
-  if (rain > 600) season = "kharif";
-  else if (temp < 20) season = "rabi";
-  else if (temp > 35 && rain < 50) season = "zaid";
+  if (rain > 100) season = "kharif";
+  else if (temp < 22) season = "rabi";
+  else if (temp > 35 && rain < 20) season = "zaid";
 
   // --- STEP 3: WEATHER CLASSIFICATION ---
   let weatherType = "normal";
