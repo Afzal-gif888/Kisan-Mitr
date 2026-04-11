@@ -1,28 +1,282 @@
 [
-  { "id": "paddy", "category": "field", "name": { "en": "Paddy (Rice)", "te": "వరి" }, "image": "/assets/crops/paddy.jpg", "weatherSuitability": ["Rainy"], "district_suitability": ["East Godavari", "West Godavari", "Krishna", "Guntur", "Nellore"], "seasons": ["Kharif", "Rabi"], "soil": { "types": ["Clayey", "Loamy"], "ph": "5.5–6.5" }, "water": { "requirement": "Very High", "method": "Flooding", "critical_stages": ["Flowering"], "warning": "Drain before harvest." }, "climate": { "temperature": "20–38°C", "rainfall": "1200–1500 mm", "sensitivity": "Cold sensitive" }, "duration_days": 135, "type_specific": { "practice": "Transplanting" }, "growth_stages": [{ "stage_te": "నాట్లు", "details_te": "25-30 రోజుల మొక్కలను నాటాలి." }], "inputs": { "fertilizer": "120N:60P:40K", "seed_rate": "25 kg/acre" }, "risks": ["Stem Borer"], "farmer_advice_te": ["సమయానుకూలంగా ఎరువులు వాడండి."] },
-  { "id": "groundnut", "category": "oilseeds", "name": { "en": "Groundnut", "te": "వేరుశనగ" }, "image": "/assets/crops/groundnut.jpg", "weatherSuitability": ["Hot"], "district_suitability": ["Anantapur", "Chittoor", "Kadapa", "Kurnool"], "seasons": ["Kharif", "Rabi"], "soil": { "types": ["Sandy Loam", "Red soils"], "ph": "6.0–7.0" }, "water": { "requirement": "Low", "method": "Rainfed", "critical_stages": ["Pegging"], "warning": "Avoid moisture stress." }, "climate": { "temperature": "25–30°C", "rainfall": "450–600 mm", "sensitivity": "Drought tolerant" }, "duration_days": 105, "type_specific": { "practice": "Seed treatment" }, "growth_stages": [{ "stage_te": "ఊడలు దిగడం", "details_te": "నేల మెత్తగా ఉండాలి." }], "inputs": { "fertilizer": "20N:40P:50K", "seed_rate": "60 kg/acre" }, "risks": ["Leaf Spot"], "farmer_advice_te": ["జిప్సం వేయండి."] },
-  { "id": "maize", "category": "field", "name": { "en": "Maize", "te": "మొక్కజొన్న" }, "image": "/assets/crops/maize.jpg", "weatherSuitability": ["Hot", "Rainy"], "district_suitability": ["Guntur", "Kurnool", "NTR"], "seasons": ["Kharif", "Rabi"], "soil": { "types": ["Red Loam", "Black soils"], "ph": "6.0–7.5" }, "water": { "requirement": "Moderate", "method": "Furrow", "critical_stages": ["Tasseling"], "warning": "Waterlogging risk." }, "climate": { "temperature": "18–32°C", "rainfall": "500–800 mm", "sensitivity": "No stagnant water" }, "duration_days": 110, "type_specific": { "practice": "Earthing up" }, "growth_stages": [{ "stage_te": "సిల్కింగ్", "details_te": "తేమ ఉండాలి." }], "inputs": { "fertilizer": "80N:40P:40K", "seed_rate": "10 kg/acre" }, "risks": ["Fall Armyworm"], "farmer_advice_te": ["కత్తెర పురుగు జాగ్రత్త."] },
-  { "id": "jowar", "category": "field", "name": { "en": "Jowar", "te": "జొన్నలు" }, "image": "/assets/crops/jowar.jpg", "weatherSuitability": ["Hot"], "district_suitability": ["Anantapur", "Kurnool"], "seasons": ["Kharif", "Rabi"], "soil": { "types": ["Black soils"], "ph": "6.0–8.0" }, "water": { "requirement": "Low", "method": "Rainfed", "critical_stages": ["Grain molding"], "warning": "Harvest rain risk." }, "climate": { "temperature": "25–35°C", "rainfall": "400–600 mm", "sensitivity": "Heat tolerant" }, "duration_days": 110, "type_specific": { "practice": "Thinning" }, "growth_stages": [{ "stage_te": "పిండ దశ", "details_te": "తేమ అవసరం." }], "inputs": { "fertilizer": "40N:20P", "seed_rate": "4 kg/acre" }, "risks": ["Grain Mold"], "farmer_advice_te": ["కూలిపోకుండా చూడండి."] },
-  { "id": "sunflower", "category": "oilseeds", "name": { "en": "Sunflower", "te": "పొద్దుతిరుగుడు" }, "image": "/assets/crops/sunflower.jpg", "weatherSuitability": ["Winter"], "district_suitability": ["Anantapur", "Kurnool"], "seasons": ["Rabi"], "soil": { "types": ["Deep Black"], "ph": "6.5–8.0" }, "water": { "requirement": "Moderate", "method": "Irrigated", "critical_stages": ["Flowering"], "warning": "Bird damage." }, "climate": { "temperature": "20–30°C", "rainfall": "500–700 mm", "sensitivity": "Flower heat stress" }, "duration_days": 95, "type_specific": { "practice": "Pollination" }, "growth_stages": [{ "stage_te": "పూత దశ", "details_te": "తేనెటీగలు రావాలి." }], "inputs": { "fertilizer": "60N:30P:30K", "seed_rate": "2 kg/acre" }, "risks": ["Head Rot"], "farmer_advice_te": ["పక్షుల నుండి రక్షణ."] },
-  { "id": "pomegranate", "category": "fruits", "name": { "en": "Pomegranate", "te": "దానిమ్మ" }, "image": "/assets/crops/pomegranate.jpg", "weatherSuitability": ["Hot"], "district_suitability": ["Anantapur"], "seasons": ["Rainy season"], "soil": { "types": ["Light Loamy"], "ph": "6.0–8.0" }, "water": { "requirement": "Low", "method": "Drip", "critical_stages": ["Fruit set"], "warning": "Fruit cracking." }, "climate": { "temperature": "25–35°C", "rainfall": "500–600 mm", "sensitivity": "Water fluctuation" }, "duration_days": 730, "type_specific": { "practice": "Pruning" }, "growth_stages": [{ "stage_te": "కాయ మొలక", "details_te": "నీరు క్రమం తప్పకుండా." }], "inputs": { "fertilizer": "600g N", "seed_rate": "300/acre" }, "risks": ["Bacterial Blight"], "farmer_advice_te": ["నీటి యాజమాన్యం ముఖ్యం."] },
-  { "id": "onion", "category": "vegetables", "name": { "en": "Onion", "te": "ఉల్లిపాయ" }, "image": "/assets/crops/onion.jpg", "weatherSuitability": ["Hot", "Winter"], "district_suitability": ["Kurnool", "Kadapa"], "seasons": ["Kharif", "Rabi"], "soil": { "types": ["Red Loam"], "ph": "6.0–7.0" }, "water": { "requirement": "Moderate", "method": "Flooding", "critical_stages": ["Bulb stage"], "warning": "Excess water rot." }, "climate": { "temperature": "15–25°C", "rainfall": "750–1000 mm", "sensitivity": "Heat bolting" }, "duration_days": 110, "type_specific": { "practice": "Transplanting" }, "growth_stages": [{ "stage_te": "దుంప దశ", "details_te": "నీరు తగ్గించండి." }], "inputs": { "fertilizer": "100N:60P", "seed_rate": "4 kg/acre" }, "risks": ["Purple Blotch"], "farmer_advice_te": ["కోతకు ముందు నీరు ఆపండి."] },
-  { "id": "bengalgram", "category": "pulses", "name": { "en": "Bengalgram", "te": "శనగలు" }, "image": "/assets/crops/bengalgram.jpg", "weatherSuitability": ["Winter"], "district_suitability": ["Kurnool", "Prakasam"], "seasons": ["Rabi"], "soil": { "types": ["Black Cotton"], "ph": "6.0–8.5" }, "water": { "requirement": "Low", "method": "Residual moisture", "critical_stages": ["Pod initiation"], "warning": "Maturity rain." }, "climate": { "temperature": "15–25°C", "rainfall": "400–600 mm", "sensitivity": "Salinity" }, "duration_days": 100, "type_specific": { "practice": "Nipping" }, "growth_stages": [{ "stage_te": "పూత దశ", "details_te": "తేమ ఉండాలి." }], "inputs": { "fertilizer": "20N:50P", "seed_rate": "40 kg/acre" }, "risks": ["Wilt"], "farmer_advice_te": ["మంచు మేలు చేస్తుంది."] },
-  { "id": "lemon", "category": "fruits", "name": { "en": "Lemon", "te": "నిమ్మ" }, "image": "/assets/crops/lemon.jpg", "weatherSuitability": ["Rainy", "Hot"], "district_suitability": ["Nellore", "East Godavari"], "seasons": ["June-Dec"], "soil": { "types": ["Alluvial"], "ph": "5.5–7.5" }, "water": { "requirement": "High", "method": "Drip", "critical_stages": ["Fruit set"], "warning": "Fruit drop." }, "climate": { "temperature": "20–35°C", "rainfall": "750–1200 mm", "sensitivity": "Cold sensitive" }, "duration_days": 365, "type_specific": { "practice": "Pruning suckers" }, "growth_stages": [{ "stage_te": "పూత దశ", "details_te": "పోషకాలు పిచికారీ." }], "inputs": { "fertilizer": "600g N", "seed_rate": "80/acre" }, "risks": ["Canker"], "farmer_advice_te": ["వేసవిలో నీరు అవసరం."] },
-  { "id": "cashew", "category": "plantation", "name": { "en": "Cashew", "te": "జీడిమామిడి" }, "image": "/assets/crops/cashew.jpg", "weatherSuitability": ["Hot"], "district_suitability": ["Visakhapatnam", "Srikakulam"], "seasons": ["June-Sept"], "soil": { "types": ["Sandy Loam"], "ph": "5.0–7.5" }, "water": { "requirement": "Low", "method": "Basin", "critical_stages": ["Flowering"], "warning": "Unseasonal rain." }, "climate": { "temperature": "20–35°C", "rainfall": "1000–2000 mm", "sensitivity": "Early rain risk" }, "duration_days": 365, "type_specific": { "practice": "Top working" }, "growth_stages": [{ "stage_te": "పూత దశ", "details_te": "పురుగు నివారణ." }], "inputs": { "fertilizer": "500g N", "seed_rate": "80/acre" }, "risks": ["Tea Mosquito Bug"], "farmer_advice_te": ["కోస్తా గాలి అనుకూలం."] },
-  { "id": "turmeric", "category": "spices", "name": { "en": "Turmeric", "te": "పసుపు" }, "image": "/assets/crops/turmeric.jpg", "weatherSuitability": ["Rainy"], "district_suitability": ["Guntur", "Kadapa"], "seasons": ["Kharif"], "soil": { "types": ["Sandy Clay"], "ph": "6.0–7.5" }, "water": { "requirement": "High", "method": "Heavy", "critical_stages": ["Rhizome"], "warning": "Waterlogging rot." }, "climate": { "temperature": "20–30°C", "rainfall": "1500–2500 mm", "sensitivity": "Stagnant water" }, "duration_days": 270, "type_specific": { "practice": "Earthing up" }, "growth_stages": [{ "stage_te": "దుంప అభివృద్ధి", "details_te": "మట్టి ఎగదోయండి." }], "inputs": { "fertilizer": "120N:50P:100K", "seed_rate": "800 kg/acre" }, "risks": ["Rhizome Rot"], "farmer_advice_te": [" సేంద్రీయ ఎరువులు."] },
-  { "id": "sugarcane", "category": "plantation", "name": { "en": "Sugarcane", "te": "చెరకు" }, "image": "/assets/crops/sugarcane.jpg", "weatherSuitability": ["Rainy"], "district_suitability": ["Visakhapatnam", "Krishna"], "seasons": ["Jan–Feb"], "soil": { "types": ["Heavy Clay"], "ph": "6.5–8.0" }, "water": { "requirement": "High", "method": "Furrow", "critical_stages": ["Tillering"], "warning": "Drought stress." }, "climate": { "temperature": "20–35°C", "rainfall": "1200–1500 mm", "sensitivity": "High humidity" }, "duration_days": 360, "type_specific": { "practice": "Tying" }, "growth_stages": [{ "stage_te": "ముదురు దశ", "details_te": "నీరు తగ్గించండి." }], "inputs": { "fertilizer": "100N:40P", "seed_rate": "30k/acre" }, "risks": ["Red Rot"], "farmer_advice_te": ["ముందుగా నీరు ఆపండి."] },
-  { "id": "tomato", "category": "vegetables", "name": { "en": "Tomato", "te": "టమాటా" }, "image": "/assets/crops/tomato.jpg", "weatherSuitability": ["Hot", "Winter"], "district_suitability": ["Chittoor", "Anantapur"], "seasons": ["Kharif", "Rabi", "Summer"], "soil": { "types": ["Sandy Loam"], "ph": "6.0–7.0" }, "water": { "requirement": "Moderate", "method": "Drip", "critical_stages": ["Fruit set"], "warning": "Cracking risk." }, "climate": { "temperature": "20–28°C", "rainfall": "600–900 mm", "sensitivity": "Heat stress" }, "duration_days": 120, "type_specific": { "practice": "Staking" }, "growth_stages": [{ "stage_te": "కోత", "details_te": "క్రమం తప్పకుండా కోయండి." }], "inputs": { "fertilizer": "60N:40P", "seed_rate": "80g/acre" }, "risks": ["Fruit Borer"], "farmer_advice_te": ["మల్చింగ్ వాడండి."] },
-  { "id": "cotton", "category": "field", "name": { "en": "Cotton", "te": "పత్తి" }, "image": "/assets/crops/cotton.jpg", "weatherSuitability": ["Hot"], "district_suitability": ["Guntur", "Kurnool"], "seasons": ["Kharif"], "soil": { "types": ["Black Cotton"], "ph": "7.0–8.5" }, "water": { "requirement": "Moderate", "method": "Furrow", "critical_stages": ["Boll stage"], "warning": "Salinity." }, "climate": { "temperature": "21–35°C", "rainfall": "600–1000 mm", "sensitivity": "Untimely rain" }, "duration_days": 160, "type_specific": { "practice": "De-topping" }, "growth_stages": [{ "stage_te": "కాయ ఏరడం", "details_te": "ఎండలో ఏరాలి." }], "inputs": { "fertilizer": "120N:60P", "seed_rate": "1.5 kg/acre" }, "risks": ["Bollworm"], "farmer_advice_te": ["అంతర పంటలు మేలు."] },
-  { "id": "redgram", "category": "pulses", "name": { "en": "Redgram", "te": "కందులు" }, "image": "/assets/crops/redgram.jpg", "weatherSuitability": ["Hot"], "district_suitability": ["Prakasam", "Anantapur"], "seasons": ["Kharif"], "soil": { "types": ["Red Loam"], "ph": "6.5–7.5" }, "water": { "requirement": "Low", "method": "Rainfed", "critical_stages": ["Pod filling"], "warning": "Salt sensitive." }, "climate": { "temperature": "25–35°C", "rainfall": "600–900 mm", "sensitivity": "Flowering dry spell" }, "duration_days": 180, "type_specific": { "practice": "Nipping tops" }, "growth_stages": [{ "stage_te": "పూత దశ", "details_te": "పురుగు నివారణ." }], "inputs": { "fertilizer": "20N:50P", "seed_rate": "6 kg/acre" }, "risks": ["Wilt"], "farmer_advice_te": ["పంట మార్పిడి."] },
-  { "id": "coconut", "category": "plantation", "name": { "en": "Coconut", "te": "కొబ్బరి" }, "image": "/assets/crops/coconut.jpg", "weatherSuitability": ["Rainy"], "district_suitability": ["East Godavari", "Srikakulam"], "seasons": ["Any time"], "soil": { "types": ["Coastal Sandy"], "ph": "5.5–8.0" }, "water": { "requirement": "High", "method": "Basin", "critical_stages": ["Year round"], "warning": "Don't let dry." }, "climate": { "temperature": "22–32°C", "rainfall": "1500–2500 mm", "sensitivity": "Cyclone" }, "duration_days": 365, "type_specific": { "practice": "Cleaning" }, "growth_stages": [{ "stage_te": "కోత", "details_te": "ముదిరిన కాయ." }], "inputs": { "fertilizer": "500g N", "seed_rate": "70/acre" }, "risks": ["Bud Rot"], "farmer_advice_te": ["సహజ ఎరువులు."] },
-  { "id": "chilli", "category": "spices", "name": { "en": "Chilli", "te": "మిర్చి" }, "image": "/assets/crops/chilli.jpg", "weatherSuitability": ["Hot", "Rainy"], "district_suitability": ["Guntur", "Kurnool"], "seasons": ["Kharif"], "soil": { "types": ["Black Cotton"], "ph": "6.5–7.5" }, "water": { "requirement": "Moderate", "method": "Drip", "critical_stages": ["Fruit set"], "warning": "Damping off." }, "climate": { "temperature": "20–30°C", "rainfall": "600–1000 mm", "sensitivity": "Humid rain" }, "duration_days": 180, "type_specific": { "practice": "Nursery" }, "growth_stages": [{ "stage_te": "కోత", "details_te": "ఎర్రగా పండాక." }], "inputs": { "fertilizer": "150N:60P", "seed_rate": "300g/acre" }, "risks": ["Thrips"], "farmer_advice_te": ["జిగురు అట్టలు వాడండి."] },
-  { "id": "mango", "category": "fruits", "name": { "en": "Mango", "te": "మామిడి" }, "image": "/assets/crops/mango.jpg", "weatherSuitability": ["Hot"], "district_suitability": ["Chittoor", "Krishna", "Tirupati"], "seasons": ["June-Dec"], "soil": { "types": ["Red Sandy Loam"], "ph": "6.0–7.5" }, "water": { "requirement": "Low", "method": "Basin", "critical_stages": ["Flowering"], "warning": "High wind." }, "climate": { "temperature": "24–30°C", "rainfall": "750–1500 mm", "sensitivity": "Untimely rain at flower" }, "duration_days": 3650, "type_specific": { "practice": "Pruning" }, "growth_stages": [{ "stage_te": "కోత", "details_te": "నెమ్మదిగా కోయాలి." }], "inputs": { "fertilizer": "1kg N", "seed_rate": "40/acre" }, "risks": ["Hopper"], "farmer_advice_te": ["పూత సమయంలో నీరు ఆపండి."] },
-  { "id": "banana", "category": "fruits", "name": { "en": "Banana", "te": "అరటి" }, "image": "/assets/crops/banana.jpg", "weatherSuitability": ["Rainy", "Hot"], "district_suitability": ["East Godavari", "West Godavari"], "seasons": ["Year-round"], "soil": { "types": ["Alluvial"], "ph": "6.5–7.5" }, "water": { "requirement": "Very High", "method": "Drip", "critical_stages": ["Fruit growth"], "warning": "Wind damage." }, "climate": { "temperature": "20–35°C", "rainfall": "1000–2000 mm", "sensitivity": "High wind" }, "duration_days": 330, "type_specific": { "practice": "Propping" }, "growth_stages": [{ "stage_te": "గెల దశ", "details_te": "మద్దతు ఇవ్వాలి." }], "inputs": { "fertilizer": "Potash rich", "seed_rate": "1200/acre" }, "risks": ["Panama Wilt"], "farmer_advice_te": ["పిలకలు తొలగించాలి."] },
-  { "id": "mulberry", "category": "plantation", "name": { "en": "Mulberry", "te": "మల్బరీ" }, "image": "/assets/crops/mulberry.jpg", "weatherSuitability": ["Hot", "Rainy", "Winter"], "district_suitability": ["Sri Sathya Sai"], "seasons": ["Year-round"], "soil": { "types": ["Red soils", "Well-drained Loamy"], "ph": "6.5–7.5" }, "water": { "requirement": "Moderate", "method": "Drip", "critical_stages": ["Pruning recovery"], "warning": "Waterlogging kills roots." }, "climate": { "temperature": "20–30°C", "rainfall": "600–1000 mm", "sensitivity": "High humidity" }, "duration_days": 365, "type_specific": { "practice": "Pruning and fertilizer" }, "growth_stages": [{ "stage_te": "చిగురు దశ", "details_te": "నాణ్యమైన ఆకులు." }], "inputs": { "fertilizer": "Heavy FYM", "seed_rate": "Planting cuttings" }, "risks": ["Leaf Spot"], "farmer_advice_te": ["పట్టు పురుగుల మేతకు ముఖ్యం."] },
-  { "id": "tobacco", "category": "plantation", "name": { "en": "Tobacco", "te": "పొగాకు" }, "image": "/assets/crops/tobacco.jpg", "weatherSuitability": ["Winter"], "district_suitability": ["Nellore", "Prakasam"], "seasons": ["Rabi"], "soil": { "types": ["Black Cotton", "Light Red soils"], "ph": "7.0–8.0" }, "water": { "requirement": "Low", "method": "Residual moisture", "critical_stages": ["Transplanting"], "warning": "Salinity ruins quality." }, "climate": { "temperature": "20–30°C", "rainfall": "500–750 mm", "sensitivity": "Rain at harvest" }, "duration_days": 120, "type_specific": { "practice": "Topping and Desuckering" }, "growth_stages": [{ "stage_te": "ఆకు ఆరబెట్టడం", "details_te": "నాణ్యత పెంచడానికి." }], "inputs": { "fertilizer": "Sulphate of potash", "seed_rate": "Nursery plants" }, "risks": ["Mosaic Virus"], "farmer_advice_te": ["పొగపెట్టడం (Curing) జాగ్రత్త."] },
-  { "id": "citrus", "category": "fruits", "name": { "en": "Citrus", "te": "నిమ్మ/నారింజ" }, "image": "/assets/crops/citrus.jpg", "weatherSuitability": ["Hot", "Winter"], "district_suitability": ["Annamayya", "East Godavari"], "seasons": ["June-Dec"], "soil": { "types": ["Deep Red soils"], "ph": "6.0–7.5" }, "water": { "requirement": "Moderate", "method": "Drip", "critical_stages": ["Flowering"], "warning": "Root rot in logging." }, "climate": { "temperature": "20–35°C", "rainfall": "800–1200 mm", "sensitivity": "Cold sensitive" }, "duration_days": 365, "type_specific": { "practice": "Micronutrients" }, "growth_stages": [{ "stage_te": "కాయ పెరుగుదల", "details_te": "జింక్ పిచికారీ." }], "inputs": { "fertilizer": "Balanced NPK", "seed_rate": "Budded plants" }, "risks": ["Canker"], "farmer_advice_te": ["ఎండిన కొమ్మలు తీయాలి."] },
-  { "id": "oil_palm", "category": "plantation", "name": { "en": "Oil Palm", "te": "ఆయిల్ పామ్" }, "image": "/assets/crops/oil_palm.jpg", "weatherSuitability": ["Rainy"], "district_suitability": ["Eluru", "West Godavari"], "seasons": ["Any time"], "soil": { "types": ["Deep Loamy", "Alluvial"], "ph": "6.0–7.5" }, "water": { "requirement": "Very High", "method": "Drip/Continuous", "critical_stages": ["Drought stress"], "warning": "Requires 200-300 liters per day per tree." }, "climate": { "temperature": "25–35°C", "rainfall": "2000–3000 mm (Equiv)", "sensitivity": "Dry winds" }, "duration_days": 3000, "type_specific": { "practice": "Ablation of young flowers" }, "growth_stages": [{ "stage_te": "గెలలు కోయడం", "details_te": "సరైన సమయంలో." }], "inputs": { "fertilizer": "High Potassium", "seed_rate": "57 plants/acre" }, "risks": ["Wild Boar", "Drought"], "farmer_advice_te": ["నీటి వసతి ఉంటేనే సాగు చేయండి."] },
-  { "id": "coffee", "category": "plantation", "name": { "en": "Coffee", "te": "కాఫీ" }, "image": "/assets/crops/coffee.jpg", "weatherSuitability": ["Winter", "Rainy"], "district_suitability": ["Alluri Sitharama Raju"], "seasons": ["Planting: Monsoon"], "soil": { "types": ["Organic Rich Forest soils"], "ph": "5.5–6.5" }, "water": { "requirement": "Moderate", "method": "Rain/Sprinkle", "critical_stages": ["Blossom shower"], "warning": "Requires shade." }, "climate": { "temperature": "15–25°C", "rainfall": "1500–2500 mm", "sensitivity": "Direct sunlight" }, "duration_days": 1000, "type_specific": { "practice": "Shade tree management" }, "growth_stages": [{ "stage_te": "గింజల సేకరణ", "details_te": "ఎర్రని పండ్లు." }], "inputs": { "fertilizer": "Organic compost", "seed_rate": "Shade dependent" }, "risks": ["White Stem Borer"], "farmer_advice_te": ["నీడ చెట్లను పెంచాలి."] },
-  { "id": "pepper", "category": "spices", "name": { "en": "Black Pepper", "te": "మిరియాలు" }, "image": "/assets/crops/pepper.jpg", "weatherSuitability": ["Rainy"], "district_suitability": ["Alluri Sitharama Raju"], "seasons": ["Monsoon"], "soil": { "types": ["Rich Humus soils"], "ph": "5.5–6.5" }, "water": { "requirement": "High", "method": "Rainfed", "critical_stages": ["Pollination"], "warning": "Requires tall supports." }, "climate": { "temperature": "20–30°C", "rainfall": "2000–3000 mm", "sensitivity": "Cold waves" }, "duration_days": 1000, "type_specific": { "practice": "Growing on support trees" }, "growth_stages": [{ "stage_te": "ఆముదాల కోత", "details_te": "ఎండిన మిరియాలు." }], "inputs": { "fertilizer": "Organic rich", "seed_rate": "Cuttings" }, "risks": ["Quick Wilt"], "farmer_advice_te": ["చెట్ల ఆధారంగా సాగు చేయండి."] },
-  { "id": "vegetables", "category": "vegetables", "name": { "en": "Mixed Vegetables", "te": "కూరగాయలు" }, "image": "/assets/crops/vegetables.jpg", "weatherSuitability": ["Winter", "Hot"], "district_suitability": ["Visakhapatnam"], "seasons": ["Year-round"], "soil": { "types": ["Alluvial Loam"], "ph": "6.0–7.5" }, "water": { "requirement": "Moderate", "method": "Drip", "critical_stages": ["Growth"], "warning": "Daily monitoring." }, "climate": { "temperature": "20–30°C", "rainfall": "750–1200 mm", "sensitivity": "Frost/High heat" }, "duration_days": 90, "type_specific": { "practice": "Crop rotation" }, "growth_stages": [{ "stage_te": "దిగుబడి", "details_te": "తాజా కూరగాయలు." }], "inputs": { "fertilizer": "NPK balanced", "seed_rate": "Varied" }, "risks": ["Pests"], "farmer_advice_te": ["మార్కెట్ దగ్గరగా ఉండటం ముఖ్యం."] }
+  {
+    "id": "paddy",
+    "name": { "en": "Paddy (Rice)", "te": "వరి" },
+    "image": "/assets/crops/paddy.jpg",
+    "soils": ["Clay Soil", "Clayey", "Loamy", "Alluvial Soil", "Delta Alluvial Soil"],
+    "weather": ["rainy", "normal"],
+    "seasons": ["kharif", "rabi"],
+    "districts": ["East Godavari", "West Godavari", "Krishna", "Guntur", "Nellore", "Bapatla", "Kakinada", "Konaseema"],
+    "details": {
+      "water": "Very High",
+      "duration": "135 days",
+      "advice": "Keep 2-5cm water level during tillering."
+    }
+  },
+  {
+    "id": "groundnut",
+    "name": { "en": "Groundnut", "te": "వేరుశనగ" },
+    "image": "/assets/crops/groundnut.jpg",
+    "soils": ["Red Soil", "Red Sandy Loam", "Sandy Soil", "Light Loamy"],
+    "weather": ["hot", "normal"],
+    "seasons": ["kharif", "zaid"],
+    "districts": ["Anantapur", "Chittoor", "YSR Kadapa", "Kurnool", "Sri Sathya Sai", "Tirupati"],
+    "details": {
+      "water": "Low",
+      "duration": "105 days",
+      "advice": "Apply Gypsum at 45 days after sowing."
+    }
+  },
+  {
+    "id": "maize",
+    "name": { "en": "Maize", "te": "మొక్కజొన్న" },
+    "image": "/assets/crops/maize.jpg",
+    "soils": ["Red Soil", "Black Cotton Soil", "Loamy Soil", "Alluvial Soil"],
+    "weather": ["hot", "rainy", "normal"],
+    "seasons": ["kharif", "rabi"],
+    "districts": ["Guntur", "Kurnool", "NTR", "Vizianagaram", "Parvathipuram Manyam", "Eluru"],
+    "details": {
+      "water": "Moderate",
+      "duration": "110 days",
+      "advice": "Control Fall Armyworm at early stage."
+    }
+  },
+  {
+    "id": "cotton",
+    "name": { "en": "Cotton", "te": "పత్తి" },
+    "image": "/assets/crops/cotton.jpg",
+    "soils": ["Black Cotton Soil", "Deep Black", "Clay Soil"],
+    "weather": ["hot", "normal"],
+    "seasons": ["kharif"],
+    "districts": ["Guntur", "Kurnool", "Prakasam", "Nandyal", "Palnadu", "Bapatla"],
+    "details": {
+      "water": "Moderate",
+      "duration": "160 days",
+      "advice": "Avoid water logging in black soils."
+    }
+  },
+  {
+    "id": "chilli",
+    "name": { "en": "Chilli", "te": "మిర్చి" },
+    "image": "/assets/crops/chilli.jpg",
+    "soils": ["Black Cotton Soil", "Red Loamy Soil", "Alluvial Soil"],
+    "weather": ["hot", "rainy", "normal"],
+    "seasons": ["kharif", "rabi"],
+    "districts": ["Guntur", "Kurnool", "Prakasam", "Krishna", "Palnadu", "Bapatla"],
+    "details": {
+      "water": "Moderate",
+      "duration": "180 days",
+      "advice": "Use sticky traps for thrips control."
+    }
+  },
+  {
+    "id": "tomato",
+    "name": { "en": "Tomato", "te": "టమాటా" },
+    "image": "/assets/crops/tomato.jpg",
+    "soils": ["Red Sandy Loam", "Red Soil", "Loamy Soil"],
+    "weather": ["normal", "cold"],
+    "seasons": ["kharif", "rabi", "zaid"],
+    "districts": ["Chittoor", "Anantapur", "Annamayya", "Visakhapatnam"],
+    "details": {
+      "water": "Moderate",
+      "duration": "120 days",
+      "advice": "Mulching helps in moisture retention."
+    }
+  },
+  {
+    "id": "bengalgram",
+    "name": { "en": "Bengal Gram", "te": "శనగలు" },
+    "image": "/assets/crops/bengalgram.jpg",
+    "soils": ["Black Cotton Soil", "Clay Soil"],
+    "weather": ["cold", "normal"],
+    "seasons": ["rabi"],
+    "districts": ["Kurnool", "Prakasam", "Nandyal", "YSR Kadapa"],
+    "details": {
+      "water": "Low",
+      "duration": "100 days",
+      "advice": "Grows best on residual soil moisture."
+    }
+  },
+  {
+    "id": "sugarcane",
+    "name": { "en": "Sugarcane", "te": "చెరకు" },
+    "image": "/assets/crops/sugarcane.jpg",
+    "soils": ["Alluvial Soil", "Clay Soil", "Black Cotton Soil"],
+    "weather": ["rainy", "hot"],
+    "seasons": ["kharif", "zaid"],
+    "districts": ["Visakhapatnam", "Krishna", "Anakapalli", "Srikakulam", "Chittoor"],
+    "details": {
+      "water": "High",
+      "duration": "360 days",
+      "advice": "Tying of canes prevents lodging."
+    }
+  },
+  {
+    "id": "banana",
+    "name": { "en": "Banana", "te": "అరటి" },
+    "image": "/assets/crops/banana.jpg",
+    "soils": ["Alluvial Soil", "Delta Alluvial Soil", "Loamy Soil"],
+    "weather": ["hot", "rainy"],
+    "seasons": ["kharif", "rabi", "zaid"],
+    "districts": ["East Godavari", "West Godavari", "YSR Kadapa", "Krishna", "Konaseema"],
+    "details": {
+      "water": "Very High",
+      "duration": "330 days",
+      "advice": "Provide support to the bunch."
+    }
+  },
+  {
+    "id": "mango",
+    "name": { "en": "Mango", "te": "మామిడి" },
+    "image": "/assets/crops/mango.jpg",
+    "soils": ["Red Sandy Loam", "Red Soil", "Laterite Soil"],
+    "weather": ["hot", "normal"],
+    "seasons": ["kharif", "zaid"],
+    "districts": ["Chittoor", "Krishna", "Tirupati", "Annamayya", "Vizianagaram"],
+    "details": {
+      "water": "Low",
+      "duration": "Perennial",
+      "advice": "Pruning is essential after harvest."
+    }
+  },
+  {
+    "id": "redgram",
+    "name": { "en": "Red Gram", "te": "కందులు" },
+    "image": "/assets/crops/redgram.jpg",
+    "soils": ["Red Soil", "Red Loamy Soil", "Gravelly Soil"],
+    "weather": ["hot", "normal"],
+    "seasons": ["kharif"],
+    "districts": ["Anantapur", "Kurnool", "Prakasam", "YSR Kadapa"],
+    "details": {
+      "water": "Low",
+      "duration": "180 days",
+      "advice": "Control Maruca spotted pod borer at flowering."
+    }
+  },
+  {
+    "id": "blackgram",
+    "name": { "en": "Black Gram", "te": "మినుములు" },
+    "image": "/assets/crops/blackgram.jpg",
+    "soils": ["Black Cotton Soil", "Alluvial Soil"],
+    "weather": ["normal", "cold"],
+    "seasons": ["rabi", "zaid"],
+    "districts": ["Krishna", "Guntur", "Nellore", "West Godavari"],
+    "details": {
+      "water": "Low",
+      "duration": "80 days",
+      "advice": "Suited for rice fallow cultivation."
+    }
+  },
+  {
+    "id": "tobacco",
+    "name": { "en": "Tobacco", "te": "పొగాకు" },
+    "image": "/assets/crops/tobacco.jpg",
+    "soils": ["Black Cotton Soil", "Light Red soils", "Coastal Sandy Soil"],
+    "weather": ["cold", "normal"],
+    "seasons": ["rabi"],
+    "districts": ["Prakasam", "Nellore", "West Godavari", "Guntur"],
+    "details": {
+      "water": "Low",
+      "duration": "120 days",
+      "advice": "Curing determines leaf quality."
+    }
+  },
+  {
+    "id": "coconut",
+    "name": { "en": "Coconut", "te": "కొబ్బరి" },
+    "image": "/assets/crops/coconut.jpg",
+    "soils": ["Coastal Sandy Soil", "Alluvial Soil", "Delta Alluvial Soil"],
+    "weather": ["rainy", "hot"],
+    "seasons": ["kharif", "rabi", "zaid"],
+    "districts": ["East Godavari", "Srikakulam", "West Godavari", "Konaseema", "Kakinada"],
+    "details": {
+      "water": "High",
+      "duration": "Perennial",
+      "advice": "Apply organic manure in basins."
+    }
+  },
+  {
+    "id": "oil_palm",
+    "name": { "en": "Oil Palm", "te": "ఆయిల్ పామ్" },
+    "image": "/assets/crops/oil_palm.jpg",
+    "soils": ["Delta Alluvial Soil", "Alluvial Soil", "Clay Soil"],
+    "weather": ["rainy", "hot"],
+    "seasons": ["kharif", "rabi", "zaid"],
+    "districts": ["West Godavari", "Eluru", "Konaseema", "Kakinada"],
+    "details": {
+      "water": "Very High",
+      "duration": "Perennial",
+      "advice": "Requires 200+ liters water per day per palm."
+    }
+  },
+  {
+    "id": "sunflower",
+    "name": { "en": "Sunflower", "te": "పొద్దుతిరుగుడు" },
+    "image": "/assets/crops/sunflower.jpg",
+    "soils": ["Black Cotton Soil", "Deep Black", "Red Soil"],
+    "weather": ["hot", "cold", "normal"],
+    "seasons": ["rabi", "zaid"],
+    "districts": ["Anantapur", "Kurnool", "YSR Kadapa"],
+    "details": {
+      "water": "Moderate",
+      "duration": "95 days",
+      "advice": "Keep hives for better pollination."
+    }
+  },
+  {
+    "id": "turmeric",
+    "name": { "en": "Turmeric", "te": "పసుపు" },
+    "image": "/assets/crops/turmeric.jpg",
+    "soils": ["Sandy Clay", "Clayey", "Loamy", "Red Loamy Soil"],
+    "weather": ["rainy", "hot"],
+    "seasons": ["kharif"],
+    "districts": ["Guntur", "YSR Kadapa", "Alluri Sitharama Raju"],
+    "details": {
+      "water": "High",
+      "duration": "270 days",
+      "advice": "Rhizome rot is a major risk in waterlogging."
+    }
+  },
+  {
+    "id": "onion",
+    "name": { "en": "Onion", "te": "ఉల్లిపాయ" },
+    "image": "/assets/crops/onion.jpg",
+    "soils": ["Red Sandy Loam", "Loamy Soil", "Black Cotton Soil"],
+    "weather": ["normal", "cold"],
+    "seasons": ["kharif", "rabi"],
+    "districts": ["Kurnool", "YSR Kadapa", "Anantapur"],
+    "details": {
+      "water": "Moderate",
+      "duration": "110 days",
+      "advice": "Stop watering 15 days before harvest."
+    }
+  },
+  {
+    "id": "jowar",
+    "name": { "en": "Jowar", "te": "జొన్నలు" },
+    "image": "/assets/crops/jowar.jpg",
+    "soils": ["Black Cotton Soil", "Red Soil"],
+    "weather": ["hot", "normal"],
+    "seasons": ["kharif", "rabi"],
+    "districts": ["Anantapur", "Kurnool", "Nandyal"],
+    "details": {
+      "water": "Low",
+      "duration": "110 days",
+      "advice": "Very high drought tolerance."
+    }
+  },
+  {
+    "id": "greengram",
+    "name": { "en": "Green Gram", "te": "పెసలు" },
+    "image": "/assets/crops/greengram.jpg",
+    "soils": ["Red Soil", "Black Cotton Soil", "Alluvial Soil"],
+    "weather": ["hot", "normal"],
+    "seasons": ["kharif", "rabi", "zaid"],
+    "districts": ["Srikakulam", "Vizianagaram", "Guntur", "Krishna"],
+    "details": {
+      "water": "Low",
+      "duration": "65 days",
+      "advice": "Grows fast, good for soil health."
+    }
+  }
 ]
