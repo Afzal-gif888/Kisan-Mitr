@@ -45,14 +45,14 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
     );
   }
 
-  const { guide, situationalAdvice, isDistrictSuitable } = result;
+  const { guide, situationalAdvice } = result;
   const baseCrop = (crops as any)[cropKey?.toLowerCase().replace(/[^a-z]/g, '')];
 
   const handleVoice = () => {
     if ("speechSynthesis" in window) {
       speechSynthesis.cancel();
       const situationalText = situationalAdvice.map(a => a[language]).join(". ");
-      const text = `${guide.name[language]}. ${isDistrictSuitable ? "ఈ పంట మీ జిల్లాకు అనుకూలం." : ""}. ${situationalText}. ${guide.growth_stages.map((s: any) => s.stage_te).join(". ")}`;
+      const text = `${guide.name[language]}. ${situationalText}. ${guide.growth_stages.map((s: any) => s.stage_te).join(". ")}`;
       const msg = new SpeechSynthesisUtterance(text);
       msg.lang = language === "te" ? "te-IN" : "en-US";
       msg.rate = 0.85;
@@ -104,17 +104,6 @@ const GuidanceScreen = ({ language, cropKey, weatherResult, onBack, onStartOver 
                         </p>
                     </div>
                 ))}
-            </div>
-
-            {/* District Suitability Badge */}
-            <div className={`mt-4 px-5 py-3 rounded-2xl flex items-center gap-3 border-2 ${isDistrictSuitable ? 'bg-emerald-50 border-emerald-100 text-emerald-700' : 'bg-red-50 border-red-100 text-red-700'}`}>
-                {isDistrictSuitable ? <ShieldCheck size={20} /> : <AlertCircle size={20} />}
-                <p className="text-[10px] font-black uppercase tracking-widest">
-                    {isDistrictSuitable 
-                       ? (language === "te" ? "ఈ ప్రాంతానికి సరైన పంట" : "Ideal for your District") 
-                       : (language === "te" ? "మీ ప్రాంతానికి పూర్తిగా సరిపోదు" : "Not Ideal for this District")
-                    }
-                </p>
             </div>
         </div>
 

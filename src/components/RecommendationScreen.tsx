@@ -9,6 +9,7 @@ import cropMaize from "@/assets/crop-maize.jpg";
 import cropSunflower from "@/assets/crop-sunflower.jpg";
 import cropCotton from "@/assets/crop-cotton.jpg";
 import cropWheat from "@/assets/crop-wheat.jpg";
+import { crops } from "@/lib/cropData";
 import farmHero from "@/assets/farm-hero.jpg"; // Fallback image
 
 interface RecommendationScreenProps {
@@ -29,12 +30,8 @@ const RecommendationScreen = ({ language, soil, weatherResult, onViewGuide, onBa
   const topCrops = recommendations.recommendedCrops.slice(0, 3);
 
   const getImage = (name: string) => {
-      const lower = name.toLowerCase();
-      if (lower.includes("paddy") || lower.includes("rice")) return cropRice;
-      if (lower.includes("maize")) return cropMaize;
-      if (lower.includes("sunflower")) return cropSunflower;
-      if (lower.includes("cotton")) return cropCotton;
-      if (lower.includes("wheat")) return cropWheat;
+      const lower = name.toLowerCase().replace(/[^a-z]/g, '');
+      if (crops[lower]) return crops[lower].image;
       return farmHero; 
   };
 

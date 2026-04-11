@@ -1,10 +1,13 @@
 import cropsDataset from "../data/apCropDataset.json";
 import districtMap from "../data/apDistrictCropMap.json";
+import districtCropMapping from "../data/apDistrictCropMapping.json";
 import marketPrices from "../data/apMarketPrices.json";
 
 /**
- * getAPCropRecommendations v4.2 (Economically Intelligent)
- * Now includes market profitability outlook and demand analysis.
+ * getAPCropRecommendations v5.0 (District-Locked Intelligence)
+ * 
+ * RULE: Only crops that are ACTUALLY FARMED in the farmer's district
+ * will be recommended. No "not suitable for your district" situations.
  */
 export const getAPCropRecommendations = (weatherResult, soilSelection, districtName, language = "en") => {
   if (!weatherResult || !soilSelection) return { recommendedCrops: [], disclaimer: "" };
@@ -18,72 +21,78 @@ export const getAPCropRecommendations = (weatherResult, soilSelection, districtN
   
   const districtInfo = districtMap[districtName] || null;
 
-  const recommendations = cropsDataset.map((crop) => {
-    let score = 0;
-    let weatherReasons = [];
-    let districtLabel = "";
+  // ===== DISTRICT LOCK: Only consider crops farmed in this district =====
+  const districtCrops = districtCropMapping[districtName] || [];
 
-    const cropId = crop.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-    const market = marketPrices[cropId] || null;
+  const recommendations = cropsDataset
+    .filter((crop) => {
+      // If we have district data, ONLY allow crops from that district
+      if (districtCrops.length > 0) {
+        const cropId = crop.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        return districtCrops.includes(cropId);
+      }
+      // If district not found in mapping, allow all crops (fallback)
+      return true;
+    })
+    .map((crop) => {
+      let score = 0;
 
-    // --- RULE: HARD GUARD (Weather Only) ---
-    if (summary.rain === "Very Low" && crop.waterRequirement === "high") {
-      return { ...crop, score: 0 };
-    }
+      const cropId = crop.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const market = marketPrices[cropId] || null;
 
-    // 1. Weather Logic (Standard Scoring)
-    const waterMatch = 
-      (summary.rain === "High" && crop.waterRequirement === "high") ||
-      (summary.rain === "Normal" && crop.waterRequirement === "medium") ||
-      (summary.rain === "Low" && crop.waterRequirement === "low") ||
-      (summary.rain === "Very Low" && crop.waterRequirement === "low");
+      // --- RULE: HARD GUARD (Weather Safety) ---
+      if (summary.rain === "Very Low" && crop.waterRequirement === "high") {
+        return { ...crop, score: 0 };
+      }
 
-    if (waterMatch) score += 40; else score += 15;
-    if (tempVal >= crop.idealTemp.min && tempVal <= crop.idealTemp.max) score += 25;
-    if (humVal >= crop.idealHumidity.min && humVal <= crop.idealHumidity.max) score += 15;
-    
-    // 2. Soil Match
-    const matchesSoil = crop.soilTypes.some(s => s === normalizedSoil || normalizedSoil.includes(s));
-    if (matchesSoil) score += 20;
+      // 1. Weather Logic (Standard Scoring)
+      const waterMatch = 
+        (summary.rain === "High" && crop.waterRequirement === "high") ||
+        (summary.rain === "Normal" && crop.waterRequirement === "medium") ||
+        (summary.rain === "Low" && crop.waterRequirement === "low") ||
+        (summary.rain === "Very Low" && crop.waterRequirement === "low");
 
-    // --- 3. DISTRICT INTELLIGENCE LAYER ---
-    if (districtInfo) {
+      if (waterMatch) score += 40; else score += 15;
+      if (tempVal >= crop.idealTemp.min && tempVal <= crop.idealTemp.max) score += 25;
+      if (humVal >= crop.idealHumidity.min && humVal <= crop.idealHumidity.max) score += 15;
+      
+      // 2. Soil Match
+      const matchesSoil = crop.soilTypes.some(s => s === normalizedSoil || normalizedSoil.includes(s));
+      if (matchesSoil) score += 20;
+
+      // 3. District Boost (from old boost/avoid map)
+      if (districtInfo) {
         if (districtInfo.boostCrops.includes(crop.name)) {
-            score += 20;
-            districtLabel = language === "te" ? "మీ ప్రాంతానికి అనుకూలమైన పంట" : "Recommended for your district";
+          score += 15;
         }
-        if (districtInfo.avoidCrops.includes(crop.name)) {
-            score -= 30;
-            // HARD RULE: If in avoid list AND score is not already High -> REMOVE
-            if (score < 80) return { ...crop, score: 0 };
-        }
-    }
+      }
 
-    return {
-      name: crop.name,
-      teluguName: crop.telugu,
-      englishName: crop.name,
-      suitability: score >= 85 ? "High" : score >= 60 ? "Medium" : "Low",
-      reason: language === "te" ? "ఈ సీజన్కు మంచి ఎంపిక" : "Perfect for the current season",
-      weatherReason: waterMatch 
-        ? (summary.rain === "Low" || summary.rain === "Very Low" ? (language === "te" ? "తక్కువ వర్షానికి సరిపోతుంది" : "Suitable for low rain") : (language === "te" ? "సరైన వర్షపాతం" : "Ideal rainfall"))
-        : (language === "te" ? "తట్టుకోగలదు" : "Can tolerate current conditions"),
-      soilReason: language === "te" ? "మీ నేలకు అనుకూలం" : "Matches your soil type",
-      marketOutlook: market ? (language === "te" ? market.te_advice : market.outlook) : (language === "te" ? "ధర అందుబాటులో లేదు" : "No price info"),
-      waterNeed: crop.waterRequirement === "low" ? (language === "te" ? "తక్కువ" : "Low") : crop.waterRequirement === "medium" ? (language === "te" ? "మధ్యస్థం" : "Medium") : (language === "te" ? "ఎక్కువ" : "High"),
-      heatTolerance: tempVal > 30 ? (language === "te" ? "ఎక్కువ" : "High") : (language === "te" ? "మధ్యస్థం" : "Medium"),
-      score
-    };
-  });
+      return {
+        name: crop.name,
+        teluguName: crop.telugu,
+        englishName: crop.name,
+        suitability: score >= 85 ? "High" : score >= 60 ? "Medium" : "Low",
+        reason: language === "te" ? "ఈ సీజన్కు మంచి ఎంపిక" : "Perfect for the current season",
+        weatherReason: waterMatch 
+          ? (summary.rain === "Low" || summary.rain === "Very Low" ? (language === "te" ? "తక్కువ వర్షానికి సరిపోతుంది" : "Suitable for low rain") : (language === "te" ? "సరైన వర్షపాతం" : "Ideal rainfall"))
+          : (language === "te" ? "తట్టుకోగలదు" : "Can tolerate current conditions"),
+        soilReason: language === "te" ? "మీ నేలకు అనుకూలం" : "Matches your soil type",
+        districtReason: language === "te" ? `${districtName} జిల్లాలో సాగు చేయబడుతుంది` : `Farmed in ${districtName} district`,
+        marketOutlook: market ? (language === "te" ? market.te_advice : market.outlook) : (language === "te" ? "ధర అందుబాటులో లేదు" : "No price info"),
+        waterNeed: crop.waterRequirement === "low" ? (language === "te" ? "తక్కువ" : "Low") : crop.waterRequirement === "medium" ? (language === "te" ? "మధ్యస్థం" : "Medium") : (language === "te" ? "ఎక్కువ" : "High"),
+        heatTolerance: tempVal > 30 ? (language === "te" ? "ఎక్కువ" : "High") : (language === "te" ? "మధ్యస్థం" : "Medium"),
+        score
+      };
+    });
 
   // Filter and Sort
   const finalCrops = recommendations
     .filter(c => c.score >= 50)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 3);
+    .slice(0, 5);
 
-  const districtAdvice = districtInfo 
-    ? (language === "te" ? `${districtName} జిల్లాలో ఈ పంటలు బాగా పెరుగుతాయి` : `${districtName} district is historically good for these crops`)
+  const districtAdvice = districtName 
+    ? (language === "te" ? `${districtName} జిల్లాలో సాగు చేయబడే పంటలు మాత్రమే సూచించబడ్డాయి` : `Only crops farmed in ${districtName} district are shown`)
     : "";
 
   const safetyDisclaimer = language === "te" 
