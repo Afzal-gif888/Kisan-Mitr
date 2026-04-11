@@ -147,7 +147,8 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                 district: districtName,
                 features,
                 farmerInsights,
-                fiveDayForecast
+                fiveDayForecast,
+                weatherType: analysis.classification?.weatherType || "Normal"
             };
 
             setPrediction(weatherResult);
