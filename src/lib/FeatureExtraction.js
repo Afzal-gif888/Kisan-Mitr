@@ -56,6 +56,15 @@ export function extractFeatures(weatherData) {
     const secondHalfAvgHum = secondHalf.reduce((a, b) => a + b.humidity, 0) / secondHalf.length;
     const humidityTrend = getTrend(secondHalfAvgHum, firstHalfAvgHum);
 
+    // D) Rain Days (Unique days with > 0mm rain)
+    const dayMap = {};
+    weatherData.forEach(d => {
+        const date = new Date(d.time * 1000).toDateString();
+        if (!dayMap[date]) dayMap[date] = 0;
+        dayMap[date] += d.rainfall;
+    });
+    const rainDays = Object.values(dayMap).filter(r => r > 0.1).length;
+
     // --- STEP 5: STRUCTURED OUTPUT ---
     const features = {
         avgTemp: avgTemp.toFixed(1),
@@ -65,6 +74,7 @@ export function extractFeatures(weatherData) {
         totalRain: totalRain.toFixed(1),
         rainFrequency,
         rainIntensity: rainIntensity.toFixed(2),
+        rainDays,
 
         avgHumidity: avgHumidity.toFixed(0),
         highHumidityCount,

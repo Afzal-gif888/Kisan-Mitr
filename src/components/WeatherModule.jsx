@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { extractFeatures } from "@/lib/FeatureExtraction";
 import { analyzeWeather } from "@/utils/comparisonEngine";
+import { advancedSeasonPrediction } from "@/utils/seasonalEngine";
+import { generateFarmerInsights } from "@/utils/farmerInsightEngine";
 import { translations } from "@/lib/translations";
 import SeasonalPrediction from './SeasonalPrediction';
 
 /**
- * WeatherModule v15.0 (NASA Intelligence Edition)
+ * WeatherModule v16.0 (Advanced Seasonal Intelligence Edition)
  * Compares live forecast against 10-year NASA historical data
- * to produce accurate, district-specific seasonal predictions.
+ * plus an advanced prediction engine for detailed farmer guidance.
  */
 const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete }) => {
     const t = translations[language] || translations.en;
@@ -26,7 +28,6 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
 
     /**
      * Geocode a place name to lat/lon using OpenWeatherMap Geocoding API.
-     * Tries multiple search strategies to maximize hit rate for Indian districts.
      */
     const geocodeLocation = async (dist, st, apiKey) => {
         const cleanName = (name) => name.replace(/\(.*?\)/g, '').replace(/\s+/g, ' ').trim();
@@ -67,7 +68,6 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             let finalLat = latitude;
             let finalLon = longitude;
 
-            // If no coordinates, geocode the district/state name first
             if (!finalLat || !finalLon) {
                 const geo = await geocodeLocation(dist, st, apiKey);
                 if (!geo) throw new Error("Location not found");
@@ -80,7 +80,6 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             if (!response.ok) throw new Error(`${response.status}`);
             const rawData = await response.json();
 
-            // Process for Prediction Features
             const structuredArray = rawData.list.map(item => ({
                 temp: item.main.temp,
                 humidity: item.main.humidity,
@@ -89,22 +88,65 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
             }));
 
             const features = extractFeatures(structuredArray);
-            const currentMonth = new Date().getMonth() + 1; // 1-indexed
+            const currentMonth = new Date().getMonth() + 1; 
 
-            // ── NEW: NASA-backed comparison analysis ──
-            // Use the district name for historical lookup
             const districtName = dist || district || "";
             const analysis = analyzeWeather(districtName, features, currentMonth);
 
+            // ── NEW: Advanced Seasonal Intelligence ──
+            const advancedIntelligence = advancedSeasonPrediction(districtName, features, analysis, currentMonth);
+
+            // ── NEW: Farmer-Friendly Insights ──
+            const farmerInsights = analysis.isHistoricalAvailable ? generateFarmerInsights({
+                rainDeviationPercent: (analysis.comparison.rainRatio - 1) * 100,
+                tempDeviation: analysis.comparison.tempDiff,
+                humidityDeviation: analysis.comparison.humDiff
+            }) : null;
+
+            // ── NEW: Extract 5-Day Simple Forecast ──
+            const dailyData = {};
+            rawData.list.forEach(item => {
+                const date = new Date(item.dt * 1000).toDateString();
+                const temp = item.main.temp;
+                const rain = item.rain?.["3h"] || 0;
+                const desc = item.weather[0].description.toLowerCase();
+
+                const getFarmerCondition = (t, r, d) => {
+                    if (r > 0) return { text: language === "te" ? "వర్షం" : "Rainy", icon: "🌧️" };
+                    if (t > 35) return { text: language === "te" ? "ఎండ ఎక్కువ" : "Extreme Heat", icon: "🔥" };
+                    if (t >= 28) return { text: language === "te" ? "ఎండ" : "Sunny", icon: "☀️" };
+                    if (d.includes("cloud") || d.includes("overcast")) return { text: language === "te" ? "మోస్తరు" : "Cloudy", icon: "🌥️" };
+                    return { text: language === "te" ? "సాధారణం" : "Normal", icon: "🌤️" };
+                };
+
+                const condition = getFarmerCondition(temp, rain, desc);
+
+                if (!dailyData[date]) {
+                    dailyData[date] = { ...condition, dt: item.dt, isRainy: rain > 0, isHot: temp > 35 };
+                }
+                const hour = new Date(item.dt * 1000).getHours();
+                if (hour >= 12 && hour <= 15) {
+                    dailyData[date] = { ...condition, dt: item.dt, isRainy: rain > 0, isHot: temp > 35 };
+                }
+            });
+            const fiveDayForecast = Object.values(dailyData).slice(0, 5);
+
             const weatherResult = {
-                season: analysis.condition,
+                season: advancedIntelligence.season, 
                 summary: analysis.summary,
-                message: analysis.message,
-                risks: analysis.risks,
+                message: advancedIntelligence.insights.join(". "), 
+                risks: [...analysis.risks, ...advancedIntelligence.anomalies],
                 features: features,
                 comparison: analysis.comparison,
                 historical: analysis.historical,
                 isHistoricalAvailable: analysis.isHistoricalAvailable,
+                
+                seasonalDetails: advancedIntelligence.details,
+                seasonalTrends: advancedIntelligence.trends,
+                confidence: advancedIntelligence.confidence,
+                insights: advancedIntelligence.insights,
+                farmerInsights: farmerInsights,
+                fiveDayForecast: fiveDayForecast
             };
 
             setPrediction(weatherResult);
@@ -148,57 +190,81 @@ const WeatherModule = ({ lat, lon, state, district, language, onAnalysisComplete
 
     if (!prediction) return null;
 
+    const hasRainRisk = prediction.fiveDayForecast.some(d => d.isRainy);
+    const hasHeatRisk = prediction.fiveDayForecast.some(d => d.isHot);
+
     return (
-        <div className="w-full flex flex-col items-center max-w-md mx-auto animate-in fade-in duration-1000 pb-20 px-2">
+        <div className="w-full flex flex-col items-center max-w-lg mx-auto animate-in fade-in duration-1000 pb-20 px-4">
             
-            {/* MAIN SEASONAL CARDS */}
-            <div className="w-full mb-6">
+            {/* 🌾 SECTION 1: SEASONAL FORECAST (TOP PRIORITY) */}
+            <div className="w-full mb-10">
+                <div className="flex flex-col mb-6 px-2">
+                    <h2 className="text-2xl font-black text-[#5C3A21] tracking-tighter">
+                        🌾 {language === "te" ? "రాబోయే 3-4 నెలల వాతావరణం" : "Seasonal Forecast (3-4 Months)"}
+                    </h2>
+                    <p className="text-[10px] font-black text-[#8B5E3C]/40 uppercase tracking-[0.3em]">
+                        {language === "te" ? "పంటలకు ముఖ్యమైన సమాచారం" : "Critical information for crops"}
+                    </p>
+                </div>
+                
                 <SeasonalPrediction 
                     season={prediction.season}
                     summary={prediction.summary}
                     message={prediction.message}
                     language={language}
                     risks={prediction.risks}
+                    seasonalDetails={prediction.seasonalDetails}
+                    seasonalTrends={prediction.seasonalTrends}
+                    confidence={prediction.confidence}
+                    insights={prediction.insights}
+                    farmerInsights={prediction.farmerInsights} 
                 />
             </div>
 
-            {/* NASA HISTORICAL BADGE */}
-            {prediction.isHistoricalAvailable && prediction.comparison && (
-                <div className="w-full mb-12 px-1">
-                    <div className="bg-white/60 backdrop-blur-sm rounded-[1.5rem] p-4 border border-white/80 shadow-sm">
-                        <p className="text-[9px] font-black text-[#8B5E3C]/40 uppercase tracking-[0.2em] mb-3">
-                            🛰️ Compared with 10-Year NASA Data
-                        </p>
-                        <div className="grid grid-cols-3 gap-3 text-center">
-                            <div>
-                                <p className="text-[10px] font-bold text-[#8B5E3C]/50 mb-1">Rain vs Avg</p>
-                                <p className={`text-lg font-black ${prediction.comparison.rainRatio > 1.3 ? 'text-blue-600' : prediction.comparison.rainRatio < 0.7 ? 'text-orange-500' : 'text-emerald-600'}`}>
-                                    {prediction.comparison.rainRatio > 1 ? '↑' : '↓'} {Math.abs((prediction.comparison.rainRatio - 1) * 100).toFixed(0)}%
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-[10px] font-bold text-[#8B5E3C]/50 mb-1">Temp vs Avg</p>
-                                <p className={`text-lg font-black ${prediction.comparison.tempDiff > 2 ? 'text-red-500' : prediction.comparison.tempDiff < -2 ? 'text-blue-500' : 'text-emerald-600'}`}>
-                                    {prediction.comparison.tempDiff > 0 ? '+' : ''}{prediction.comparison.tempDiff}°C
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-[10px] font-bold text-[#8B5E3C]/50 mb-1">Humidity</p>
-                                <p className={`text-lg font-black ${prediction.comparison.humDiff > 10 ? 'text-blue-600' : prediction.comparison.humDiff < -10 ? 'text-orange-500' : 'text-emerald-600'}`}>
-                                    {prediction.comparison.humDiff > 0 ? '+' : ''}{prediction.comparison.humDiff}%
-                                </p>
-                            </div>
-                        </div>
+            {/* 📅 SECTION 2: DIVIDER & 5-DAY FORECAST */}
+            <div className="w-full mb-12">
+                <div className="flex flex-col gap-1 mb-8 px-2">
+                    <div className="flex items-center gap-4">
+                        <h2 className="text-lg font-black text-[#5C3A21] tracking-tighter whitespace-nowrap">
+                            📅 {language === "te" ? "వచ్చే 5 రోజుల వాతావరణం" : "Next 5 Days Weather"}
+                        </h2>
+                        <div className="h-px w-full bg-[#8B5E3C]/10" />
                     </div>
+                    {(hasRainRisk || hasHeatRisk) && (
+                        <div className="animate-in slide-in-from-left duration-700">
+                             <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
+                                {hasRainRisk ? (language === "te" ? "వర్షం వచ్చే అవకాశం" : "Rain Expectation") : 
+                                 (language === "te" ? "ఎండ ఎక్కువ" : "High Heat Forecast")}
+                             </p>
+                        </div>
+                    )}
                 </div>
-            )}
 
-            {/* MINIMAL FINAL CTA BUTTON */}
+                <div className="flex gap-4 overflow-x-auto pb-4 px-1 no-scrollbar snap-x">
+                    {prediction.fiveDayForecast.map((day, idx) => {
+                        const dateObj = new Date(day.dt * 1000);
+                        const dayName = dateObj.toLocaleDateString(language === "te" ? "te-IN" : "en-IN", { weekday: 'short' });
+                        return (
+                            <div 
+                                key={idx} 
+                                className="min-w-[120px] bg-white rounded-[2.5rem] p-6 shadow-sm border border-[#F5EFE6] flex flex-col items-center justify-center snap-center hover:shadow-lg transition-all duration-300"
+                            >
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] mb-4">{dayName}</p>
+                                <span className="text-4xl mb-4 drop-shadow-sm select-none">{day.icon}</span>
+                                <p className="text-sm font-black text-[#5C3A21] leading-none">{day.text}</p>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* ➡️ FINAL CTA BUTTON (STICKY) */}
             <div className="w-full sticky bottom-6 z-30 transform hover:scale-[1.01] transition-transform duration-500">
                 <div className="absolute inset-0 bg-[#2E7D32]/10 blur-2xl rounded-full" />
                 <button 
                     onClick={() => onAnalysisComplete && onAnalysisComplete({ features: prediction.features, season: prediction.season, triggerNext: true })}
-                    className="w-full py-5 bg-[#2E7D32] text-white rounded-[1.8rem] text-xl font-black shadow-xl flex items-center justify-center gap-4 group relative overflow-hidden"
+                    className="w-full py-5 bg-[#2E7D32] text-white rounded-[2.2rem] text-xl font-black shadow-xl flex items-center justify-center gap-4 group relative overflow-hidden"
                 >
                     <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                     <span className="relative drop-shadow-sm">{t.next}</span> 
