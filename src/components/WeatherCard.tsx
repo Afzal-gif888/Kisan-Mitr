@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, CalendarDays, Sprout, CloudRain, Thermometer, Droplets, AlertTriangle } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CalendarDays, Sprout, CloudRain, Thermometer, Droplets, AlertTriangle } from 'lucide-react';
 import { extractFeatures } from "../utils/FeatureExtraction";
 import { analyzeWeather } from "../utils/comparisonEngine";
 import { advancedSeasonPrediction } from "../utils/seasonalEngine";
 import { generateFarmerInsights } from "../utils/farmerInsightEngine";
 import { weatherText } from "../translations/weather";
 
-const WeatherModule = ({ lat = null, lon = null, state = null, district, language, onAnalysisComplete }) => {
+const WeatherModule = ({ lat = null, lon = null, state = null, district, language, onAnalysisComplete, onBack }) => {
     const t = weatherText[language] || weatherText.en;
     const [prediction, setPrediction] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -186,16 +186,24 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
     return (
         <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-6 px-4 bg-white min-h-screen space-y-4 overflow-y-auto">
             
-            <div className="pt-2 pb-1 flex flex-col items-center">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-[#F1F8E9] rounded-2xl flex items-center justify-center text-[#1B5E20] shadow-sm">
-                        <CalendarDays size={22} className="opacity-80" />
+            <div className="pt-8 pb-1 flex items-center justify-between w-full px-2">
+                <button onClick={onBack} className="p-3 bg-slate-50 rounded-2xl text-[#1B5E20] shadow-sm active:scale-95 transition-all">
+                    <ArrowLeft size={24} />
+                </button>
+                <div className="flex flex-col items-center flex-1">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-[#F1F8E9] rounded-2xl flex items-center justify-center text-[#1B5E20] shadow-sm">
+                            <CalendarDays size={22} className="opacity-80" />
+                        </div>
+                        <h1 className="text-xl font-black text-[#1B5E20] tracking-tighter uppercase text-center italic leading-none">
+                            {t.mainTitle}
+                        </h1>
                     </div>
-                    <h1 className="text-2xl font-black text-[#1B5E20] tracking-tighter uppercase text-center italic">
-                        {t.mainTitle}
-                    </h1>
                 </div>
-                <div className="w-24 h-1 bg-[#1B5E20]/10 rounded-full mt-3" />
+                <div className="w-12 h-12" /> {/* Spacer */}
+            </div>
+            <div className="flex justify-center -mt-2">
+                <div className="w-24 h-1 bg-[#1B5E20]/10 rounded-full mt-1" />
             </div>
 
             <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 space-y-4 overflow-hidden">
