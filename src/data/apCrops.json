@@ -1,0 +1,167 @@
+[
+  {
+    "name": "Paddy (Rice)",
+    "water": "High",
+    "temp": "Moderate",
+    "moisture": "Wet",
+    "season": ["Rainy", "Normal"],
+    "region": "AP",
+    "riskTolerance": "Low",
+    "profit": "Medium",
+    "teluguName": "వరి"
+  },
+  {
+    "name": "Maize",
+    "water": "Medium",
+    "temp": "High",
+    "moisture": "Normal",
+    "season": ["Rainy", "Normal", "Dry"],
+    "region": "AP",
+    "riskTolerance": "Medium",
+    "profit": "Medium",
+    "teluguName": "మొక్కజొన్న"
+  },
+  {
+    "name": "Groundnut",
+    "water": "Low",
+    "temp": "High",
+    "moisture": "Low",
+    "season": ["Dry", "Normal"],
+    "region": "AP",
+    "riskTolerance": "High",
+    "profit": "Medium",
+    "teluguName": "వేరుశెనగ"
+  },
+  {
+    "name": "Cotton",
+    "water": "Medium",
+    "temp": "High",
+    "moisture": "Normal",
+    "season": ["Normal", "Dry"],
+    "region": "AP",
+    "riskTolerance": "Medium",
+    "profit": "High",
+    "teluguName": "ప్రత్తి"
+  },
+  {
+    "name": "Chilli",
+    "water": "Low",
+    "temp": "High",
+    "moisture": "Low",
+    "season": ["Dry", "Normal"],
+    "region": "AP",
+    "riskTolerance": "Medium",
+    "profit": "High",
+    "teluguName": "మిరప"
+  },
+  {
+    "name": "Red Gram (Tur)",
+    "water": "Low",
+    "temp": "High",
+    "moisture": "Low",
+    "season": ["Dry", "Normal"],
+    "region": "AP",
+    "riskTolerance": "High",
+    "profit": "Medium",
+    "teluguName": "కంది"
+  },
+  {
+    "name": "Black Gram (Urad)",
+    "water": "Medium",
+    "temp": "Moderate",
+    "moisture": "Normal",
+    "season": ["Normal", "Dry"],
+    "region": "AP",
+    "riskTolerance": "Medium",
+    "profit": "Low",
+    "teluguName": "మినుము"
+  },
+  {
+    "name": "Sunflower",
+    "water": "Medium",
+    "temp": "Moderate",
+    "moisture": "Normal",
+    "season": ["Dry", "Normal"],
+    "region": "AP",
+    "riskTolerance": "Medium",
+    "profit": "Medium",
+    "teluguName": "పొద్దుతిరుగుడు"
+  },
+  {
+    "name": "Sugarcane",
+    "water": "High",
+    "temp": "High",
+    "moisture": "Wet",
+    "season": ["Rainy", "Normal"],
+    "region": "AP",
+    "riskTolerance": "Low",
+    "profit": "High",
+    "teluguName": "చెరకు"
+  },
+  {
+    "name": "Tomato",
+    "water": "Medium",
+    "temp": "Moderate",
+    "moisture": "Normal",
+    "season": ["Dry", "Normal"],
+    "region": "AP",
+    "riskTolerance": "Medium",
+    "profit": "Medium",
+    "teluguName": "టమోటా"
+  },
+  {
+    "name": "Mango",
+    "water": "Low",
+    "temp": "High",
+    "moisture": "Low",
+    "season": ["Hot", "Dry", "Normal"],
+    "region": "AP",
+    "riskTolerance": "High",
+    "profit": "High",
+    "teluguName": "మామిడి"
+  },
+  {
+    "name": "Banana",
+    "water": "High",
+    "temp": "High",
+    "moisture": "Wet",
+    "season": ["Rainy", "Normal"],
+    "region": "AP",
+    "riskTolerance": "Low",
+    "profit": "High",
+    "teluguName": "అరటి"
+  },
+  {
+    "name": "Tobacco",
+    "water": "Low",
+    "temp": "Moderate",
+    "moisture": "Low",
+    "season": ["Dry", "Normal"],
+    "region": "AP",
+    "riskTolerance": "Medium",
+    "profit": "High",
+    "teluguName": "పొగాకు"
+  },
+  {
+    "name": "Sesame",
+    "water": "Low",
+    "temp": "High",
+    "moisture": "Low",
+    "season": ["Dry", "Hot"],
+    "region": "AP",
+    "riskTolerance": "High",
+    "profit": "Medium",
+    "teluguName": "నువ్వులు"
+  },
+  {
+    "name": "Benga Gram (Chana)",
+    "water": "Low",
+    "temp": "Cool",
+    "moisture": "Low",
+    "season": ["Cool / Dry", "Normal"],
+    "region": "AP",
+    "riskTolerance": "High",
+    "profit": "Medium",
+    "teluguName": "శనగ"
+  }
+]
