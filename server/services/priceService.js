@@ -41,24 +41,42 @@ export const fetchCropPriceFromGov = async (cropName, retry = true) => {
     const lower = cropName.toLowerCase().trim();
     const commodity = cropMap[lower] || cropName;
 
-    const response = await axios.get(
+    console.log(`🔎 Fetching price for: ${commodity} (Original: ${cropName})`);
+    
+    let response = await axios.get(
       "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070",
       {
         params: {
           "api-key": API_KEY,
           format: "json",
           "filters[commodity]": commodity,
-          limit: 1
+          limit: 10 // Increased limit to find best match
         },
         timeout: 15000,
-        headers: {
-          "User-Agent": "Mozilla/5.0",
-          "Accept": "application/json"
-        }
+        headers: { "User-Agent": "Mozilla/5.0", "Accept": "application/json" }
       }
     );
 
+    // ⚡ FALLBACK: If specific name (e.g. 'Chilli Red') returns nothing, try generic name
+    if ((!response.data.records || response.data.records.length === 0) && commodity !== cropName) {
+        console.log(`⚠️ No data for ${commodity}. Trying fallback: ${cropName}`);
+        response = await axios.get(
+          "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070",
+          {
+            params: { "api-key": API_KEY, format: "json", "filters[commodity]": cropName, limit: 1 },
+            timeout: 10000,
+            headers: { "User-Agent": "Mozilla/5.0" }
+          }
+        );
+    }
+
     const record = response.data.records?.[0];
+    if (record) {
+        console.log(`✅ Success: Found price for ${cropName} (${record.modal_price})`);
+    } else {
+        console.log(`❌ Fail: No price data available for ${cropName} on data.gov.in`);
+    }
+
 
     return {
       crop: cropName,
