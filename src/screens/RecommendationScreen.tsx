@@ -1,8 +1,9 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { ArrowLeft, CheckCircle2, Star, AlertTriangle, MapPin, RefreshCw, Info } from "lucide-react";
 import { translations } from "../lib/translations";
 import { getAPCropRecommendations } from "../utils/cropRecommendationEngine";
 import { getCropImage } from "../utils/getCropImage";
+import { getCropPrice } from "../utils/getCropPrice";
 import { useApp } from "../context/AppContext";
 import CropCard from "../components/CropCard";
 import farmHero from "../assets/farm-hero.jpg"; 
@@ -55,6 +56,7 @@ const translateDistrict = (district: string, lang: string) => {
 const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps) => {
   const { language, soil, weatherResult } = useApp();
   const t = (translations as any)[language];
+  const [cropPrices, setCropPrices] = useState<Record<string, any>>({});
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -63,6 +65,30 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
   const recommendations = useMemo(() => {
     return getAPCropRecommendations(weatherResult, soil, weatherResult?.district, language);
   }, [weatherResult, soil, language]);
+
+  // 💰 ASYNC MARKET PRICE FETCHER
+  useEffect(() => {
+    const fetchAllPrices = async () => {
+      const priceMap: Record<string, any> = {};
+      const cropsToFetch = recommendations.recommendedCrops;
+      
+      if (!cropsToFetch.length) return;
+
+      console.log(`[PRICING] Initiating fetch for ${cropsToFetch.length} crops...`);
+      
+      // Fetch in parallel but don't block UI
+      await Promise.all(
+        cropsToFetch.map(async (crop) => {
+          const data = await getCropPrice(crop.englishName || crop.name);
+          priceMap[crop.id] = data;
+        })
+      );
+
+      setCropPrices(priceMap);
+    };
+
+    fetchAllPrices();
+  }, [recommendations]);
 
   const allFilteredCrops = recommendations.recommendedCrops;
 
@@ -110,6 +136,7 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
                         onViewGuide={onViewGuide}
                         imgSource={finalImageSource}
                         farmHero={farmHero}
+                        marketData={cropPrices[crop.id]}
                       />
                     );
                   })}

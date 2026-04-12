@@ -8,6 +8,7 @@ interface CropCardProps {
   onViewGuide: (id: string) => void;
   imgSource: string;
   farmHero: string;
+  marketData?: { price: string | null; market: string | null } | null;
 }
 
 const translateMetric = (text: string, lang: string) => {
@@ -70,7 +71,7 @@ const translateReason = (reason: string, lang: string) => {
     return teReason;
 };
 
-const CropCard = ({ crop, language, suitabilityColor, onViewGuide, imgSource, farmHero }: CropCardProps) => {
+const CropCard = ({ crop, language, suitabilityColor, onViewGuide, imgSource, farmHero, marketData }: CropCardProps) => {
   return (
     <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border-2 border-transparent transition-all hover:scale-[1.02] active:scale-95">
       <div className="relative h-48 sm:h-52 overflow-hidden bg-slate-200">
@@ -108,6 +109,36 @@ const CropCard = ({ crop, language, suitabilityColor, onViewGuide, imgSource, fa
                   <p className="text-[8px] font-black text-[#1B5E20] uppercase tracking-widest">{language === "te" ? "వాతావరణం" : "Temp"}</p>
                   <p className="text-xs font-black text-[#1B5E20] uppercase mt-1">{translateMetric(crop.climate || crop.heatTolerance, language)}</p>
               </div>
+          </div>
+
+          {/* 💰 INTEGRATED MARKET INTELLIGENCE (v4.0) */}
+          <div className="bg-[#F1F8E9]/50 p-4 rounded-2xl border border-[#1B5E20]/5 space-y-1 group hover:bg-[#F1F8E9] transition-all">
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-widest leading-none">
+                    {language === "te" ? "మార్కెట్ ధర" : "Market Price"}
+                </p>
+                {!marketData && <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />}
+              </div>
+              
+              <div className="flex items-baseline gap-1.5">
+                  <span className="text-xl font-black text-[#1B5E20] italic">
+                    {marketData ? (
+                        marketData.price ? `₹${marketData.price}` : (language === "te" ? "అందుబాటులో లేదు" : "Not Available")
+                    ) : (
+                        language === "te" ? "వెతుకుతుంది..." : "Fetching..."
+                    )}
+                  </span>
+                  {marketData?.price && <span className="text-[10px] font-bold text-[#1B5E20]/60 uppercase tracking-tighter italic">/ {language === "te" ? "క్వింటాల్" : "quintal"}</span>}
+              </div>
+
+              {marketData?.market && (
+                  <div className="flex items-center gap-1.5 pt-1">
+                      <div className="w-1.5 h-1.5 bg-[#1B5E20]/20 rounded-full" />
+                      <p className="text-[10px] font-bold text-[#1B5E20]/60 uppercase tracking-tight italic truncate">
+                          📍 {marketData.market} {language === "te" ? "మార్కెట్" : "Market"}
+                      </p>
+                  </div>
+              )}
           </div>
 
           <button
