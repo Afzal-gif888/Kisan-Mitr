@@ -56,8 +56,14 @@ const LocationScreen = memo(({ onNext, onBack }: LocationScreenProps) => {
         setDetecting(false); 
         return; 
     }
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
+
+    const geoOptions = {
+        enableHighAccuracy: true,
+        timeout: 20000, // 20 seconds
+        maximumAge: 0
+    };
+
+    const successCallback = async (pos: GeolocationPosition) => {
         try {
           const apiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
           if (!apiKey) throw new Error("API Key Missing");
@@ -79,11 +85,30 @@ const LocationScreen = memo(({ onNext, onBack }: LocationScreenProps) => {
            console.error("Geocoding failed:", e);
            alert(language === 'te' ? "స్థానాన్ని గుర్తించలేకపోయాము. దయచేసి మాన్యువల్‌గా ఎంచుకోండి." : "Location detection failed. Please select manually.");
         } finally { setDetecting(false); }
-      },
-      () => { setDetecting(false); alert(t.locationError || "Location access denied"); },
-      { enableHighAccuracy: true, timeout: 15000 }
-    );
+    };
+
+    const errorCallback = (error: GeolocationPositionError) => {
+        // If High Accuracy fails, try one more time with Low Accuracy
+        if (geoOptions.enableHighAccuracy) {
+            console.warn("High accuracy failed, retrying with low accuracy...");
+            geoOptions.enableHighAccuracy = false;
+            navigator.geolocation.getCurrentPosition(successCallback, finalErrorCallback, geoOptions);
+        } else {
+            finalErrorCallback(error);
+        }
+    };
+
+    const finalErrorCallback = (error: GeolocationPositionError) => {
+        setDetecting(false);
+        console.error("Geolocation Error:", error);
+        let msg = t.locationError || "Location access denied";
+        if (error.code === 3) msg = language === 'te' ? "లొకేషన్ వెతకడంలో ఆలస్యమైంది." : "Location request timed out.";
+        alert(msg);
+    };
+
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback, geoOptions);
   }, [language, t.locationError]);
+
 
   const handleContinue = useCallback(() => {
     setGlobalDistrict(localDistrict);
