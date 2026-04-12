@@ -85,7 +85,7 @@ const CropCard = React.memo(({ crop, language, suitabilityColor, onViewGuide, im
                   src={imgSource} 
                   alt={crop?.englishName || "Crop"} 
                   className="w-full h-full object-cover"
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   onError={(e: any) => { e.target.onerror = null; e.target.src = farmHero; }}
               />

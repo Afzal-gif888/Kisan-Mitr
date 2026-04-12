@@ -1,23 +1,31 @@
-import { Suspense, lazy } from "react";
+import { useEffect } from "react";
 import { useApp } from "../context/AppContext";
 
-// 🚀 Performance Optimization: Lazy Loading Screens
-const HomeScreen = lazy(() => import("../screens/HomeScreen"));
-const LocationScreen = lazy(() => import("../screens/LocationScreen"));
-const WeatherScreen = lazy(() => import("../screens/WeatherScreen"));
-const SoilSelectionScreen = lazy(() => import("../screens/SoilSelectionScreen"));
-const RecommendationScreen = lazy(() => import("../screens/RecommendationScreen"));
-const GuidanceScreen = lazy(() => import("../screens/GuidanceScreen"));
+// 🚀 Performance: Standard Imports for Zero-Flicker Navigation
+import HomeScreen from "../screens/HomeScreen";
+import LocationScreen from "../screens/LocationScreen";
+import WeatherScreen from "../screens/WeatherScreen";
+import SoilSelectionScreen from "../screens/SoilSelectionScreen";
+import RecommendationScreen from "../screens/RecommendationScreen";
+import GuidanceScreen from "../screens/GuidanceScreen";
 
-// Loading Placeholder
-const ScreenLoader = () => (
-  <div className="min-h-screen bg-white flex flex-col items-center justify-center p-10 text-center space-y-4 animate-pulse">
-    <div className="w-16 h-16 bg-[#1B5E20]/10 rounded-3xl flex items-center justify-center">
-      <div className="w-8 h-8 border-4 border-[#1B5E20] border-t-transparent rounded-full animate-spin" />
-    </div>
-    <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.4em] italic">Syncing Agriculture Data...</p>
-  </div>
-);
+// 🖼️ Asset Preloading for "Instant" Images
+import farmHero from "../assets/sunrise-farm.png"; 
+import kisanHero from "../assets/kisan-hero.webp";
+import soilImages from "../data/soilImages";
+import cropImages from "../data/cropImages";
+
+const preloadAssets = () => {
+  const assets = [
+    farmHero, kisanHero,
+    ...Object.values(soilImages),
+    ...Object.values(cropImages)
+  ];
+  assets.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+};
 
 const Index = () => {
   const { 
@@ -27,6 +35,10 @@ const Index = () => {
     language,
     setLanguage
   } = useApp();
+
+  useEffect(() => {
+    preloadAssets();
+  }, []);
 
   return (
     <div className="min-h-screen bg-white relative font-sans selection:bg-[#1B5E20] selection:text-white">
@@ -47,43 +59,42 @@ const Index = () => {
           </button>
       </div>
 
-      <Suspense fallback={<ScreenLoader />}>
-        {screen === "home" && (
-          <HomeScreen onStart={() => setScreen("location")} />
-        )}
-        {screen === "location" && (
-          <LocationScreen 
-            onNext={() => setScreen("weather")} 
-            onBack={() => setScreen("home")} 
-          />
-        )}
-        {screen === "weather" && (
-          <WeatherScreen 
-            onNext={() => setScreen("soil")} 
-            onBack={() => setScreen("location")}
-          />
-        )}
-        {screen === "soil" && (
-          <SoilSelectionScreen 
-            onSelect={(s) => { setSoil(s); setScreen("recommendation"); }} 
-            onBack={() => setScreen("weather")} 
-          />
-        )}
-        {screen === "recommendation" && (
-          <RecommendationScreen 
-            onViewGuide={(cropId) => { setSelectedCrop(cropId); setScreen("guidance"); }} 
-            onBack={() => setScreen("soil")} 
-          />
-        )}
-        {screen === "guidance" && (
-          <GuidanceScreen 
-            onBack={() => setScreen("recommendation")} 
-            onStartOver={() => setScreen("home")} 
-          />
-        )}
-      </Suspense>
+      {screen === "home" && (
+        <HomeScreen onStart={() => setScreen("location")} />
+      )}
+      {screen === "location" && (
+        <LocationScreen 
+          onNext={() => setScreen("weather")} 
+          onBack={() => setScreen("home")} 
+        />
+      )}
+      {screen === "weather" && (
+        <WeatherScreen 
+          onNext={() => setScreen("soil")} 
+          onBack={() => setScreen("location")}
+        />
+      )}
+      {screen === "soil" && (
+        <SoilSelectionScreen 
+          onSelect={(s) => { setSoil(s); setScreen("recommendation"); }} 
+          onBack={() => setScreen("weather")} 
+        />
+      )}
+      {screen === "recommendation" && (
+        <RecommendationScreen 
+          onViewGuide={(cropId) => { setSelectedCrop(cropId); setScreen("guidance"); }} 
+          onBack={() => setScreen("soil")} 
+        />
+      )}
+      {screen === "guidance" && (
+        <GuidanceScreen 
+          onBack={() => setScreen("recommendation")} 
+          onStartOver={() => setScreen("home")} 
+        />
+      )}
     </div>
   );
 };
+
 
 export default Index;

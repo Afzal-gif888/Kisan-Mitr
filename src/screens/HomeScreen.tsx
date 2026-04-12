@@ -30,7 +30,8 @@ const HomeScreen = React.memo(({ onStart }: HomeScreenProps) => {
             src={farmHero} 
             alt="Sunrise Field" 
             className="w-full h-full object-cover scale-105" 
-            loading="lazy"
+            loading="eager"
+            fetchpriority="high"
             decoding="async"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#1B5E20]/20 to-[#0A2E0F] z-10" />
@@ -41,7 +42,7 @@ const HomeScreen = React.memo(({ onStart }: HomeScreenProps) => {
           <div className="relative">
               <div className="absolute inset-0 bg-white/20 blur-[60px] rounded-full" />
               <div className="w-32 h-32 rounded-full border-4 border-white/30 shadow-2xl overflow-hidden relative group">
-                  <img src={kisanHero} alt="Farmer Advisor" className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                  <img src={kisanHero} alt="Farmer Advisor" className="w-full h-full object-cover" loading="eager" fetchpriority="high" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               </div>
           </div>

@@ -200,7 +200,8 @@ const GuidanceScreen = memo(({ onBack, onStartOver }: GuidanceScreenProps) => {
                src={getCropImage(crop.id) || farmHero} 
                alt={crop.name} 
                className="w-full h-full object-cover transition-opacity duration-300"
-               loading="lazy"
+               loading="eager"
+               fetchpriority="high"
                decoding="async"
                onError={(e: any) => {
                  e.target.onerror = null;
