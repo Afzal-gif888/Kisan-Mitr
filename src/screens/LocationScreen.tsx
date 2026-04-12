@@ -70,7 +70,6 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
             setDetected(true);
           }
         } catch (e) { 
-           // Fallback to manual selection if API fails or is missing
            console.error("Geocoding failed:", e);
            alert(language === 'te' ? "స్థానాన్ని గుర్తించలేకపోయాము. దయచేసి మాన్యువల్‌గా ఎంచుకోండి." : "Location detection failed. Please select manually.");
         } finally { setDetecting(false); }
@@ -86,105 +85,102 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
   };
 
   return (
-    <div className="w-full h-screen bg-white flex flex-col sm:max-w-md sm:mx-auto sm:shadow-2xl sm:my-4 sm:rounded-[3rem] overflow-hidden safe-area-inset pb-10">
+    <div className="fixed inset-0 sm:relative sm:h-[850px] bg-white flex flex-col sm:max-w-md sm:mx-auto sm:shadow-2xl sm:rounded-[3rem] overflow-hidden border-slate-100 sm:border">
       
       {/* HEADER */}
-      <div className="bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] pt-14 pb-10 px-6 rounded-b-[2.5rem] shadow-lg flex items-center gap-4 relative z-20">
-          <button onClick={onBack} className="text-white p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-90 shadow-inner">
-              <ArrowLeft size={24} />
+      <div className="bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] pt-12 pb-8 px-8 rounded-b-[2.5rem] shadow-lg flex items-center gap-4 relative z-20 shrink-0">
+          <button onClick={onBack} className="text-white p-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-all active:scale-90 shadow-inner">
+              <ArrowLeft size={22} />
           </button>
-          <h2 className="text-xl font-black text-white tracking-tight leading-none uppercase italic">
+          <h2 className="text-lg font-black text-white tracking-tight leading-none uppercase italic">
               <span className="opacity-90">{language === 'te' ? '🙏 నమస్తే, ' : '👋 HI, '}</span>
               {language === 'te' ? `${userName} గారు!` : `${userName}!`}
           </h2>
       </div>
 
-      <div className="px-6 pt-6 space-y-6">
-          
-
-
-          <div className="space-y-6">
-              {/* PRIMARY DETECT BUTTON */}
-              <button 
-                  onClick={handleDetect} 
-                  disabled={detecting}
-                  className="w-full bg-[#F1F8E9] p-6 rounded-[2.5rem] shadow-md border-2 border-transparent hover:border-[#2E7D32]/20 transition-all flex items-center gap-6 group active:scale-95"
-              >
-                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-xl ${detected ? "bg-[#1B5E20] text-white" : "bg-white text-[#1B5E20] group-hover:bg-[#1B5E20] group-hover:text-white"}`}>
-                      {detecting ? <Loader2 size={32} className="animate-spin" /> : <MapPin size={32} />}
-                  </div>
-                  <div className="text-left flex-1 min-w-0">
-                      <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.2em] mb-1.5">{language === 'te' ? 'లొకేషన్ ఆటో డిటెక్ట్' : 'Auto Detect Location'}</p>
-                      <p className="text-xl font-black text-[#1B5E20] truncate uppercase leading-none italic">
-                          {detecting ? (language === 'te' ? "వెతుకుతుంది..." : "Locating...") : detected ? translateDistrict(localDistrict, language) : (language === 'te' ? "ఆటో డిటెక్ట్ చేయండి" : "Tap to detect")}
-                      </p>
-                  </div>
-              </button>
-
-              <div className="flex items-center gap-4 px-4 overflow-hidden py-2">
-                  <div className="h-px flex-1 bg-slate-100" />
-                  <span className="text-[8px] font-black text-slate-300 uppercase tracking-[0.5em] whitespace-nowrap">{language === 'te' ? "మాన్యువల్‌గా ఎంచుకోండి" : "Manual Selection"}</span>
-                  <div className="h-px flex-1 bg-slate-100" />
-              </div>
-
-              <div className="space-y-4">
-                  <select 
-                      value={state} 
-                      onChange={(e) => { setState(e.target.value); setLocalDistrict(""); setDetected(false); }} 
-                      className="w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-[#1B5E20] outline-none transition-all uppercase shadow-sm"
-                  >
-                      <option className="text-[#1B5E20] font-black" value="">{language === 'te' ? "రాష్ట్రాన్ని ఎంచుకోండి" : "Select State"}</option>
-                      {states.map((s) => <option className="text-[#1B5E20] font-black" key={s} value={s}>{translateState(s, language)}</option>)}
-                  </select>
-                  
-                  <select 
-                      value={localDistrict} 
-                      onChange={(e) => { setLocalDistrict(e.target.value); setDetected(true); }} 
-                      disabled={!state}
-                      className={`w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-[#1B5E20] outline-none transition-all uppercase shadow-sm ${!state ? 'opacity-50 cursor-not-allowed' : 'animate-in slide-in-from-top-2'}`}
-                  >
-                      <option className="text-[#1B5E20] font-black" value="">{language === 'te' ? "జిల్లాను ఎంచుకోండి" : "Select District"}</option>
-                      {state && (indiaDistricts[state] || []).map((d) => <option className="text-[#1B5E20] font-black" key={d} value={d}>{translateDistrict(d, language)}</option>)}
-                  </select>
-              </div>
-
-              {/* DYNAMIC CONFIRMATION BADGE */}
-              {state && localDistrict && (
-                  <div className="animate-in zoom-in-95 duration-500 bg-[#E8F5E9] p-5 rounded-[2rem] border-2 border-[#1B5E20]/20 flex items-center gap-4 shadow-xl shadow-emerald-900/5">
-                      <div className="w-12 h-12 bg-[#1B5E20] text-white rounded-2xl flex items-center justify-center shrink-0 shadow-lg">
-                          <MapPin size={24} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                          <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.2em] leading-none mb-2">{language === 'te' ? 'ఎంచుకున్న ప్రాంతం' : 'Selected Location'}</p>
-                          <div className="space-y-0.5">
-                              <h3 className="text-xl font-black text-[#1B5E20] italic leading-none truncate">
-                                  {translateDistrict(localDistrict, language)}
-                              </h3>
-                              <p className="text-[11px] font-bold text-[#1B5E20]/60 uppercase tracking-wider italic">
-                                  {translateState(state, language)}
-                              </p>
-                          </div>
-                      </div>
-                      <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#1B5E20] shadow-sm shrink-0">
-                          <Navigation2 size={20} fill="currentColor" />
-                      </div>
-                  </div>
-              )}
-          </div>
-      </div>
-
-      {/* FOOTER CTA */}
-      <div className="px-6 mt-6 pb-8">
+      {/* CONTENT AREA */}
+      <div className="flex-1 px-8 pt-6 flex flex-col pb-8 overflow-hidden">
+        <div className="space-y-6">
+          {/* AUTO DETECT */}
           <button 
-              disabled={!state || !localDistrict || detecting}
-              onClick={handleContinue} 
-              className="w-full py-6 bg-[#1B5E20] text-white rounded-[2.2rem] text-2xl font-black shadow-2xl flex items-center justify-center gap-4 active:scale-95 transition-all shadow-[#1B5E20]/30 disabled:opacity-30 disabled:grayscale uppercase italic tracking-tighter"
+            onClick={handleDetect} 
+            disabled={detecting}
+            className="w-full bg-[#F1F8E9] p-6 rounded-[2.5rem] shadow-md border-2 border-transparent hover:border-[#2E7D32]/20 transition-all flex items-center gap-6 group active:scale-95"
           >
-              <span>{language === "te" ? "తదుపరి" : "Continue"}</span>
-              <ArrowRight size={28} />
+            <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-xl ${detected ? "bg-[#1B5E20] text-white" : "bg-white text-[#1B5E20] group-hover:bg-[#1B5E20] group-hover:text-white"}`}>
+              {detecting ? <Loader2 size={32} className="animate-spin" /> : <MapPin size={32} />}
+            </div>
+            <div className="text-left flex-1 min-w-0">
+              <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.2em] mb-1.5">{language === 'te' ? 'లొకేషన్ ఆటో డిటెక్ట్' : 'Auto Detect Location'}</p>
+              <p className="text-xl font-black text-[#1B5E20] truncate uppercase leading-none italic">
+                {detecting ? (language === 'te' ? "వెతుకుతుంది..." : "Locating...") : detected ? translateDistrict(localDistrict, language) : (language === 'te' ? "ఆటో డిటెక్ట్ చేయండి" : "Tap to detect")}
+              </p>
+            </div>
           </button>
-      </div>
 
+          <div className="flex items-center gap-4 px-4 py-2">
+            <div className="h-px flex-1 bg-slate-100" />
+            <span className="text-[8px] font-black text-slate-300 uppercase tracking-[0.5em] whitespace-nowrap">{language === 'te' ? "మాన్యువల్‌గా ఎంచుకోండి" : "Manual Selection"}</span>
+            <div className="h-px flex-1 bg-slate-100" />
+          </div>
+
+          <div className="space-y-4">
+            <select 
+              value={state} 
+              onChange={(e) => { setState(e.target.value); setLocalDistrict(""); setDetected(false); }} 
+              className="w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-[#1B5E20] outline-none transition-all uppercase shadow-sm"
+            >
+              <option className="text-[#1B5E20] font-black" value="">{language === 'te' ? "రాష్ట్రాన్ని ఎంచుకోండి" : "Select State"}</option>
+              {states.map((s) => <option className="text-[#1B5E20] font-black" key={s} value={s}>{translateState(s, language)}</option>)}
+            </select>
+            
+            <select 
+              value={localDistrict} 
+              onChange={(e) => { setLocalDistrict(e.target.value); setDetected(true); }} 
+              disabled={!state}
+              className={`w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-[#1B5E20] outline-none transition-all uppercase shadow-sm ${!state ? 'opacity-50 cursor-not-allowed' : 'animate-in slide-in-from-top-2'}`}
+            >
+              <option className="text-[#1B5E20] font-black" value="">{language === 'te' ? "జిల్లాను ఎంచుకోండి" : "Select District"}</option>
+              {state && (indiaDistricts[state] || []).map((d) => <option className="text-[#1B5E20] font-black" key={d} value={d}>{translateDistrict(d, language)}</option>)}
+            </select>
+          </div>
+
+          {/* DYNAMIC CONFIRMATION BADGE */}
+          {state && localDistrict && (
+            <div className="animate-in zoom-in-95 duration-500 bg-[#E8F5E9] p-5 rounded-[2rem] border-2 border-[#1B5E20]/20 flex items-center gap-4 shadow-xl shadow-emerald-900/5">
+              <div className="w-12 h-12 bg-[#1B5E20] text-white rounded-2xl flex items-center justify-center shrink-0 shadow-lg">
+                <MapPin size={24} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.2em] leading-none mb-2">{language === 'te' ? 'ఎంచుకున్న ప్రాంతం' : 'Selected Location'}</p>
+                <div className="space-y-0.5">
+                  <h3 className="text-xl font-black text-[#1B5E20] italic leading-none truncate">
+                    {translateDistrict(localDistrict, language)}
+                  </h3>
+                  <p className="text-[11px] font-bold text-[#1B5E20]/60 uppercase tracking-wider italic">
+                    {translateState(state, language)}
+                  </p>
+                </div>
+              </div>
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#1B5E20] shadow-sm shrink-0">
+                <Navigation2 size={20} fill="currentColor" />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* FOOTER PUSHED TO BOTTOM */}
+        <div className="mt-auto pt-6">
+          <button 
+            disabled={!state || !localDistrict || detecting}
+            onClick={handleContinue} 
+            className="w-full py-6 bg-[#1B5E20] text-white rounded-[2.2rem] text-2xl font-black shadow-2xl flex items-center justify-center gap-4 active:scale-95 transition-all shadow-[#1B5E20]/30 disabled:opacity-30 disabled:grayscale uppercase italic tracking-tighter"
+          >
+            <span>{language === "te" ? "తదుపరి" : "Continue"}</span>
+            <ArrowRight size={28} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
