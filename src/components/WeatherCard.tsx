@@ -97,6 +97,9 @@ const WeatherModule = React.memo(({ lat = null, lon = null, state = null, distri
             return;
         }
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s for weather
+
         try {
             let finalLat = latitude;
             let finalLon = longitude;
@@ -108,13 +111,15 @@ const WeatherModule = React.memo(({ lat = null, lon = null, state = null, distri
                 finalLon = geo.lon;
             }
 
-            const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${finalLat}&lon=${finalLon}&appid=${apiKey}&units=metric`;
-            const response = await fetch(url);
+            const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${finalLat}&lat=${finalLat}&lon=${finalLon}&appid=${apiKey}&units=metric`;
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeoutId);
             if (!response.ok) throw new Error(`${response.status}`);
             const rawData = await response.json();
 
             if (isMounted) setRawWeatherResponse({ rawData, dist: dist || district || "" });
         } catch (err) {
+            clearTimeout(timeoutId);
             if (isMounted) setError(err.message);
         } finally {
             if (isMounted) setLoading(false);

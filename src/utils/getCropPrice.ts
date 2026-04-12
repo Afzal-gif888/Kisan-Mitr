@@ -1,13 +1,21 @@
-const priceCache: Record<string, any> = {};
+import { getCachedPrice, setCachedPrice } from "./priceCache";
 
 export const getCropPrice = async (cropName: string) => {
   if (!cropName) return { price: null, market: null };
-  
   const normalizedName = cropName.toLowerCase().trim();
-  if (priceCache[normalizedName]) return priceCache[normalizedName];
+  
+  const cached = getCachedPrice(normalizedName);
+  if (cached) return cached;
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 3000);
 
   try {
-    const res = await fetch(`http://localhost:5000/api/prices/${normalizedName}`);
+    const res = await fetch(`http://localhost:5000/api/prices/${normalizedName}`, {
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
     if (!res.ok) throw new Error("API failed");
     
     const data = await res.json();
@@ -17,9 +25,10 @@ export const getCropPrice = async (cropName: string) => {
       district: data?.district || null
     };
 
-    priceCache[normalizedName] = result;
+    setCachedPrice(normalizedName, result);
     return result;
   } catch (error) {
+    clearTimeout(timeoutId);
     return { price: null, market: null };
   }
 };
