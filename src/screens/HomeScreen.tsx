@@ -1,7 +1,7 @@
-import { ArrowRight, Languages, User } from "lucide-react";
+import { ArrowRight, User } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { translations } from "../lib/translations";
-import farmHero from "../assets/farm-hero.jpg"; 
+import farmHero from "../assets/sunrise-farm.png"; 
 import kisanHero from "../assets/kisan-hero.webp"; 
 
 interface HomeScreenProps {
@@ -21,20 +21,36 @@ const HomeScreen = ({ onStart }: HomeScreenProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5] flex flex-col items-center justify-between max-w-md mx-auto relative overflow-hidden shadow-2xl">
+    <div className="fixed inset-0 h-[100dvh] w-[100vw] bg-[#0A2E0F] flex flex-col items-center justify-center gap-8 overflow-hidden touch-none overscroll-none z-50">
       
+      {/* 🌐 TOP-RIGHT LANGUAGE TOGGLE */}
+      <div className="absolute top-6 right-6 z-40 bg-black/40 backdrop-blur-xl rounded-full p-1 border border-white/20 flex shadow-2xl">
+          <button 
+             onClick={() => setLanguage('en')}
+             className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${language === 'en' ? 'bg-white text-[#1B5E20]' : 'text-white/60 hover:text-white'}`}
+          >
+              EN
+          </button>
+          <button 
+             onClick={() => setLanguage('te')}
+             className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${language === 'te' ? 'bg-white text-[#1B5E20]' : 'text-white/60 hover:text-white'}`}
+          >
+              TE
+          </button>
+      </div>
+
       {/* 🖼️ BACKGROUND IMAGE */}
       <div className="absolute inset-0 z-0">
           <img 
             src={farmHero} 
-            alt="Field" 
-            className="w-full h-full object-cover scale-110" 
+            alt="Sunrise Field" 
+            className="w-full h-full object-cover scale-105" 
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#06290A]/85 via-[#114A16]/70 to-[#1B5E20] z-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#1B5E20]/20 to-[#0A2E0F] z-10" />
       </div>
 
       {/* 🧑‍🌾 FARMER AI IMAGE LOGO */}
-      <div className="w-full pt-12 flex flex-col items-center relative z-20 space-y-4">
+      <div className="w-full mt-16 flex flex-col items-center relative z-20 space-y-3">
           <div className="relative">
               <div className="absolute inset-0 bg-white/20 blur-[60px] rounded-full" />
               <div className="w-32 h-32 rounded-full border-4 border-white/30 shadow-2xl overflow-hidden relative group">
@@ -55,13 +71,13 @@ const HomeScreen = ({ onStart }: HomeScreenProps) => {
       </div>
 
       {/* ✍️ NAME INPUT SECTION */}
-      <div className="w-full px-10 relative z-20 space-y-8 flex-1 flex flex-col justify-center">
+      <div className="w-full px-8 max-w-md relative z-20 mt-4">
           <div className="space-y-4">
               <p className="text-sm font-black text-white/70 uppercase tracking-[0.3em] text-center italic">
                   {t.welcomeFarmer || "Welcome, Farmer"}
               </p>
               <div className="relative group">
-                  <div className="absolute left-6 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-white transition-colors">
+                  <div className="absolute left-6 top-1/2 -translate-y-1/2 text-[#1B5E20]/40 group-focus-within:text-[#1B5E20] transition-colors z-10">
                       <User size={22} />
                   </div>
                   <input 
@@ -69,27 +85,16 @@ const HomeScreen = ({ onStart }: HomeScreenProps) => {
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                     placeholder={t.yourName || "Your Name"}
-                    className="w-full py-6 pl-16 pr-6 bg-white/10 backdrop-blur-2xl rounded-[2rem] border-2 border-white/20 text-white placeholder:text-white/30 text-xl font-black focus:border-white/50 outline-none transition-all shadow-2xl uppercase italic"
+                    className="w-full py-6 pl-16 pr-6 bg-white/95 backdrop-blur-2xl rounded-[2rem] border-4 border-white text-[#1B5E20] placeholder:text-[#1B5E20]/50 text-xl font-black focus:border-[#4CAF50] outline-none transition-all shadow-[0_20px_40px_rgba(0,0,0,0.3)] uppercase italic relative z-0"
                   />
               </div>
           </div>
       </div>
 
       {/* 🚦 FOOTER ACTIONS */}
-      <div className="w-full px-10 pb-10 relative z-30 space-y-6">
+      <div className="w-full px-8 max-w-md relative z-30 space-y-5 mt-6">
         
-        {/* REPOSITIONED LANGUAGE TOGGLE */}
-        <div className="flex justify-center">
-            <button 
-              onClick={() => setLanguage(language === "en" ? "te" : "en")}
-              className="flex items-center gap-3 px-8 py-3 bg-white/10 backdrop-blur-xl rounded-full border border-white/10 shadow-xl active:scale-95 transition-all text-white group"
-            >
-              <Languages size={18} className="group-hover:rotate-12 transition-transform opacity-70" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] italic">
-                  {t.changeLang || "Change Language"}
-              </span>
-            </button>
-        </div>
+
 
         <button 
           onClick={handleStart}
