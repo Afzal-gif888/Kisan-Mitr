@@ -22,22 +22,6 @@ const HomeScreen = ({ onStart }: HomeScreenProps) => {
 
   return (
     <div className="fixed inset-0 h-[100dvh] w-[100vw] bg-[#0A2E0F] flex flex-col items-center justify-center gap-8 overflow-hidden touch-none overscroll-none z-50">
-      
-      {/* 🌐 TOP-RIGHT LANGUAGE TOGGLE */}
-      <div className="absolute top-6 right-6 z-40 bg-black/40 backdrop-blur-xl rounded-full p-1 border border-white/20 flex shadow-2xl">
-          <button 
-             onClick={() => setLanguage('en')}
-             className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${language === 'en' ? 'bg-white text-[#1B5E20]' : 'text-white/60 hover:text-white'}`}
-          >
-              EN
-          </button>
-          <button 
-             onClick={() => setLanguage('te')}
-             className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${language === 'te' ? 'bg-white text-[#1B5E20]' : 'text-white/60 hover:text-white'}`}
-          >
-              TE
-          </button>
-      </div>
 
       {/* 🖼️ BACKGROUND IMAGE */}
       <div className="absolute inset-0 z-0">

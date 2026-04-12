@@ -23,11 +23,30 @@ const Index = () => {
   const { 
     screen, setScreen, 
     setSoil,
-    setSelectedCrop
-  } = useApp(); 
+    setSelectedCrop,
+    language,
+    setLanguage
+  } = useApp();
 
   return (
     <div className="min-h-screen bg-white relative font-sans selection:bg-[#1B5E20] selection:text-white">
+      
+      {/* 🌐 OMNIPRESENT GLOBAL LANGUAGE TOGGLE */}
+      <div className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[999] bg-black/40 backdrop-blur-2xl rounded-full p-1 border border-white/30 flex shadow-2xl transition-all hover:bg-black/50">
+          <button 
+             onClick={() => setLanguage('en')}
+             className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${language === 'en' ? 'bg-white text-[#1B5E20] shadow-lg scale-105' : 'text-white/70 hover:text-white active:scale-95'}`}
+          >
+              EN
+          </button>
+          <button 
+             onClick={() => setLanguage('te')}
+             className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${language === 'te' ? 'bg-white text-[#1B5E20] shadow-lg scale-105' : 'text-white/70 hover:text-white active:scale-95'}`}
+          >
+              TE
+          </button>
+      </div>
+
       <Suspense fallback={<ScreenLoader />}>
         {screen === "home" && (
           <HomeScreen onStart={() => setScreen("location")} />
