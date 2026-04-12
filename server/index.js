@@ -17,18 +17,27 @@ app.use(express.json());
 // API Routes
 app.use("/api/prices", priceRoutes);
 
-// Serve static files from the Vite build directory
-const distPath = path.join(__dirname, "../dist");
+// 🛠️ DEFINE PRODUCTION PATHS
+const distPath = path.resolve(__dirname, "../dist");
+
+// 🛠️ SERVE ASSETS EXPLICITLY FIRST
+app.use("/assets", express.static(path.join(distPath, "assets"), {
+  maxAge: "1y",
+  immutable: true
+}));
+
+// 🛠️ SERVE REMAINING STATIC FILES
 app.use(express.static(distPath));
 
-// Catch-all route to serve index.html for client-side routing
+// 🛠️ SPA CATCH-ALL
 app.get("*", (req, res) => {
   res.sendFile(path.join(distPath, "index.html"));
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
-app.listen(PORT, () => {
-  console.log(`📡 Kisan-Mitr Production Server running on port ${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`📡 Kisan-Mitr Production Server running on http://0.0.0.0:${PORT}`);
 });
+
 
