@@ -21,6 +21,8 @@ const SoilCard = ({ soilName, image, translatedName, language, onSelect }: SoilC
             src={image} 
             alt={soilName} 
             className="w-full h-full object-cover rounded-full shadow-md scale-125"
+            loading="lazy"
+            decoding="async"
             style={{ maskImage: 'radial-gradient(circle, black 60%, transparent 100%)', WebkitMaskImage: 'radial-gradient(circle, black 60%, transparent 100%)' }}
           />
       </div>
