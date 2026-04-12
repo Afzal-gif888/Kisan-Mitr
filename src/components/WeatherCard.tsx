@@ -7,47 +7,6 @@ import { generateFarmerInsights } from "../utils/farmerInsightEngine";
 import { weatherText } from "../translations/weather";
 import { useApp } from "../context/AppContext";
 
-const translateName = (name: string, lang: string) => {
-    if (lang !== 'te' || !name) return name;
-    let mapped = name.toLowerCase();
-    const rules = [
-        ['bh', 'భ'], ['ch', 'చ'], ['dh', 'ధ'], ['gh', 'ఘ'], ['jh', 'ఝ'], ['kh', 'ఖ'], ['ph', 'ఫ'], ['sh', 'ష'], ['th', 'థ'],
-        ['a', 'ా'], ['b', 'బా'], ['c', 'కా'], ['d', 'డా'], ['e', 'ే'], ['f', 'ఫా'], ['g', 'గా'], ['h', 'హా'], ['i', 'ి'], 
-        ['j', 'జా'], ['k', 'కా'], ['l', 'లా'], ['m', 'మా'], ['n', 'నా'], ['o', 'ో'], ['p', 'పా'], ['q', 'క్'], ['r', 'రా'], 
-        ['s', 'సా'], ['t', 'టా'], ['u', 'ు'], ['v', 'వా'], ['w', 'వా'], ['x', 'క్స్'], ['y', 'యా'], ['z', 'జా']
-    ];
-    let result = '';
-    let i = 0;
-    while (i < mapped.length) {
-        let matched = false;
-        if (i < mapped.length - 1) {
-            const duo = mapped.substring(i, i+2);
-            for (let [eng, tel] of rules) {
-                if (duo === eng) {
-                    result += tel;
-                    i += 2;
-                    matched = true;
-                    break;
-                }
-            }
-        }
-        if (!matched) {
-            const char = mapped[i];
-            let found = false;
-            for (let [eng, tel] of rules) {
-                if (char === eng) {
-                    result += tel;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) result += char;
-            i++;
-        }
-    }
-    return result;
-};
-
 const WeatherModule = ({ lat = null, lon = null, state = null, district, language, onAnalysisComplete, onBack }) => {
     const t = weatherText[language] || weatherText.en;
     const [prediction, setPrediction] = useState(null);
@@ -246,7 +205,7 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
     return (
         <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-6 px-4 bg-white min-h-screen space-y-4 overflow-y-auto">
             
-            <div className="pt-8 pb-4 flex flex-col items-center justify-center w-full px-2 relative space-y-4">
+            <div className="pt-8 pb-0 flex flex-col items-center justify-center w-full px-2 relative space-y-4">
                 <button onClick={onBack} className="absolute left-2 top-8 p-3 bg-slate-50 rounded-2xl text-[#1B5E20] shadow-sm active:scale-95 transition-all z-10">
                     <ArrowLeft size={24} />
                 </button>
@@ -255,16 +214,16 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                         {language === 'te' ? 'వాతావరణ నివేదిక' : 'Weather Report'}
                     </h1>
                     
-                    <div className="mt-4 flex items-center justify-center bg-[#F1F8E9] px-6 py-2.5 rounded-full border border-[#1B5E20]/20 shadow-inner">
+                    <div className="mt-2 flex items-center justify-center bg-[#F1F8E9] px-6 py-2.5 rounded-full border border-[#1B5E20]/20 shadow-inner">
                         <h2 className="text-lg font-black text-[#1B5E20] tracking-tighter uppercase italic leading-none flex items-center gap-2">
                            <span>{language === 'te' ? '🙏' : '👋'}</span> 
-                           {language === 'te' ? `నమస్తే, ${translateName(userName, language)} గారు!` : `HI, ${userName}!`}
+                           {language === 'te' ? `నమస్తే, ${userName} గారు!` : `HI, ${userName}!`}
                         </h2>
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center -mt-2">
-                <div className="w-24 h-1 bg-[#1B5E20]/10 rounded-full mt-1" />
+            <div className="flex justify-center -mt-4 mb-2">
+                <div className="w-16 h-1 bg-[#1B5E20]/10 rounded-full" />
             </div>
 
             <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 space-y-4 overflow-hidden">
@@ -278,10 +237,10 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 shadow-sm"><CloudRain size={18} /></div>
-                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none">{t.rain}</span>
+                                <span className="text-xs font-black text-[#1B5E20] uppercase tracking-widest leading-none">{t.rain}</span>
                             </div>
                             <div className="text-right space-y-1">
-                                <p className="text-base font-black text-slate-800 uppercase italic leading-none">{getLabel(prediction.summary.rain)}</p>
+                                <p className="text-base font-black text-[#1B5E20] uppercase italic leading-none">{getLabel(prediction.summary.rain)}</p>
                                 {renderDots(prediction.summary.rain)}
                             </div>
                         </div>
@@ -289,10 +248,10 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="w-9 h-9 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500 shadow-sm"><Thermometer size={18} /></div>
-                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none">{t.heat}</span>
+                                <span className="text-xs font-black text-[#1B5E20] uppercase tracking-widest leading-none">{t.heat}</span>
                             </div>
                             <div className="text-right space-y-1">
-                                <p className="text-base font-black text-slate-800 uppercase italic leading-none">{getLabel(prediction.summary.heat)}</p>
+                                <p className="text-base font-black text-[#1B5E20] uppercase italic leading-none">{getLabel(prediction.summary.heat)}</p>
                                 {renderDots(prediction.summary.heat)}
                             </div>
                         </div>
@@ -300,10 +259,10 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center text-[#1B5E20] shadow-sm"><Droplets size={18} /></div>
-                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none">{t.moisture}</span>
+                                <span className="text-xs font-black text-[#1B5E20] uppercase tracking-widest leading-none">{t.moisture}</span>
                             </div>
                             <div className="text-right space-y-1">
-                                <p className="text-base font-black text-slate-800 uppercase italic leading-none">{getLabel(prediction.summary.moisture)}</p>
+                                <p className="text-base font-black text-[#1B5E20] uppercase italic leading-none">{getLabel(prediction.summary.moisture)}</p>
                                 {renderDots(prediction.summary.moisture)}
                             </div>
                         </div>
@@ -340,9 +299,9 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                             const dayName = dateObj.toLocaleDateString(language === "te" ? "te-IN" : "en-IN", { weekday: 'short' });
                             return (
                                 <div key={idx} className="bg-[#F1F8E9]/30 rounded-3xl py-3 px-4 shadow-inner border border-[#1B5E20]/5 transition-all active:scale-95 text-center flex flex-col items-center justify-center italic">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{dayName}</p>
+                                    <p className="text-[10px] font-black text-[#1B5E20] uppercase tracking-widest mb-1">{dayName}</p>
                                     <div className="text-2xl mb-1">{day.icon}</div>
-                                    <p className="text-[10px] font-black text-slate-800 uppercase tracking-tighter line-clamp-1">{day.text}</p>
+                                    <p className="text-[10px] font-black text-[#1B5E20] uppercase tracking-tighter line-clamp-1">{day.text}</p>
                                 </div>
                             );
                         })}
@@ -354,8 +313,8 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                         <Sprout size={20} />
                     </div>
                     <div className="text-center">
-                        <p className="text-[10px] font-black text-[#1B5E20]/60 uppercase tracking-[0.2em] mb-2">{t.adviceTitle}</p>
-                        <p className="text-base font-black text-slate-800 leading-tight italic tracking-tight opacity-90 uppercase">
+                        <p className="text-[10px] font-black text-[#1B5E20] uppercase tracking-[0.2em] mb-2">{t.adviceTitle}</p>
+                        <p className="text-base font-black text-[#1B5E20] leading-tight italic tracking-tight opacity-90 uppercase">
                             "{prediction.farmerInsights?.summary}"
                         </p>
                     </div>

@@ -101,19 +101,6 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
-  const handleVoice = () => {
-    if ("speechSynthesis" in window) {
-      speechSynthesis.cancel();
-      const text = language === "te" 
-        ? `${crop.name?.te || crop.name}. ఇది ${crop.durationDays || "120"} రోజుల పంట. ${crop.farmer_advice_te ? crop.farmer_advice_te.join(". ") : "సమయానికి సరైన విధానం వాడుకోండి."}`
-        : `${crop.name?.en || crop.name}. This is a ${crop.durationDays || "120"} day crop. ${crop.waterNeed || "Moderate"} water requirement.`;
-      const msg = new SpeechSynthesisUtterance(text);
-      msg.lang = language === "te" ? "te-IN" : "en-US";
-      msg.rate = 0.85;
-      speechSynthesis.speak(msg);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[#F5F1EB] flex flex-col max-w-md mx-auto shadow-2xl overflow-x-hidden pb-10">
       
@@ -139,7 +126,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
           </button>
       </div>
 
-      <div className="flex-1 p-6 space-y-6 mt-4 overflow-y-auto">
+      <div className="flex-1 p-6 space-y-4 mt-2 overflow-y-auto">
         
         {/* DISTRICT SUITABILITY WARNING */}
         {!isDistrictSuitable && (
@@ -160,23 +147,23 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
         {(weatherWarnings.length > 0 || weatherAdjustments.length > 0) && (
           <div className="bg-white rounded-[2.5rem] p-6 shadow-xl space-y-4 border border-white">
             <div className="flex items-center gap-3">
-              <CloudRain className="text-blue-500" size={20} />
-              <h4 className="text-lg font-black text-slate-800 italic uppercase tracking-tighter">
+              <CloudRain className="text-[#1B5E20]" size={20} />
+              <h4 className="text-lg font-black text-[#1B5E20] italic uppercase tracking-tighter">
                 {language === 'te' ? 'వాతావరణ సర్దుబాట్లు' : 'Weather Sync'}
               </h4>
             </div>
             
             <div className="space-y-3">
               {weatherWarnings.map((w: string, i: number) => (
-                <div key={i} className="flex gap-3 bg-red-50 p-3 rounded-2xl border border-red-100">
-                  <AlertCircle size={16} className="text-red-500 shrink-0 mt-0.5" />
-                  <p className="text-xs font-black text-red-900 leading-tight uppercase italic">{w}</p>
+                <div key={i} className="flex gap-3 bg-white p-3 rounded-2xl border border-[#F1F8E9] shadow-sm">
+                  <AlertCircle size={16} className="text-[#1B5E20] shrink-0 mt-0.5" />
+                  <p className="text-xs font-black text-[#1B5E20] leading-tight uppercase italic">{w}</p>
                 </div>
               ))}
               {weatherAdjustments.map((a: string, i: number) => (
-                <div key={i} className="flex gap-3 bg-blue-50 p-3 rounded-2xl border border-blue-100">
-                  <Lightbulb size={16} className="text-blue-500 shrink-0 mt-0.5" />
-                  <p className="text-xs font-black text-blue-900 leading-tight uppercase italic">{a}</p>
+                <div key={i} className="flex gap-3 bg-white p-3 rounded-2xl border border-[#F1F8E9] shadow-sm">
+                  <Lightbulb size={16} className="text-[#1B5E20] shrink-0 mt-0.5" />
+                  <p className="text-xs font-black text-[#1B5E20] leading-tight uppercase italic">{a}</p>
                 </div>
               ))}
             </div>
@@ -185,17 +172,16 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
 
         {/* LONG-TERM COMMITMENT BANNER */}
         {crop.durationDays && crop.durationDays > 200 && (
-          <div className="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-[2rem] p-5 shadow-2xl relative overflow-hidden group">
-             <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -translate-y-12 translate-x-8" />
+          <div className="bg-white rounded-[2rem] p-5 shadow-xl border-4 border-[#F1F8E9] relative overflow-hidden group">
              <div className="relative z-10 flex gap-4 items-center">
-                <div className="w-12 h-12 rounded-[1.2rem] bg-white/10 flex items-center justify-center backdrop-blur-md shrink-0 border border-white/20">
-                    <CalendarCheck className="text-purple-300" size={24} />
+                <div className="w-12 h-12 rounded-[1.2rem] bg-[#F1F8E9] flex items-center justify-center shrink-0 border border-[#1B5E20]/10 ring-2 ring-[#1B5E20]/5">
+                    <CalendarCheck className="text-[#1B5E20]" size={24} />
                 </div>
                 <div>
-                   <h4 className="text-white font-black italic uppercase tracking-widest text-xs mb-0.5">
+                   <h4 className="text-[#1B5E20] font-black italic uppercase tracking-widest text-xs mb-0.5">
                       {language === 'te' ? 'దీర్ఘకాలిక పెట్టుబడి' : 'Long-Term Commitment'}
                    </h4>
-                   <p className="text-purple-200/80 text-[10px] uppercase font-bold leading-tight">
+                   <p className="text-[#1B5E20]/80 text-xs uppercase font-bold leading-tight mt-1">
                       {language === 'te' 
                         ? `ఈ పంట దిగుబడికి ${crop.durationDays} రోజుల నిరంతర ఆదరణ అవసరం.` 
                         : `This crop requires continuous maintenance for ${crop.durationDays} days.`}
@@ -230,19 +216,19 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
         <div className="grid grid-cols-2 gap-4">
             <div className="bg-white p-5 rounded-[2.5rem] shadow-lg border border-white flex flex-col items-center text-center space-y-2">
                 <div className="p-3 bg-blue-50 text-blue-500 rounded-xl mb-1"><Droplets size={24} /></div>
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">{language === "te" ? "నీటి అవసరం" : "Water Need"}</p>
-                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{translateMetric(crop.waterNeed, language)}</p>
+                <p className="text-[9px] font-black text-[#1B5E20] uppercase tracking-[0.2em]">{language === "te" ? "నీటి అవసరం" : "Water Need"}</p>
+                <p className="text-xs font-black text-[#1B5E20] uppercase leading-none italic">{translateMetric(crop.waterNeed, language)}</p>
             </div>
             <div className="bg-white p-5 rounded-[2.5rem] shadow-lg border border-white flex flex-col items-center text-center space-y-2">
                 <div className="p-3 bg-orange-50 text-orange-500 rounded-xl mb-1"><Thermometer size={24} /></div>
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">{language === "te" ? "వాతావరణం" : "Climate Check"}</p>
-                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{translateMetric(crop.climate, language)}</p>
+                <p className="text-[9px] font-black text-[#1B5E20] uppercase tracking-[0.2em]">{language === "te" ? "వాతావరణం" : "Climate Check"}</p>
+                <p className="text-xs font-black text-[#1B5E20] uppercase leading-none italic">{translateMetric(crop.climate, language)}</p>
             </div>
         </div>
 
         {/* FARMING GUIDE PROTOCOL (6 STEPS) */}
         {guide && (
-        <div className="bg-white rounded-[3.5rem] p-8 shadow-2xl space-y-10 border-2 border-[#F5F1EB] relative overflow-hidden">
+        <div className="bg-white rounded-[3.5rem] p-8 shadow-2xl space-y-6 border-2 border-[#F5F1EB] relative overflow-hidden">
            <div className="flex items-center gap-4 relative z-10">
               <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-[#2E7D32] shadow-inner">
                  <CalendarCheck size={28} />
@@ -253,7 +239,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
               </div>
            </div>
            
-           <div className="space-y-10 relative z-10 pl-2">
+           <div className="space-y-6 relative z-10 pl-2">
               <div className="absolute left-6 top-3 bottom-8 w-0.5 bg-gradient-to-b from-emerald-100 via-emerald-200 to-transparent" />
               
               {[
@@ -286,39 +272,30 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
         )}
 
         {/* RISKS */}
-        <div className="bg-red-500/5 rounded-[3rem] p-8 border-2 border-red-500/10 space-y-4">
+        <div className="bg-white rounded-[3rem] p-8 shadow-xl border-4 border-[#F1F8E9] space-y-4">
             <div className="flex items-center gap-3">
-                <AlertCircle size={22} className="text-red-600" />
-                <h4 className="text-xl font-black text-red-900 tracking-tighter leading-none italic uppercase">
+                <AlertCircle size={22} className="text-[#1B5E20]" />
+                <h4 className="text-xl font-black text-[#1B5E20] tracking-tighter leading-none italic uppercase">
                    {language === 'te' ? 'ప్రమాద కారకాలు' : 'Risk Factors'}
                 </h4>
             </div>
             <div className="space-y-3">
                 {(crop.risks || ["Unexpected rain", "Pest attacks depending on weather"]).map((risk: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
-                        <p className="text-sm font-black text-[#5C3A21] leading-none italic uppercase">{translateMetric(risk, language)}</p>
+                        <div className="w-2 h-2 rounded-full bg-[#1B5E20] shrink-0" />
+                        <p className="text-sm font-black text-[#1B5E20] leading-none italic uppercase">{translateMetric(risk, language)}</p>
                     </div>
                 ))}
             </div>
         </div>
 
-        {/* VOICE & FINISH */}
+        {/* FINISH */}
         <div className="space-y-4 pt-4">
             <button
-                onClick={handleVoice}
-                className="w-full py-6 bg-[#2E7D32] text-white rounded-[2.5rem] text-xl font-black flex items-center justify-center gap-4 shadow-xl active:scale-[0.98] transition-all relative overflow-hidden group shadow-emerald-900/20"
-            >
-                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                <Volume2 size={28} />
-                <span>{language === "te" ? "గైడ్ వినండి" : "Listen Strategy"}</span>
-            </button>
-            
-            <button
               onClick={onStartOver}
-              className="w-full py-4 text-[#8B5E3C]/40 hover:text-[#8B5E3C] transition-all text-[10px] font-black uppercase tracking-[0.4em] flex items-center justify-center gap-4"
+              className="w-full py-5 bg-white text-[#1B5E20] rounded-[2.5rem] shadow-lg border-2 border-[#F1F8E9] hover:bg-[#1B5E20] hover:text-white transition-all text-sm font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 active:scale-95"
             >
-                <RotateCcw size={18} />
+                <RotateCcw size={20} />
                 {language === "te" ? "మొదటినుండి" : "Reset Flow"}
             </button>
         </div>

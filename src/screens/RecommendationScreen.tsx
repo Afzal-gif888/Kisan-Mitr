@@ -143,7 +143,7 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
         <div className="bg-white rounded-[2.5rem] p-6 shadow-xl shadow-[#1B5E20]/10 border-b-8 border-[#1B5E20]/10 space-y-4 relative z-40">
             <div className="flex items-center gap-3">
                 <div className="p-2 bg-[#F1F8E9] rounded-xl shadow-md border border-[#1B5E20]/10 ring-2 ring-[#1B5E20]/5"><MapPin className="text-[#1B5E20]" size={18} /></div>
-                <p className="text-base font-black text-slate-800 uppercase tracking-tighter italic">
+                <p className="text-base font-black text-[#1B5E20] uppercase tracking-tighter italic">
                     {language === "te" ? `జిల్లా: ${weatherResult?.district ? translateDistrict(weatherResult.district, language) : ''}` : `District: ${weatherResult?.district}`}
                 </p>
             </div>
@@ -152,7 +152,7 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
                     <RefreshCw size={12} className="animate-spin-slow" />
                     {translateSoilAndWeather(recommendations.weatherTypeDetected, language)}
                 </div>
-                <div className="px-4 py-2 bg-white text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest italic border border-slate-100 drop-shadow-sm shadow-sm">
+                <div className="px-4 py-2 bg-white text-[#1B5E20] rounded-2xl text-[10px] font-black uppercase tracking-widest italic border border-[#1B5E20]/10 drop-shadow-sm shadow-sm shadow-[#1B5E20]/5">
                     {translateSoilAndWeather(soil, language)}
                 </div>
             </div>

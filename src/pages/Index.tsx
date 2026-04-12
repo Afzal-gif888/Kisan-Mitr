@@ -43,7 +43,7 @@ const Index = () => {
              onClick={() => setLanguage('te')}
              className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${language === 'te' ? 'bg-white text-[#1B5E20] shadow-lg scale-105' : 'text-white/70 hover:text-white active:scale-95'}`}
           >
-              TE
+              తె
           </button>
       </div>
 

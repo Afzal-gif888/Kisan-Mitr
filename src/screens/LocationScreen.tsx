@@ -11,8 +11,33 @@ interface LocationScreenProps {
 
 const states = Object.keys(indiaDistricts).sort();
 
+const translateState = (st: string) => {
+    const map: Record<string, string> = {
+        "Andhra Pradesh": "ఆంధ్ర ప్రదేశ్",
+        "Karnataka": "కర్ణాటక",
+        "Kerala": "కేరళ",
+        "Tamil Nadu": "తమిళనాడు",
+        "Telangana": "తెలంగాణ"
+    };
+    return map[st] || st;
+};
+
+const translateDistrict = (district: string) => {
+    const map: Record<string, string> = {
+        'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
+        'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
+        'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
+        'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
+        'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
+        'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
+        'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
+        'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
+    };
+    return map[district] || district;
+};
+
 const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
-  const { language, setDistrict: setGlobalDistrict } = useApp();
+  const { language, setDistrict: setGlobalDistrict, userName } = useApp();
   const t = (translations as any)[language];
   
   const [detecting, setDetecting] = useState(false);
@@ -66,23 +91,15 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
           <button onClick={onBack} className="text-white p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-90 shadow-inner">
               <ArrowLeft size={24} />
           </button>
-          <h2 className="text-xl font-black text-white tracking-tight leading-none uppercase italic">{t.appName}</h2>
+          <h2 className="text-xl font-black text-white tracking-tight leading-none uppercase italic">
+              <span className="opacity-90">{language === 'te' ? '🙏 నమస్తే, ' : '👋 HI, '}</span>
+              {language === 'te' ? `${userName} గారు!` : `${userName}!`}
+          </h2>
       </div>
 
       <div className="flex-1 px-6 pt-10 space-y-10 overflow-y-auto">
           
-          {/* VISUAL HERO */}
-          <div className="bg-gradient-to-br from-[#2E7D32] to-[#81C784] text-white p-8 rounded-[3rem] shadow-xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-10 -mt-10" />
-              <div className="relative z-10">
-                  <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-md shadow-inner border border-white/20">
-                      <Navigation2 className={`${detecting ? "animate-spin" : "animate-pulse"} text-white`} size={28} />
-                  </div>
-                  <h1 className="text-3xl font-black leading-tight tracking-tighter uppercase italic">
-                      {language === "te" ? "మీ పొలం స్థానాన్ని గుర్తిద్దాం" : "Locate Your Farm"}
-                  </h1>
-              </div>
-          </div>
+
 
           <div className="space-y-6">
               {/* PRIMARY DETECT BUTTON */}
@@ -113,22 +130,21 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
                   <select 
                       value={state} 
                       onChange={(e) => { setState(e.target.value); setLocalDistrict(""); setDetected(false); }} 
-                      className="w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-slate-800 outline-none transition-all uppercase shadow-sm"
+                      className="w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-[#1B5E20] outline-none transition-all uppercase shadow-sm"
                   >
-                      <option value="">{language === 'te' ? "రాష్ట్రాన్ని ఎంచుకోండి" : "Select State"}</option>
-                      {states.map((s) => <option key={s} value={s}>{s}</option>)}
+                      <option className="text-[#1B5E20] font-black" value="">{language === 'te' ? "రాష్ట్రాన్ని ఎంచుకోండి" : "Select State"}</option>
+                      {states.map((s) => <option className="text-[#1B5E20] font-black" key={s} value={s}>{language === 'te' ? translateState(s) : s}</option>)}
                   </select>
                   
-                  {state && (
-                      <select 
-                          value={localDistrict} 
-                          onChange={(e) => { setLocalDistrict(e.target.value); setDetected(true); }} 
-                          className="w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-slate-800 outline-none transition-all uppercase shadow-sm animate-in slide-in-from-top-2"
-                      >
-                          <option value="">{language === 'te' ? "జిల్లాను ఎంచుకోండి" : "Select District"}</option>
-                          {(indiaDistricts[state] || []).map((d) => <option key={d} value={d}>{d}</option>)}
-                      </select>
-                  )}
+                  <select 
+                      value={localDistrict} 
+                      onChange={(e) => { setLocalDistrict(e.target.value); setDetected(true); }} 
+                      disabled={!state}
+                      className={`w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-[#1B5E20] outline-none transition-all uppercase shadow-sm ${!state ? 'opacity-50 cursor-not-allowed' : 'animate-in slide-in-from-top-2'}`}
+                  >
+                      <option className="text-[#1B5E20] font-black" value="">{language === 'te' ? "జిల్లాను ఎంచుకోండి" : "Select District"}</option>
+                      {state && (indiaDistricts[state] || []).map((d) => <option className="text-[#1B5E20] font-black" key={d} value={d}>{language === 'te' ? translateDistrict(d) : d}</option>)}
+                  </select>
               </div>
           </div>
       </div>

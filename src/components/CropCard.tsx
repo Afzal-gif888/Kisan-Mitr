@@ -97,26 +97,15 @@ const CropCard = ({ crop, language, suitabilityColor, onViewGuide, imgSource, fa
       </div>
 
       <div className="p-6 space-y-6">
-          <div>
-              <div className="space-y-1.5">
-                  <div className="flex items-start gap-2.5">
-                      <div className={`rounded-full p-1 mt-0.5 shrink-0 bg-[#1B5E20]`}>
-                          <Check size={10} className="text-white" />
-                      </div>
-                      <p className="text-sm font-black text-[#1B5E20] leading-none italic uppercase">{translateReason(crop.reason, language)}</p>
-                  </div>
-              </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2 py-5 border-y border-[#F1F8E9]">
+          <div className="grid grid-cols-2 gap-2 pb-5 border-b border-[#F1F8E9]">
               <div className="text-center space-y-1.5 border-r border-[#F1F8E9]">
                   <div className="flex justify-center text-blue-500 mb-1"><Droplets size={20} /></div>
-                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{language === "te" ? "నీరు" : "Water Need"}</p>
+                  <p className="text-[8px] font-black text-[#1B5E20] uppercase tracking-widest">{language === "te" ? "నీరు" : "Water Need"}</p>
                   <p className="text-xs font-black text-[#1B5E20] uppercase mt-1">{translateMetric(crop.waterNeed, language)}</p>
               </div>
               <div className="text-center space-y-1.5">
                   <div className="flex justify-center text-orange-500 mb-1"><Thermometer size={20} /></div>
-                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{language === "te" ? "వాతావరణం" : "Temp"}</p>
+                  <p className="text-[8px] font-black text-[#1B5E20] uppercase tracking-widest">{language === "te" ? "వాతావరణం" : "Temp"}</p>
                   <p className="text-xs font-black text-[#1B5E20] uppercase mt-1">{translateMetric(crop.climate || crop.heatTolerance, language)}</p>
               </div>
           </div>
