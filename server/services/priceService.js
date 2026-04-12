@@ -7,13 +7,13 @@ const API_KEY = process.env.DATA_GOV_API_KEY;
 
 // 🔥 IMPORTANT: crop name mapping
 const cropMap = {
-  paddy: "PADDY",
-  rice: "PADDY",
-  groundnut: "GROUNDNUT",
-  cotton: "COTTON",
-  maize: "MAIZE",
-  chilli: "CHILLI",
-  onion: "ONION",
+  paddy: "Paddy(Dhan)(Common)",
+  rice: "Paddy(Dhan)(Common)",
+  groundnut: "Groundnut",
+  cotton: "Cotton",
+  maize: "Maize",
+  chilli: "Chillies",
+  onion: "Onion",
   cashew: "Cashewnuts",
   turmeric: "Turmeric",
   tomato: "Tomato",
@@ -22,17 +22,25 @@ const cropMap = {
   mango: "Mango",
   jowar: "Jowar(Sorghum)",
   bajra: "Bajra(Pearl Millet)",
-  ragi: "Ragi(Finger Millet)",
-  redgram: "Red Gram",
-  greengram: "Green Gram",
-  blackgram: "Black Gram",
-  bengalgram: "Bengal Gram(Gram)",
-  sesame: "Sesamum(Sesame,Gingelly,Til)"
+  ragi: "Ragi (Finger Millet)",
+  redgram: "Arhar (Tur/Red Gram)(Whole)",
+  greengram: "Green Gram (Moong)(Whole)",
+  blackgram: "Black Gram (Urd Beans)(Whole)",
+  bengalgram: "Bengal Gram (Gram)(Whole)",
+  sesame: "Sesamum",
+  horsegram: "Horse Gram",
+  sugarcane: "Gur(Jaggery)",
+  fenugreek: "Fenugreek Seed",
+  "arhar (tur/red gram)(whole)": "Arhar (Tur/Red Gram)(Whole)",
+  "green gram (moong)(whole)": "Green Gram (Moong)(Whole)",
+  "black gram (urd beans)(whole)": "Black Gram (Urd Beans)(Whole)",
+  "bengal gram (gram)(whole)": "Bengal Gram (Gram)(Whole)"
 };
 
 export const fetchCropPriceFromGov = async (cropName) => {
   try {
-    const commodity = cropMap[cropName.toLowerCase()] || cropName.toUpperCase();
+    const lower = cropName.toLowerCase().trim();
+    const commodity = cropMap[lower] || cropName;
 
     const response = await axios.get(
       "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070",

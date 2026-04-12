@@ -11,7 +11,7 @@ export const getCropPrice = async (cropName: string) => {
   const timeoutId = setTimeout(() => controller.abort(), 3000);
 
   try {
-    const res = await fetch(`http://localhost:5000/api/prices/${normalizedName}`, {
+    const res = await fetch(`http://localhost:5000/api/prices/fetch?crop=${encodeURIComponent(normalizedName)}`, {
       signal: controller.signal
     });
     

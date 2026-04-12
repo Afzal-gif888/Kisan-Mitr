@@ -13,19 +13,15 @@ export const cropNameMapping: Record<string, string> = {
   "greengram": "Green Gram (Moong)(Whole)",
   "blackgram": "Black Gram (Urd Beans)(Whole)",
   "bengalgram": "Bengal Gram (Gram)(Whole)",
-
-  "horsegram": "Horse Gram",
   "cowpea": "Cowpea(Veg)",
 
   "groundnut": "Groundnut",
   "sunflower": "Sunflower",
   "sesame": "Sesamum",
   "castor": "Castor Seed",
-
-  "cotton": "Cotton",
-  "sugarcane": "Sugarcane",
   "tobacco": "Tobacco",
 
+  "cotton": "Cotton",
   "mango": "Mango",
   "banana": "Banana",
   "coconut": "Coconut",
@@ -42,7 +38,9 @@ export const cropNameMapping: Record<string, string> = {
 
   "turmeric": "Turmeric",
   "coriander": "Coriander",
-  "fenugreek": "Fenugreek",
+  "horsegram": "Horse Gram",
+  "sugarcane": "Gur(Jaggery)",
+  "fenugreek": "Fenugreek Seed",
   "mustard": "Mustard",
 
   "cashew": "Cashewnuts",

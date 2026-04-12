@@ -217,25 +217,26 @@ const WeatherModule = React.memo(({ lat = null, lon = null, state = null, distri
     return (
         <div className="w-full min-h-screen bg-white flex flex-col sm:max-w-md sm:mx-auto sm:shadow-2xl sm:my-4 sm:rounded-[3rem] animate-in fade-in duration-700 pb-6 px-4 space-y-4 overflow-y-auto relative">
             
-            <div className="pt-8 pb-0 flex flex-col items-center justify-center w-full px-2 relative space-y-4">
-                <button onClick={onBack} className="absolute left-2 top-8 p-3 bg-slate-50 rounded-2xl text-[#1B5E20] shadow-sm active:scale-95 transition-all z-10">
+            <div className="pt-10 pb-8 flex flex-col items-center justify-center px-6 relative space-y-4 bg-gradient-to-b from-[#1B5E20] to-[#2E7D32] -mx-4 w-[calc(100%+2rem)] rounded-b-[3rem] shadow-xl border-b border-[#2E7D32]/20">
+                <button onClick={onBack} className="absolute left-6 top-10 p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white shadow-lg active:scale-95 transition-all z-10">
                     <ArrowLeft size={24} />
                 </button>
-                <div className="flex flex-col items-center text-center">
-                    <h1 className="text-xl font-black text-[#1B5E20] tracking-tight uppercase italic drop-shadow-sm bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-transparent bg-clip-text pb-1 pr-2">
+                <div className="flex flex-col items-center text-center space-y-1">
+                    <h1 className="text-2xl font-black text-white tracking-tight uppercase italic drop-shadow-lg pr-2">
                         {language === 'te' ? 'వాతావరణ నివేదిక' : 'Weather Report'}
                     </h1>
                     
-                    <div className="mt-2 flex items-center justify-center bg-[#F1F8E9] px-6 py-2.5 rounded-full border border-[#1B5E20]/20 shadow-inner">
-                        <h2 className="text-lg font-black text-[#1B5E20] tracking-tighter uppercase italic leading-none flex items-center gap-2">
+                    <div className="mt-2 flex items-center justify-center bg-white/10 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/20 shadow-xl">
+                        <h2 className="text-lg font-black text-white tracking-tighter uppercase italic leading-none flex items-center gap-2">
                            <span>{language === 'te' ? '🙏' : '👋'}</span> 
                            {language === 'te' ? `నమస్తే, ${userName} గారు!` : `HI, ${userName}!`}
                         </h2>
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center -mt-4 mb-2">
-                <div className="w-16 h-1 bg-[#1B5E20]/10 rounded-full" />
+            
+            <div className="flex justify-center -mt-4 mb-2 pointer-events-none">
+                <div className="w-16 h-1 bg-white/20 rounded-full" />
             </div>
 
             <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 space-y-4 overflow-hidden">
