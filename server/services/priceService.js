@@ -37,7 +37,7 @@ const cropMap = {
   "bengal gram (gram)(whole)": "Bengal Gram (Gram)(Whole)"
 };
 
-export const fetchCropPriceFromGov = async (cropName) => {
+export const fetchCropPriceFromGov = async (cropName, retry = true) => {
   try {
     const lower = cropName.toLowerCase().trim();
     const commodity = cropMap[lower] || cropName;
@@ -50,6 +50,11 @@ export const fetchCropPriceFromGov = async (cropName) => {
           format: "json",
           "filters[commodity]": commodity,
           limit: 1
+        },
+        timeout: 15000,
+        headers: {
+          "User-Agent": "Mozilla/5.0",
+          "Accept": "application/json"
         }
       }
     );
@@ -64,12 +69,14 @@ export const fetchCropPriceFromGov = async (cropName) => {
     };
 
   } catch (error) {
-    console.error("API Error:", error.message);
+    if (retry && (error.code === 'ECONNRESET' || error.code === 'ETIMEDOUT')) {
+      console.warn(`🔄 Connection reset. Retrying for ${cropName}...`);
+      await new Promise(r => setTimeout(r, 1500));
+      return fetchCropPriceFromGov(cropName, false);
+    }
 
-    return {
-      crop: cropName,
-      price: null,
-      market: null
-    };
+    console.error("API Error:", error.message);
+    return { crop: cropName, price: null, market: null };
   }
 };
+
