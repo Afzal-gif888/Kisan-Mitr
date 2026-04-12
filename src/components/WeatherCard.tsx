@@ -203,7 +203,7 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
     if (!prediction) return null;
 
     return (
-        <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-6 px-4 bg-white min-h-screen space-y-4 overflow-y-auto">
+        <div className="w-full min-h-screen bg-white flex flex-col sm:max-w-md sm:mx-auto sm:shadow-2xl sm:my-4 sm:rounded-[3rem] animate-in fade-in duration-700 pb-6 px-4 space-y-4 overflow-y-auto relative">
             
             <div className="pt-8 pb-0 flex flex-col items-center justify-center w-full px-2 relative space-y-4">
                 <button onClick={onBack} className="absolute left-2 top-8 p-3 bg-slate-50 rounded-2xl text-[#1B5E20] shadow-sm active:scale-95 transition-all z-10">

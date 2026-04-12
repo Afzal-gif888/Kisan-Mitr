@@ -63,7 +63,7 @@ const SoilSelectionScreen = ({ onSelect, onBack }: SoilSelectionScreenProps) => 
   }, [district]);
 
   return (
-    <div className="min-h-screen bg-[#F5F1E9] flex flex-col max-w-md mx-auto animate-in fade-in duration-700 shadow-2xl overflow-hidden pb-10 safe-area-inset">
+    <div className="w-full min-h-screen bg-[#F5F1E9] flex flex-col sm:max-w-md sm:mx-auto sm:shadow-2xl sm:my-4 sm:rounded-[3rem] animate-in fade-in duration-700 overflow-hidden pb-10 safe-area-inset">
       
       <div className="pt-10 pb-6 px-8 space-y-6 shrink-0">
           <div className="flex items-center justify-between">
@@ -79,10 +79,10 @@ const SoilSelectionScreen = ({ onSelect, onBack }: SoilSelectionScreenProps) => 
           </div>
 
           <div className="space-y-2 text-center">
-              <h1 className="text-3xl font-black text-[#1B5E20] tracking-tight leading-none uppercase italic">
+              <h1 className="text-2xl font-black text-[#1B5E20] tracking-tight leading-none uppercase italic">
                 {language === "te" ? "నేల రకాన్ని ఎంచుకోండి" : "Select Your Soil"}
               </h1>
-              <p className="text-xs font-bold text-[#1B5E20]/50 leading-tight uppercase tracking-widest italic mt-1 px-4">
+              <p className="text-[10px] font-black text-[#1B5E20]/60 leading-tight uppercase tracking-widest italic mt-1 px-4">
                 {language === "te" ? "మెరుగైన పంట సలహా కోసం మీ మట్టిని ఎంచుకోండి" : "Different soils need different care. Choose wisely."}
               </p>
           </div>

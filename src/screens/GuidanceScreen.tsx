@@ -102,7 +102,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F5F1EB] flex flex-col max-w-md mx-auto shadow-2xl overflow-x-hidden pb-10">
+    <div className="w-full min-h-screen bg-[#F5F1EB] flex flex-col sm:max-w-md sm:mx-auto sm:shadow-2xl sm:my-4 sm:rounded-[3rem] overflow-x-hidden pb-10">
       
       {/* 1. PREMIUM HEADER */}
       <div className={`pt-14 pb-10 px-6 rounded-b-[3rem] shadow-2xl flex items-center justify-between sticky top-0 z-40 ring-8 ring-white/5 transition-colors duration-500 ${
@@ -234,8 +234,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
                  <CalendarCheck size={28} />
               </div>
               <div>
-                <h4 className="text-xl font-black text-[#1E3A1A] leading-none mb-1 italic uppercase tracking-tighter">{language === "te" ? "సాగు విధానం" : "Farming Guide"}</h4>
-                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.1em] leading-none">Step-by-step Execution</p>
+                <h4 className="text-xl font-black text-[#1B5E20] leading-none italic uppercase tracking-tighter">{language === "te" ? "సాగు విధానం" : "Farming Guide"}</h4>
               </div>
            </div>
            

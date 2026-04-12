@@ -11,7 +11,8 @@ interface LocationScreenProps {
 
 const states = Object.keys(indiaDistricts).sort();
 
-const translateState = (st: string) => {
+const translateState = (st: string, lang: string) => {
+    if (lang !== 'te') return st;
     const map: Record<string, string> = {
         "Andhra Pradesh": "ఆంధ్ర ప్రదేశ్",
         "Karnataka": "కర్ణాటక",
@@ -22,7 +23,8 @@ const translateState = (st: string) => {
     return map[st] || st;
 };
 
-const translateDistrict = (district: string) => {
+const translateDistrict = (district: string, lang: string) => {
+    if (lang !== 'te') return district;
     const map: Record<string, string> = {
         'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
         'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
@@ -84,7 +86,7 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col max-w-md mx-auto shadow-2xl overflow-x-hidden safe-area-inset pb-10">
+    <div className="w-full h-screen bg-white flex flex-col sm:max-w-md sm:mx-auto sm:shadow-2xl sm:my-4 sm:rounded-[3rem] overflow-hidden safe-area-inset pb-10">
       
       {/* HEADER */}
       <div className="bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] pt-14 pb-10 px-6 rounded-b-[2.5rem] shadow-lg flex items-center gap-4 relative z-20">
@@ -97,7 +99,7 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
           </h2>
       </div>
 
-      <div className="flex-1 px-6 pt-10 space-y-10 overflow-y-auto">
+      <div className="px-6 pt-6 space-y-6">
           
 
 
@@ -114,7 +116,7 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
                   <div className="text-left flex-1 min-w-0">
                       <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.2em] mb-1.5">{language === 'te' ? 'లొకేషన్ ఆటో డిటెక్ట్' : 'Auto Detect Location'}</p>
                       <p className="text-xl font-black text-[#1B5E20] truncate uppercase leading-none italic">
-                          {detecting ? (language === 'te' ? "వెతుకుతుంది..." : "Locating...") : detected ? localDistrict : (language === 'te' ? "ఆటో డిటెక్ట్ చేయండి" : "Tap to detect")}
+                          {detecting ? (language === 'te' ? "వెతుకుతుంది..." : "Locating...") : detected ? translateDistrict(localDistrict, language) : (language === 'te' ? "ఆటో డిటెక్ట్ చేయండి" : "Tap to detect")}
                       </p>
                   </div>
               </button>
@@ -125,7 +127,6 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
                   <div className="h-px flex-1 bg-slate-100" />
               </div>
 
-              {/* MANUAL SELECTION */}
               <div className="space-y-4">
                   <select 
                       value={state} 
@@ -133,7 +134,7 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
                       className="w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-[#1B5E20] outline-none transition-all uppercase shadow-sm"
                   >
                       <option className="text-[#1B5E20] font-black" value="">{language === 'te' ? "రాష్ట్రాన్ని ఎంచుకోండి" : "Select State"}</option>
-                      {states.map((s) => <option className="text-[#1B5E20] font-black" key={s} value={s}>{language === 'te' ? translateState(s) : s}</option>)}
+                      {states.map((s) => <option className="text-[#1B5E20] font-black" key={s} value={s}>{translateState(s, language)}</option>)}
                   </select>
                   
                   <select 
@@ -143,14 +144,37 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
                       className={`w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-[#1B5E20] outline-none transition-all uppercase shadow-sm ${!state ? 'opacity-50 cursor-not-allowed' : 'animate-in slide-in-from-top-2'}`}
                   >
                       <option className="text-[#1B5E20] font-black" value="">{language === 'te' ? "జిల్లాను ఎంచుకోండి" : "Select District"}</option>
-                      {state && (indiaDistricts[state] || []).map((d) => <option className="text-[#1B5E20] font-black" key={d} value={d}>{language === 'te' ? translateDistrict(d) : d}</option>)}
+                      {state && (indiaDistricts[state] || []).map((d) => <option className="text-[#1B5E20] font-black" key={d} value={d}>{translateDistrict(d, language)}</option>)}
                   </select>
               </div>
+
+              {/* DYNAMIC CONFIRMATION BADGE */}
+              {state && localDistrict && (
+                  <div className="animate-in zoom-in-95 duration-500 bg-[#E8F5E9] p-5 rounded-[2rem] border-2 border-[#1B5E20]/20 flex items-center gap-4 shadow-xl shadow-emerald-900/5">
+                      <div className="w-12 h-12 bg-[#1B5E20] text-white rounded-2xl flex items-center justify-center shrink-0 shadow-lg">
+                          <MapPin size={24} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                          <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.2em] leading-none mb-2">{language === 'te' ? 'ఎంచుకున్న ప్రాంతం' : 'Selected Location'}</p>
+                          <div className="space-y-0.5">
+                              <h3 className="text-xl font-black text-[#1B5E20] italic leading-none truncate">
+                                  {translateDistrict(localDistrict, language)}
+                              </h3>
+                              <p className="text-[11px] font-bold text-[#1B5E20]/60 uppercase tracking-wider italic">
+                                  {translateState(state, language)}
+                              </p>
+                          </div>
+                      </div>
+                      <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#1B5E20] shadow-sm shrink-0">
+                          <Navigation2 size={20} fill="currentColor" />
+                      </div>
+                  </div>
+              )}
           </div>
       </div>
 
       {/* FOOTER CTA */}
-      <div className="px-6 mt-8">
+      <div className="px-6 mt-6 pb-8">
           <button 
               disabled={!state || !localDistrict || detecting}
               onClick={handleContinue} 

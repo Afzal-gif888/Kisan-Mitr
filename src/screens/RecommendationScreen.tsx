@@ -119,7 +119,7 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F1E9] flex flex-col max-w-md mx-auto shadow-2xl overflow-x-hidden safe-area-inset pb-10">
+    <div className="w-full min-h-screen bg-[#F5F1E9] flex flex-col sm:max-w-md sm:mx-auto sm:shadow-2xl sm:my-4 sm:rounded-[3rem] overflow-x-hidden safe-area-inset pb-10">
       
       {/* 🚀 ELITE HEADER */}
       <div className="bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] pt-14 pb-10 px-8 rounded-b-[3rem] shadow-xl flex items-center justify-between relative z-50">
