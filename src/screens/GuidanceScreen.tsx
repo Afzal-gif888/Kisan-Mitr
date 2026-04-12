@@ -51,8 +51,8 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
     if ("speechSynthesis" in window) {
       speechSynthesis.cancel();
       const text = language === "te" 
-        ? `${crop.name.te}. ఇది ${crop.duration_days} రోజుల పంట. ${crop.farmer_advice_te.join(". ")}`
-        : `${crop.name.en}. This is a ${crop.duration_days} day crop. ${crop.water.requirement} water requirement.`;
+        ? `${crop.name?.te || crop.name}. ఇది ${crop.durationDays || "120"} రోజుల పంట. ${crop.farmer_advice_te ? crop.farmer_advice_te.join(". ") : "సమయానికి సరైన విధానం వాడుకోండి."}`
+        : `${crop.name?.en || crop.name}. This is a ${crop.durationDays || "120"} day crop. ${crop.waterNeed || "Moderate"} water requirement.`;
       const msg = new SpeechSynthesisUtterance(text);
       msg.lang = language === "te" ? "te-IN" : "en-US";
       msg.rate = 0.85;
@@ -129,6 +129,28 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
           </div>
         )}
 
+        {/* LONG-TERM COMMITMENT BANNER */}
+        {crop.durationDays && crop.durationDays > 200 && (
+          <div className="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-[2rem] p-5 shadow-2xl relative overflow-hidden group">
+             <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -translate-y-12 translate-x-8" />
+             <div className="relative z-10 flex gap-4 items-center">
+                <div className="w-12 h-12 rounded-[1.2rem] bg-white/10 flex items-center justify-center backdrop-blur-md shrink-0 border border-white/20">
+                    <CalendarCheck className="text-purple-300" size={24} />
+                </div>
+                <div>
+                   <h4 className="text-white font-black italic uppercase tracking-widest text-xs mb-0.5">
+                      {language === 'te' ? 'దీర్ఘకాలిక పెట్టుబడి' : 'Long-Term Commitment'}
+                   </h4>
+                   <p className="text-purple-200/80 text-[10px] uppercase font-bold leading-tight">
+                      {language === 'te' 
+                        ? `ఈ పంట దిగుబడికి ${crop.durationDays} రోజుల నిరంతర ఆదరణ అవసరం.` 
+                        : `This crop requires continuous maintenance for ${crop.durationDays} days.`}
+                   </p>
+                </div>
+             </div>
+          </div>
+        )}
+
         {/* CROP HERO */}
         <div className="bg-slate-200 rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white relative group animate-in zoom-in-95 duration-700">
           <div className="h-48 relative overflow-hidden">
@@ -145,7 +167,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
             
             <div className="absolute top-5 right-5 bg-white/20 backdrop-blur-xl px-4 py-2 rounded-2xl flex items-center gap-2 border border-white/20 text-white">
                 <Clock size={14} />
-                <span className="text-[10px] font-black uppercase tracking-widest">{crop.duration_days} {language === 'te' ? 'రోజులు' : 'Days'}</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">{crop.durationDays || "120"} {language === 'te' ? 'రోజులు' : 'Days'}</span>
             </div>
           </div>
         </div>
@@ -155,12 +177,12 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
             <div className="bg-white p-5 rounded-[2.5rem] shadow-lg border border-white flex flex-col items-center text-center space-y-2">
                 <div className="p-3 bg-blue-50 text-blue-500 rounded-xl mb-1"><Droplets size={24} /></div>
                 <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">{language === "te" ? "నీటి అవసరం" : "Water Need"}</p>
-                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{crop.water.requirement}</p>
+                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{crop.waterNeed}</p>
             </div>
             <div className="bg-white p-5 rounded-[2.5rem] shadow-lg border border-white flex flex-col items-center text-center space-y-2">
                 <div className="p-3 bg-orange-50 text-orange-500 rounded-xl mb-1"><Thermometer size={24} /></div>
                 <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">{language === "te" ? "వాతావరణం" : "Climate Check"}</p>
-                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{crop.climate.temperature}</p>
+                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{crop.climate}</p>
             </div>
         </div>
 
@@ -216,7 +238,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
                 <h4 className="text-xl font-black text-red-900 tracking-tighter leading-none italic uppercase">Risk Factors</h4>
             </div>
             <div className="space-y-3">
-                {crop.risks.map((risk: string, idx: number) => (
+                {(crop.risks || ["Unexpected rain", "Pest attacks depending on weather"]).map((risk: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
                         <p className="text-sm font-black text-[#5C3A21] leading-none italic uppercase">{risk}</p>

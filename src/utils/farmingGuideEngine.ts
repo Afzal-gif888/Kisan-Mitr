@@ -1,6 +1,5 @@
 import { Language } from '../lib/translations';
-import { crops as cropsMaster } from '../data/apCropsDataset';
-import { apDistrictCropMap } from '../data/apDistrictCropMap';
+import { crops as cropsMaster } from '../data/crops';
 import farmingGuides from '../data/farmingGuides';
 
 export const getFarmingGuide = (cropId: string) => {
@@ -36,16 +35,12 @@ export const generateFarmingGuide = (
   language: Language = 'te'
 ): FarmingGuideOutput => {
   // 🛡️ Data Safety Guards
-  const crop = cropsMaster.find((c: any) => c.id === cropId);
+  const crop: any = cropsMaster.find((c: any) => c.id === cropId);
   if (!crop) throw new Error(`Crop registry mismatch for ID: ${cropId}`);
 
   const normalizedDistrict = district?.trim().toLowerCase();
   
-  // Cast to Record for Type Safety
-  const districtRegistry: Record<string, string[]> = apDistrictCropMap;
-  
-  const suitableCropsInDistrict = districtRegistry[normalizedDistrict] || [];
-  const isDistrictSuitable = suitableCropsInDistrict.includes(cropId);
+  const isDistrictSuitable = crop.districts.some((d: string) => d.toLowerCase() === normalizedDistrict);
 
   const adjustments: Set<string> = new Set();
   const warnings: Set<string> = new Set();
@@ -60,7 +55,7 @@ export const generateFarmingGuide = (
     if (language === 'te') adjustments.add('తక్కువ వర్షపాతం ఉంది: క్రమం తప్పకుండా నీరు పెట్టండి (Increase Irrigation)');
     else adjustments.add('Low rainfall detected: Ensure regular irrigation for healthy growth');
 
-    if (crop.details?.water === 'High' || crop.details?.water === 'Very High') {
+    if (crop.waterNeed === 'high' || crop.water?.requirement === 'High') {
       if (language === 'te') warnings.add('జాగ్రత్త: నీటి ఎద్దడి వల్ల దిగుబడి తగ్గే అవకాశం ఉంది');
       else warnings.add('Critical Warning: High-water requirement crop may suffer from current low-rain trend');
       status = 'warning';
@@ -82,7 +77,8 @@ export const generateFarmingGuide = (
     else adjustments.add('Heatwave trend: Use organic mulching to retain soil moisture');
 
     const heatSensitive = ['tomato', 'chilli', 'brinjal', 'okra'];
-    if (heatSensitive.some(name => crop.name.en.toLowerCase().includes(name))) {
+    const cropNameEn = crop.name?.en || crop.name || "";
+    if (heatSensitive.some(name => cropNameEn.toLowerCase().includes(name))) {
       if (language === 'te') warnings.add('అధిక వేడి వల్ల పూత మరియు పిందె రాలిపోయే అవకాశం ఉంది');
       else warnings.add('Heat Stress: Significant flower and fruit drop likely in current temperatures');
       status = 'warning';

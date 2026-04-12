@@ -102,8 +102,9 @@ export const getAPCropRecommendations = (
       reason: language === "te" 
         ? `${selectedSoil} మరియు ${districtName} కు తగినది` 
         : `Ranked for ${selectedSoil} in ${districtName}`,
-      waterNeed: crop.waterNeed || crop.details?.water,
-      duration: crop.duration || crop.details?.duration || "100-120 days",
+      waterNeed: crop.waterNeed,
+      climate: crop.climate,
+      duration: crop.durationDays ? `${crop.durationDays} Days` : "120 Days",
       districts: crop.districts,
       soils: crop.soils,
       weather: crop.weather

@@ -3,7 +3,7 @@ export const apDistrictSoils: Record<string, string[]> = {
   "Tirupati": ["Red Sandy Soil", "Red Loam Soil", "Coastal Sandy Soil"],
   "Chittoor": ["Red Loam Soil", "Laterite Soil"],
   "Annamayya": ["Red Sandy Soil", "Red Loam Soil", "Gravelly Soil"],
-  "Kadapa": ["Black Cotton Soil", "Red Soil", "Gravelly Soil"],
+  "YSR Kadapa": ["Black Cotton Soil", "Red Soil", "Gravelly Soil"],
   "Anantapur": ["Red Sandy Soil", "Black Soil", "Gravelly Soil"],
   "Sri Sathya Sai": ["Red Sandy Soil", "Red Soil", "Gravelly Soil"],
   "Kurnool": ["Black Cotton Soil", "Alluvial Soil", "Red Soil"],
