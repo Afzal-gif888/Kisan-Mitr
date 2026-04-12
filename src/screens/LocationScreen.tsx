@@ -100,11 +100,28 @@ const LocationScreen = memo(({ onNext, onBack }: LocationScreenProps) => {
 
     const finalErrorCallback = (error: GeolocationPositionError) => {
         setDetecting(false);
-        console.error("Geolocation Error:", error);
-        let msg = t.locationError || "Location access denied";
-        if (error.code === 3) msg = language === 'te' ? "లొకేషన్ వెతకడంలో ఆలస్యమైంది." : "Location request timed out.";
+        console.error("Geolocation Error details:", error);
+        
+        // Default message from translations or generic fallback
+        let msg = t.locationError || "Location Error";
+        
+        if (error.code === 1) { // PERMISSION_DENIED
+            msg = language === 'te' 
+                ? "అనుమతి నిరాకరించబడింది. దయచేసి మీ బ్రౌజర్ సెట్టింగ్‌లలో లొకేషన్ అనుమతించండి." 
+                : "Permission Denied. Please enable location access in your browser or phone settings.";
+        } else if (error.code === 2) { // POSITION_UNAVAILABLE
+            msg = language === 'te' 
+                ? "స్థాన సమాచారం అందుబాటులో లేదు. దయచేసి మీ జీపీఎస్ (GPS) ఆన్ చేయండి." 
+                : "Position unavailable. Please ensure your GPS/Location is turned on.";
+        } else if (error.code === 3) { // TIMEOUT
+            msg = language === 'te' 
+                ? "లొకేషన్ గుర్తించడంలో ఆలస్యమైంది. దయచేసి మళ్ళీ ప్రయత్నించండి." 
+                : "Location request timed out. Please try again in a clearer area.";
+        }
+        
         alert(msg);
     };
+
 
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback, geoOptions);
   }, [language, t.locationError]);
