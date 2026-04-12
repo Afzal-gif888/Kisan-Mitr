@@ -27,6 +27,21 @@ const SOIL_TEXT_INTERNAL: Record<string, any> = {
     "Black Soil": { te: "నల్ల నేల" }
 };
 
+const translateDistrict = (district: string, lang: string) => {
+    if (lang !== 'te' || !district) return district;
+    const map: Record<string, string> = {
+        'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
+        'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
+        'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
+        'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
+        'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
+        'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
+        'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
+        'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
+    };
+    return map[district] || district;
+};
+
 const SoilSelectionScreen = ({ onSelect, onBack }: SoilSelectionScreenProps) => {
   const { language, district } = useApp();
 
@@ -58,7 +73,7 @@ const SoilSelectionScreen = ({ onSelect, onBack }: SoilSelectionScreenProps) => 
               <div className="flex flex-col items-end">
                   <div className="flex items-center gap-2 px-4 py-1.5 bg-[#1B5E20]/5 rounded-full border border-[#1B5E20]/10 shadow-sm">
                       <MapPin size={12} className="text-[#1B5E20]" />
-                      <span className="text-[10px] font-black text-[#1B5E20] uppercase tracking-[0.2em] italic">{district}</span>
+                      <span className="text-[10px] font-black text-[#1B5E20] uppercase tracking-[0.2em] italic">{district ? translateDistrict(district, language) : ''}</span>
                   </div>
               </div>
           </div>

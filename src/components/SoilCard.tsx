@@ -27,11 +27,11 @@ const SoilCard = ({ soilName, image, translatedName, language, onSelect }: SoilC
       
       <div className="flex-1 text-left min-w-0">
         <h3 className="font-black text-2xl text-slate-800 leading-none tracking-tighter group-hover:text-[#1B5E20] transition-colors break-words uppercase italic">
-          {soilName}
+          {language === "te" ? (translatedName || soilName) : soilName}
         </h3>
         {language === "te" && (
             <p className="text-[#1B5E20]/50 font-black text-[11px] uppercase tracking-[0.2em] mt-2 pl-1">
-                ● {translatedName}
+                ● {soilName}
             </p>
         )}
       </div>

@@ -7,9 +7,51 @@ import { generateFarmerInsights } from "../utils/farmerInsightEngine";
 import { weatherText } from "../translations/weather";
 import { useApp } from "../context/AppContext";
 
+const translateName = (name: string, lang: string) => {
+    if (lang !== 'te' || !name) return name;
+    let mapped = name.toLowerCase();
+    const rules = [
+        ['bh', 'భ'], ['ch', 'చ'], ['dh', 'ధ'], ['gh', 'ఘ'], ['jh', 'ఝ'], ['kh', 'ఖ'], ['ph', 'ఫ'], ['sh', 'ష'], ['th', 'థ'],
+        ['a', 'ా'], ['b', 'బా'], ['c', 'కా'], ['d', 'డా'], ['e', 'ే'], ['f', 'ఫా'], ['g', 'గా'], ['h', 'హా'], ['i', 'ి'], 
+        ['j', 'జా'], ['k', 'కా'], ['l', 'లా'], ['m', 'మా'], ['n', 'నా'], ['o', 'ో'], ['p', 'పా'], ['q', 'క్'], ['r', 'రా'], 
+        ['s', 'సా'], ['t', 'టా'], ['u', 'ు'], ['v', 'వా'], ['w', 'వా'], ['x', 'క్స్'], ['y', 'యా'], ['z', 'జా']
+    ];
+    let result = '';
+    let i = 0;
+    while (i < mapped.length) {
+        let matched = false;
+        if (i < mapped.length - 1) {
+            const duo = mapped.substring(i, i+2);
+            for (let [eng, tel] of rules) {
+                if (duo === eng) {
+                    result += tel;
+                    i += 2;
+                    matched = true;
+                    break;
+                }
+            }
+        }
+        if (!matched) {
+            const char = mapped[i];
+            let found = false;
+            for (let [eng, tel] of rules) {
+                if (char === eng) {
+                    result += tel;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) result += char;
+            i++;
+        }
+    }
+    return result;
+};
+
 const WeatherModule = ({ lat = null, lon = null, state = null, district, language, onAnalysisComplete, onBack }) => {
     const t = weatherText[language] || weatherText.en;
     const [prediction, setPrediction] = useState(null);
+    const [rawWeatherResponse, setRawWeatherResponse] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -22,6 +64,12 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
             fetchWeather(null, null, district, "Andhra Pradesh");
         }
     }, [lat, lon, district, state]);
+
+    useEffect(() => {
+        if (rawWeatherResponse) {
+            processWeatherData(rawWeatherResponse.rawData, rawWeatherResponse.dist);
+        }
+    }, [rawWeatherResponse, language]);
 
     const getLabel = (l) => {
         const map = { "Very Low": t.veryLow, "Low": t.low, "Normal": t.normal, "High": t.high, "Very High": t.veryHigh, "Extreme": t.veryHigh, "Moderate": t.normal, "Mild": t.low, "Dry": t.low, "Wet": t.high };
@@ -91,6 +139,16 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
             if (!response.ok) throw new Error(`${response.status}`);
             const rawData = await response.json();
 
+            setRawWeatherResponse({ rawData, dist: dist || district || "" });
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const processWeatherData = (rawData, dist) => {
+        try {
             const structuredArray = rawData.list.map(item => ({
                 temp: item.main.temp,
                 humidity: item.main.humidity,
@@ -157,9 +215,7 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                 onAnalysisComplete({ ...weatherResult, triggerNext: false });
             }
         } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+            console.error("Data processing failed", err);
         }
     };
 
@@ -190,21 +246,22 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
     return (
         <div className="w-full flex flex-col max-w-sm mx-auto animate-in fade-in duration-700 pb-6 px-4 bg-white min-h-screen space-y-4 overflow-y-auto">
             
-            <div className="pt-8 pb-1 flex items-center justify-between w-full px-2">
-                <button onClick={onBack} className="p-3 bg-slate-50 rounded-2xl text-[#1B5E20] shadow-sm active:scale-95 transition-all">
+            <div className="pt-8 pb-4 flex flex-col items-center justify-center w-full px-2 relative space-y-4">
+                <button onClick={onBack} className="absolute left-2 top-8 p-3 bg-slate-50 rounded-2xl text-[#1B5E20] shadow-sm active:scale-95 transition-all z-10">
                     <ArrowLeft size={24} />
                 </button>
-                <div className="flex flex-col items-center flex-1">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[#F1F8E9] rounded-2xl flex items-center justify-center text-[#1B5E20] shadow-sm">
-                            <CalendarDays size={22} className="opacity-80" />
-                        </div>
-                        <h1 className="text-xl font-black text-[#1B5E20] tracking-tighter uppercase text-center italic leading-none">
-                            {language === 'te' ? `${userName} గారు!` : `Namaste, ${userName}!`}
-                        </h1>
+                <div className="flex flex-col items-center text-center">
+                    <h1 className="text-xl font-black text-[#1B5E20] tracking-tight uppercase italic drop-shadow-sm bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-transparent bg-clip-text pb-1 pr-2">
+                        {language === 'te' ? 'వాతావరణ నివేదిక' : 'Weather Report'}
+                    </h1>
+                    
+                    <div className="mt-4 flex items-center justify-center bg-[#F1F8E9] px-6 py-2.5 rounded-full border border-[#1B5E20]/20 shadow-inner">
+                        <h2 className="text-lg font-black text-[#1B5E20] tracking-tighter uppercase italic leading-none flex items-center gap-2">
+                           <span>{language === 'te' ? '🙏' : '👋'}</span> 
+                           {language === 'te' ? `నమస్తే, ${translateName(userName, language)} గారు!` : `HI, ${userName}!`}
+                        </h2>
                     </div>
                 </div>
-                <div className="w-12 h-12" /> {/* Spacer */}
             </div>
             <div className="flex justify-center -mt-2">
                 <div className="w-24 h-1 bg-[#1B5E20]/10 rounded-full mt-1" />
@@ -254,13 +311,15 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                 </div>
 
                 {prediction.risks && prediction.risks.length > 0 && (
-                    <div className="bg-[#FFF3E0] -mx-6 -mb-6 p-5 border-t border-orange-200/30 flex items-start gap-4 italic uppercase">
-                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm border border-orange-50 shrink-0">
+                    <div className="bg-white -mx-6 -mb-6 p-5 border-t border-[#1B5E20]/20 flex items-start gap-4 italic uppercase shadow-inner">
+                        <div className="w-10 h-10 bg-[#F1F8E9] rounded-xl flex items-center justify-center text-[#1B5E20] shadow-sm border border-[#1B5E20]/10 shrink-0">
                             <AlertTriangle size={20} className="animate-pulse" />
                         </div>
                         <div className="space-y-1">
-                            <p className="text-[10px] font-black text-orange-800/60 uppercase tracking-[0.2em]">SITUATIONAL RISK</p>
-                            <p className="text-sm font-black text-orange-950 leading-relaxed">{prediction.risks[0]}</p>
+                            <p className="text-[10px] font-black text-[#1B5E20]/60 uppercase tracking-[0.2em]">
+                                {language === 'te' ? 'ప్రాంతీయ హెచ్చరిక' : 'SITUATIONAL RISK'}
+                            </p>
+                            <p className="text-sm font-black text-[#1B5E20] leading-relaxed">{prediction.risks[0]}</p>
                         </div>
                     </div>
                 )}

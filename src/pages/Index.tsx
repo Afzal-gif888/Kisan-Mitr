@@ -32,7 +32,7 @@ const Index = () => {
     <div className="min-h-screen bg-white relative font-sans selection:bg-[#1B5E20] selection:text-white">
       
       {/* 🌐 OMNIPRESENT GLOBAL LANGUAGE TOGGLE */}
-      <div className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[999] bg-black/40 backdrop-blur-2xl rounded-full p-1 border border-white/30 flex shadow-2xl transition-all hover:bg-black/50">
+      <div className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[999] bg-[#1B5E20]/95 backdrop-blur-2xl rounded-full p-1 border border-white/20 flex shadow-[0_8px_30px_rgb(27,94,32,0.3)] transition-all hover:bg-[#1B5E20]">
           <button 
              onClick={() => setLanguage('en')}
              className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${language === 'en' ? 'bg-white text-[#1B5E20] shadow-lg scale-105' : 'text-white/70 hover:text-white active:scale-95'}`}
