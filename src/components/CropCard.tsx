@@ -1,6 +1,7 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { Droplets, Thermometer, ArrowRight, Check } from "lucide-react";
 import { getAgmarknetName } from "../utils/getAgmarknetName";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface CropCardProps {
   crop: any;
@@ -10,6 +11,7 @@ interface CropCardProps {
   imgSource: string;
   farmHero: string;
   marketData?: { price: string | null; market: string | null } | null;
+  priority?: boolean;
 }
 
 const METRIC_MAP: Record<string, string> = {
@@ -76,18 +78,25 @@ const translateReason = (reason: string, lang: string) => {
     return teReason;
 };
 
-const CropCard = React.memo(({ crop, language, suitabilityColor, onViewGuide, imgSource, farmHero, marketData }: CropCardProps) => {
+const CropCard = React.memo(({ crop, language, suitabilityColor, onViewGuide, imgSource, farmHero, marketData, priority }: CropCardProps) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border-2 border-transparent transition-all hover:scale-[1.02] active:scale-95">
       <div className="relative h-48 sm:h-52 overflow-hidden bg-slate-200">
-          <div className="relative w-full h-full">
+          {!isLoaded && (
+              <Skeleton className="absolute inset-0 z-0" />
+          )}
+          <div className={`relative w-full h-full transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
               <img 
                   src={imgSource} 
                   alt={crop?.englishName || "Crop"} 
                   className="w-full h-full object-cover"
-                  loading="eager"
+                  loading={priority ? "eager" : "lazy"}
+                  fetchpriority={priority ? "high" : "auto"}
                   decoding="async"
-                  onError={(e: any) => { e.target.onerror = null; e.target.src = farmHero; }}
+                  onLoad={() => setIsLoaded(true)}
+                  onError={(e: any) => { e.target.onerror = null; e.target.src = farmHero; setIsLoaded(true); }}
               />
               <div className="absolute inset-0 bg-black/30" />
           </div>

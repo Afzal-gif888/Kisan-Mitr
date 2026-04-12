@@ -25,11 +25,12 @@ const HomeScreen = React.memo(({ onStart }: HomeScreenProps) => {
     <div className="fixed inset-0 h-[100dvh] w-[100vw] bg-[#0A2E0F] flex flex-col items-center justify-center gap-8 overflow-hidden touch-none overscroll-none z-50">
 
       {/* 🖼️ BACKGROUND IMAGE */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 bg-[#0A2E0F]">
           <img 
             src={farmHero} 
             alt="Sunrise Field" 
-            className="w-full h-full object-cover scale-105" 
+            className="w-full h-full object-cover scale-105 transition-opacity duration-1000 opacity-0" 
+            onLoad={(e: any) => { e.target.classList.remove('opacity-0'); e.target.classList.add('opacity-100'); }}
             loading="eager"
             fetchpriority="high"
             decoding="async"

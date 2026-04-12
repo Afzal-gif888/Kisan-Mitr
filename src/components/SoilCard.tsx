@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Check } from "lucide-react";
 import { SoilType } from "@/lib/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface SoilCardProps {
   soilName: string;
@@ -11,16 +12,22 @@ interface SoilCardProps {
 }
 
 const SoilCard = ({ soilName, image, translatedName, language, onSelect }: SoilCardProps) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <button
       onClick={() => onSelect(soilName as SoilType)}
       className="flex-1 min-h-[140px] w-full group bg-white rounded-[2.5rem] px-6 flex items-center gap-6 shadow-md transition-all duration-300 border border-white hover:border-[#1B5E20]/5 active:scale-[0.98]"
     >
       <div className="w-24 h-24 sm:w-28 sm:h-28 relative overflow-hidden shrink-0 flex items-center justify-center">
+          {!isLoaded && (
+              <Skeleton className="absolute inset-0 rounded-full" />
+          )}
           <img 
             src={image} 
             alt={soilName} 
-            className="w-full h-full object-cover rounded-full shadow-md scale-125"
+            className={`w-full h-full object-cover rounded-full shadow-md scale-125 transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            onLoad={() => setIsLoaded(true)}
             loading="lazy"
             decoding="async"
             style={{ maskImage: 'radial-gradient(circle, black 60%, transparent 100%)', WebkitMaskImage: 'radial-gradient(circle, black 60%, transparent 100%)' }}

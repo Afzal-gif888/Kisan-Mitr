@@ -194,18 +194,21 @@ const GuidanceScreen = memo(({ onBack, onStartOver }: GuidanceScreenProps) => {
         )}
 
         {/* CROP HERO */}
-        <div className="bg-slate-200 rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white relative group animate-in zoom-in-95 duration-700">
+        <div className="bg-slate-200 rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white relative group animate-in zoom-in-95 duration-700 min-h-[192px]">
           <div className="h-48 relative overflow-hidden">
             <img 
                src={getCropImage(crop.id) || farmHero} 
                alt={crop.name} 
-               className="w-full h-full object-cover transition-opacity duration-300"
+               className="w-full h-full object-cover transition-opacity duration-700 opacity-0"
                loading="eager"
                fetchpriority="high"
                decoding="async"
+               onLoad={(e: any) => { e.target.classList.remove('opacity-0'); e.target.classList.add('opacity-100'); }}
                onError={(e: any) => {
                  e.target.onerror = null;
                  e.target.src = farmHero;
+                 e.target.classList.remove('opacity-0');
+                 e.target.classList.add('opacity-100');
                }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />

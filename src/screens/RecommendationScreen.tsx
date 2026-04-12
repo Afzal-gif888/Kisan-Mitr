@@ -119,7 +119,7 @@ const RecommendationScreen = memo(({ onViewGuide, onBack }: RecommendationScreen
                   </h3>
               </div>
               <div className="grid grid-cols-1 gap-6 mt-4">
-                  {crops.map((crop) => {
+                  {crops.map((crop, index) => {
                     const rawImage = getCropImage(crop?.id);
                     const uniqueSeed = String(crop?.id || '0').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
                     const finalImageSource = (rawImage && rawImage.startsWith("http")) 
@@ -136,6 +136,7 @@ const RecommendationScreen = memo(({ onViewGuide, onBack }: RecommendationScreen
                         imgSource={finalImageSource}
                         farmHero={farmHero}
                         marketData={cropPrices[crop?.id]}
+                        priority={index < 2}
                       />
                     );
                   })}
