@@ -12,9 +12,11 @@ const cropMap = {
   groundnut: "Groundnut",
   cotton: "Cotton",
   maize: "Maize",
-  chilli: "Chillies",
+  chilli: "Chilli Red",
+  chillies: "Chilli Red",
   onion: "Onion",
-  cashew: "Cashewnuts",
+  cashew: "Cashew Kernels",
+  cashewnuts: "Cashewnuts",
   turmeric: "Turmeric",
   tomato: "Tomato",
   banana: "Banana",
@@ -30,12 +32,9 @@ const cropMap = {
   sesame: "Sesamum",
   horsegram: "Horse Gram",
   sugarcane: "Gur(Jaggery)",
-  fenugreek: "Fenugreek Seed",
-  "arhar (tur/red gram)(whole)": "Arhar (Tur/Red Gram)(Whole)",
-  "green gram (moong)(whole)": "Green Gram (Moong)(Whole)",
-  "black gram (urd beans)(whole)": "Black Gram (Urd Beans)(Whole)",
-  "bengal gram (gram)(whole)": "Bengal Gram (Gram)(Whole)"
+  fenugreek: "Fenugreek Seed"
 };
+
 
 export const fetchCropPriceFromGov = async (cropName, retry = true) => {
   try {

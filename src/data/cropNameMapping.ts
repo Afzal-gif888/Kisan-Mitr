@@ -30,7 +30,7 @@ export const cropNameMapping: Record<string, string> = {
   "sapota": "Sapota",
 
   "tomato": "Tomato",
-  "chilli": "Chillies",
+  "chilli": "Chilli Red",
   "brinjal": "Brinjal",
   "onion": "Onion",
   "okra": "Bhindi(Ladies Finger)",
@@ -43,6 +43,6 @@ export const cropNameMapping: Record<string, string> = {
   "fenugreek": "Fenugreek Seed",
   "mustard": "Mustard",
 
-  "cashew": "Cashewnuts",
+  "cashew": "Cashew Kernels",
   "arecanut": "Arecanut"
 };
