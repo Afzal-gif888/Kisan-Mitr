@@ -1,4 +1,5 @@
-import { crops } from "../data/apCropsDataset";
+import { crops } from "../data/crops";
+import { normalizeSoil } from "./normalizeSoil";
 
 /**
  * 🚜 SMART CROP SCORING ENGINE (v17.0) - REAL APPLIED AGRICULTURE
@@ -33,37 +34,60 @@ export const getAPCropRecommendations = (
   // --- 🎯 STEP 1: DISTRICT FILTER ---
   const districtCrops = crops.filter(c => checkDistrict(c, districtName));
 
+  // 🚨 CRITICAL FIX
+  if (districtCrops.length === 0) {
+    console.error("NO CROPS FOR DISTRICT:", districtName);
+    return { recommendedCrops: [], disclaimer: "No crops mapped to this district yet." };
+  }
+
   // --- 🎯 STEP 2: SOIL FILTER ---
-  const soilFiltered = districtCrops.filter(c => checkSoil(c, selectedSoil));
+  const normalizedSelectedSoil = normalizeSoil(selectedSoil);
 
-  // --- 🎯 STEP 3: CONTROLLED FALLBACK ---
-  const finalBase = soilFiltered.length > 0 ? soilFiltered : districtCrops;
+  const soilFiltered = districtCrops.filter(crop =>
+    crop.soils.some((soil: string) =>
+      normalizeSoil(soil) === normalizedSelectedSoil
+    )
+  );
 
-  // --- 🎯 STEP 4: WEATHER RANKING ---
-  const ranked = finalBase.map(c => {
+  // --- 🎯 STEP 3: WEATHER RANKING ---
+  const ranked = soilFiltered.map(c => {
     let score = 0;
 
     if (c.weather.includes(weather)) score += 50;
-    if (checkSoil(c, selectedSoil)) score += 30;
+    if (c.soils.some((soil: string) => normalizeSoil(soil) === normalizedSelectedSoil)) score += 30;
     if (checkDistrict(c, districtName)) score += 20;
 
     return { ...c, score, weatherTypeDetected: weather };
   });
 
-  // --- 🎯 STEP 5: SORT + UNIQUE ---
+  // --- 🎯 STEP 4: SORT + UNIQUE ---
   ranked.sort((a, b) => b.score - a.score);
 
   const unique = Array.from(
     new Map(ranked.map(c => [c.id, c])).values()
   ) as any[];
 
-  // --- 🎯 STEP 6: FINAL OUTPUT (Limit) ---
+  // --- 🎯 STEP 5: FINAL OUTPUT (Limit) ---
   const finalResults = unique.slice(0, 12);
 
   // --- 🧪 DEBUG LOGGING ---
-  console.log("District:", districtCrops.length);
-  console.log("Soil:", soilFiltered.length);
-  console.log("Final:", unique.length);
+  console.log("----- SOIL DEBUG -----");
+  console.log("Selected Soil:", selectedSoil);
+  console.log("Normalized Selected Soil:", normalizedSelectedSoil);
+
+  districtCrops.forEach(crop => {
+    console.log(
+      crop.name,
+      "->",
+      crop.soils,
+      "-> normalized:",
+      crop.soils.map((s: string) => normalizeSoil(s))
+    );
+  });
+
+  console.log("District:", districtName);
+  console.log("District crops:", districtCrops.length);
+  console.log("Soil Filtered Count:", soilFiltered.length);
 
   // --- 🎯 UI STRUCTURAL MAPPING ---
   const results = finalResults.map((crop: any) => ({

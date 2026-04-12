@@ -1,7 +1,11 @@
 import { Language } from '../lib/translations';
-import cropsMaster from '../data/apCropsDataset.json';
+import { crops as cropsMaster } from '../data/apCropsDataset';
 import { apDistrictCropMap } from '../data/apDistrictCropMap';
+import farmingGuides from '../data/farmingGuides';
 
+export const getFarmingGuide = (cropId: string) => {
+  return farmingGuides[cropId];
+};
 export interface WeatherData {
   features?: {
     avgTemp: string;

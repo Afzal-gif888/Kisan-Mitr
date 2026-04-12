@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { ArrowLeft, Volume2, Droplets, Clock, CalendarCheck, RotateCcw, AlertCircle, CheckCircle2, Thermometer, Info, CloudRain, AlertTriangle, Lightbulb, Sprout } from "lucide-react";
 import { translations } from "../lib/translations";
-import { generateFarmingGuide } from "../utils/farmingGuideEngine";
+import { generateFarmingGuide, getFarmingGuide } from "../utils/farmingGuideEngine";
 import cropImages from "../data/cropImages";
 import { useApp } from "../context/AppContext";
 import farmHero from "../assets/farm-hero.jpg"; // Fallback image
@@ -44,6 +44,8 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
   }
 
   const { crop, isDistrictSuitable, weatherAdjustments, weatherWarnings, status } = result;
+
+  const guide = useMemo(() => getFarmingGuide(cropKey), [cropKey]);
 
   const handleVoice = () => {
     if ("speechSynthesis" in window) {
@@ -162,14 +164,15 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
             </div>
         </div>
 
-        {/* GROWTH STEPS */}
+        {/* FARMING GUIDE PROTOCOL (6 STEPS) */}
+        {guide && (
         <div className="bg-white rounded-[3.5rem] p-8 shadow-2xl space-y-10 border-2 border-[#F5F1EB] relative overflow-hidden">
            <div className="flex items-center gap-4 relative z-10">
               <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-[#2E7D32] shadow-inner">
                  <CalendarCheck size={28} />
               </div>
               <div>
-                <h4 className="text-xl font-black text-[#1E3A1A] leading-none mb-1 italic uppercase tracking-tighter">{language === "te" ? "సాగు దశలు" : "Sowing Protocol"}</h4>
+                <h4 className="text-xl font-black text-[#1E3A1A] leading-none mb-1 italic uppercase tracking-tighter">{language === "te" ? "సాగు విధానం" : "Farming Guide"}</h4>
                 <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.1em] leading-none">Step-by-step Execution</p>
               </div>
            </div>
@@ -177,19 +180,34 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
            <div className="space-y-10 relative z-10 pl-2">
               <div className="absolute left-6 top-3 bottom-8 w-0.5 bg-gradient-to-b from-emerald-100 via-emerald-200 to-transparent" />
               
-              {crop.growth_stages.map((s: any, idx: number) => (
+              {[
+                { title: language === "te" ? "నేల తయారీ" : "1. Soil Preparation", data: guide.soilPreparation },
+                { title: language === "te" ? "విత్తడం" : "2. Sowing", data: guide.sowing },
+                { title: language === "te" ? "నీటిపారుదల" : "3. Irrigation", data: guide.irrigation },
+                { title: language === "te" ? "ఎరువులు" : "4. Fertilizers", data: guide.fertilizers },
+                { title: language === "te" ? "చీడపీడల నియంత్రణ" : "5. Pest Control", data: guide.pestControl },
+                { title: language === "te" ? "కోత" : "6. Harvesting", data: guide.harvesting }
+              ].map((step, idx) => (
                 <div key={idx} className="flex gap-8 relative group animate-in slide-in-from-bottom-6" style={{ animationDelay: `${idx * 150}ms` }}>
-                   <div className="w-10 h-10 rounded-[1rem] bg-white border-4 border-emerald-50 z-10 flex items-center justify-center font-black text-sm text-[#2E7D32] shadow-lg">
-                      {idx + 1}
+                   <div className="w-10 h-10 rounded-[1rem] bg-white border-4 border-emerald-50 z-10 flex items-center justify-center font-black text-sm text-[#2E7D32] shadow-lg shrink-0">
+                      <Sprout size={16} />
                    </div>
-                   <div className="flex-1 space-y-1.5 pt-0.5">
-                      <h5 className="text-lg font-black text-[#1E3A1A] leading-tight tracking-tight italic uppercase">{s.stage_te}</h5>
-                      <p className="text-[13px] font-bold text-slate-500 leading-tight italic">{s.details_te}</p>
+                   <div className="flex-1 space-y-2 pt-1">
+                      <h5 className="text-lg font-black text-[#1E3A1A] leading-tight tracking-tight italic uppercase">{step.title}</h5>
+                      <ul className="space-y-1">
+                         {step.data.map((point: string, i: number) => (
+                            <li key={i} className="text-[13px] font-bold text-slate-500 leading-tight italic flex items-start gap-2">
+                               <div className="w-1 h-1 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
+                               <span>{point}</span>
+                            </li>
+                         ))}
+                      </ul>
                    </div>
                 </div>
               ))}
            </div>
         </div>
+        )}
 
         {/* RISKS */}
         <div className="bg-red-500/5 rounded-[3rem] p-8 border-2 border-red-500/10 space-y-4">
