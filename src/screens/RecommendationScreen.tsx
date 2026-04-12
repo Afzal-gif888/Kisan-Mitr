@@ -12,6 +12,46 @@ interface RecommendationScreenProps {
   onBack: () => void;
 }
 
+const translateSoilAndWeather = (text: string, lang: string) => {
+    if (lang !== 'te' || !text) return text;
+    const map: Record<string, string> = {
+        'Red Soil': 'ఎర్ర నేలలు',
+        'Black Soil': 'నల్లరేగడి నేలలు',
+        'Alluvial Soil': 'ఒండ్రు నేలలు',
+        'Sandy Soil': 'ఇసుక నేలలు',
+        'Loamy Soil': 'గరుప నేలలు',
+        'Red Loam Soil': 'ఎర్ర గరుప నేలలు',
+        'Black Cotton Soil': 'నల్లరేగడి నేలలు',
+        'Laterite Soil': 'ఎర్ర లాటరైట్ నేలలు',
+        'Gravelly Soil': 'రాతి నేలలు',
+        'Delta Alluvial Soil': 'డెల్టా ఒండ్రు నేలలు',
+        'Coastal Sandy Soil': 'తీరప్రాంత ఇసుక నేలలు',
+        'Saline Soil': 'చౌడు నేలలు',
+        'Clay Soil': 'బంకమట్టి నేలలు',
+        'Red Sandy Soil': 'ఎర్ర ఇసుక నేలలు',
+        'normal': 'సాధారణం',
+        'hot': 'వేడి వాతావరణం',
+        'rainy': 'వర్షం',
+        'dry': 'పొడి వాతావరణం'
+    };
+    return map[String(text)] || text;
+};
+
+const translateDistrict = (district: string, lang: string) => {
+    if (lang !== 'te' || !district) return district;
+    const map: Record<string, string> = {
+        'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
+        'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
+        'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
+        'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
+        'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
+        'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
+        'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
+        'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
+    };
+    return map[district] || district;
+};
+
 const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps) => {
   const { language, soil, weatherResult } = useApp();
   const t = (translations as any)[language];
@@ -90,7 +130,7 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
             <h2 className="text-xl sm:text-2xl font-black text-white tracking-tighter uppercase leading-none italic truncate">
                 {language === "te" ? "పంటల ఎంపిక" : "Crop Selector"}
             </h2>
-            <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.3em] mt-2 truncate italic">{weatherResult?.district}</p>
+            <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.3em] mt-2 truncate italic">{weatherResult?.district ? translateDistrict(weatherResult.district, language) : ''}</p>
           </div>
           <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/20">
             <Star className="text-white fill-current" size={24} />
@@ -104,16 +144,16 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
             <div className="flex items-center gap-3">
                 <div className="p-2 bg-[#F1F8E9] rounded-xl shadow-md border border-[#1B5E20]/10 ring-2 ring-[#1B5E20]/5"><MapPin className="text-[#1B5E20]" size={18} /></div>
                 <p className="text-base font-black text-slate-800 uppercase tracking-tighter italic">
-                    {language === "te" ? `జిల్లా: ${weatherResult?.district}` : `District: ${weatherResult?.district}`}
+                    {language === "te" ? `జిల్లా: ${weatherResult?.district ? translateDistrict(weatherResult.district, language) : ''}` : `District: ${weatherResult?.district}`}
                 </p>
             </div>
             <div className="flex flex-wrap gap-2 text-wrap">
                 <div className="px-4 py-2 bg-white text-[#1B5E20] rounded-2xl text-[10px] font-black uppercase tracking-widest italic border border-[#1B5E20]/10 drop-shadow-md flex items-center gap-2 shadow-sm shadow-[#1B5E20]/10">
                     <RefreshCw size={12} className="animate-spin-slow" />
-                    {recommendations.weatherTypeDetected}
+                    {translateSoilAndWeather(recommendations.weatherTypeDetected, language)}
                 </div>
                 <div className="px-4 py-2 bg-white text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest italic border border-slate-100 drop-shadow-sm shadow-sm">
-                    {soil}
+                    {translateSoilAndWeather(soil, language)}
                 </div>
             </div>
         </div>
@@ -124,13 +164,15 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
                     <Info className="text-orange-500" size={40} />
                 </div>
                 <div className="space-y-2">
-                    <h3 className="text-2xl font-black text-slate-800 tracking-tighter uppercase italic">No Matches Found</h3>
+                    <h3 className="text-2xl font-black text-slate-800 tracking-tighter uppercase italic">{language === 'te' ? 'సరిపోయే పంటలు లేవు' : 'No Matches Found'}</h3>
                     <p className="text-sm font-bold text-slate-400 tracking-tight leading-relaxed px-4">
-                        We couldn't find crops for this specific soil and weather. Try selecting a different soil type.
+                        {language === 'te' 
+                           ? 'ఈ నేల మరియు వాతావరణానికి సరిపోయే పంటలు కనిపించలేదు. దయచేసి మరొక నేల రకాన్ని ఎంచుకోండి.'
+                           : 'We couldn\'t find crops for this specific soil and weather. Try selecting a different soil type.'}
                     </p>
                 </div>
                 <button onClick={onBack} className="w-full py-4 bg-slate-100 text-slate-600 rounded-2xl font-black uppercase tracking-widest text-xs active:scale-95 transition-all">
-                    Change Parameters
+                    {language === 'te' ? 'పారామితులను మార్చండి' : 'Change Parameters'}
                 </button>
             </div>
         ) : (

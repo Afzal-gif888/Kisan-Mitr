@@ -10,6 +10,66 @@ interface CropCardProps {
   farmHero: string;
 }
 
+const translateMetric = (text: string, lang: string) => {
+    if (lang !== 'te' || !text) return text;
+    const map: Record<string, string> = {
+        'Low': 'తక్కువ',
+        'Moderate': 'మధ్యస్థం',
+        'High': 'ఎక్కువ',
+        'Very High': 'చాలా ఎక్కువ',
+        'Hot and Dry': 'వేడి - పొడిగాలి',
+        'Warm and Dry': 'వెచ్చని - పొడిగాలి',
+        'Warm and Humid': 'వెచ్చని - తేమ',
+        'Mild': 'సాధారణం',
+        'Cool and Humid': 'చల్లని - తేమ',
+        'Cool and Dry': 'చల్లని - పొడిగాలి',
+        'Warm': 'వెచ్చని',
+        'Warm and Temperate': 'వెచ్చని ఉష్ణోగ్రత',
+        'Warm and Sunny': 'వెచ్చని ఎండ',
+        'Coastal Humid': 'తీరప్రాంత తేమ',
+        'Hot': 'వేడి',
+        'Hot and Humid': 'వేడి - తేమ'
+    };
+    return map[String(text)] || text;
+};
+
+const translateCropName = (name: string, lang: string) => {
+    if (lang !== 'te' || !name) return name;
+    const map: Record<string, string> = {
+        'Paddy': 'వరి', 'Maize': 'మొక్కజొన్న', 'Jowar': 'జొన్న', 'Bajra': 'సజ్జలు', 'Ragi': 'రాగులు',
+        'Red Gram': 'కందులు', 'Green Gram': 'పెసలు', 'Black Gram': 'మినుములు', 'Bengal Gram': 'శనగలు',
+        'Horse Gram': 'ఉలవలు', 'Groundnut': 'వేరుశనగ', 'Sunflower': 'పొద్దుతిరుగుడు', 'Sesame': 'నువ్వులు',
+        'Cotton': 'పత్తి', 'Sugarcane': 'చెరకు', 'Mango': 'మామిడి', 'Banana': 'అరటి', 'Coconut': 'కొబ్బరి',
+        'Tomato': 'టమోటా', 'Chilli': 'మిరప', 'Onion': 'ఉల్లిపాయ', 'Turmeric': 'పసుపు', 'Cashew': 'జీడిమామిడి'
+    };
+    return map[name] || name;
+};
+
+const translateReason = (reason: string, lang: string) => {
+    if (lang !== 'te' || !reason) return reason;
+    let teReason = reason;
+    const soils: Record<string, string> = {
+        "Red Loam Soil": "ఎర్ర గరుప నేలలు", "Red Soil": "ఎర్ర నేలలు", "Black Soil": "నల్లరేగడి నేలలు",
+        "Black Cotton Soil": "నల్లరేగడి నేలలు", "Alluvial Soil": "ఒండ్రు నేలలు", "Sandy Soil": "ఇసుక నేలలు",
+        "Loamy Soil": "గరుప నేలలు", "Laterite Soil": "ఎర్ర లాటరైట్ నేలలు", "Gravelly Soil": "రాతి నేలలు",
+        "Delta Alluvial Soil": "డెల్టా ఒండ్రు నేలలు", "Coastal Sandy Soil": "తీరప్రాంత ఇసుక నేలలు",
+        "Saline Soil": "చౌడు నేలలు", "Clay Soil": "బంకమట్టి నేలలు", "Red Sandy Soil": "ఎర్ర ఇసుక నేలలు"
+    };
+    const districts: Record<string, string> = {
+        'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
+        'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
+        'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
+        'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
+        'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
+        'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
+        'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
+        'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
+    };
+    Object.keys(soils).forEach(k => { teReason = teReason.replace(k, soils[k]); });
+    Object.keys(districts).forEach(k => { teReason = teReason.replace(k, districts[k]); });
+    return teReason;
+};
+
 const CropCard = ({ crop, language, suitabilityColor, onViewGuide, imgSource, farmHero }: CropCardProps) => {
   return (
     <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border-2 border-transparent transition-all hover:scale-[1.02] active:scale-95">
@@ -28,7 +88,7 @@ const CropCard = ({ crop, language, suitabilityColor, onViewGuide, imgSource, fa
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           
           <h3 className="absolute bottom-4 left-6 text-2xl font-black text-white tracking-tighter drop-shadow-lg uppercase leading-none">
-             {language === 'te' ? crop.teluguName : crop.englishName}
+             {language === 'te' ? translateCropName((crop.teluguName || crop.name?.te || crop.name), language) : (crop.englishName || crop.name?.en || crop.name)}
           </h3>
 
           <div className={`absolute top-4 right-4 px-5 py-2 rounded-full bg-gradient-to-r ${suitabilityColor} text-white shadow-2xl border border-white/20`}>
@@ -43,7 +103,7 @@ const CropCard = ({ crop, language, suitabilityColor, onViewGuide, imgSource, fa
                       <div className={`rounded-full p-1 mt-0.5 shrink-0 bg-[#1B5E20]`}>
                           <Check size={10} className="text-white" />
                       </div>
-                      <p className="text-sm font-black text-[#1B5E20] leading-none italic uppercase">{crop.reason}</p>
+                      <p className="text-sm font-black text-[#1B5E20] leading-none italic uppercase">{translateReason(crop.reason, language)}</p>
                   </div>
               </div>
           </div>
@@ -52,12 +112,12 @@ const CropCard = ({ crop, language, suitabilityColor, onViewGuide, imgSource, fa
               <div className="text-center space-y-1.5 border-r border-[#F1F8E9]">
                   <div className="flex justify-center text-blue-500 mb-1"><Droplets size={20} /></div>
                   <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{language === "te" ? "నీరు" : "Water Need"}</p>
-                  <p className="text-xs font-black text-[#1B5E20] uppercase mt-1">{crop.waterNeed}</p>
+                  <p className="text-xs font-black text-[#1B5E20] uppercase mt-1">{translateMetric(crop.waterNeed, language)}</p>
               </div>
               <div className="text-center space-y-1.5">
                   <div className="flex justify-center text-orange-500 mb-1"><Thermometer size={20} /></div>
                   <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{language === "te" ? "వాతావరణం" : "Temp"}</p>
-                  <p className="text-xs font-black text-[#1B5E20] uppercase mt-1">{crop.heatTolerance}</p>
+                  <p className="text-xs font-black text-[#1B5E20] uppercase mt-1">{translateMetric(crop.climate || crop.heatTolerance, language)}</p>
               </div>
           </div>
 

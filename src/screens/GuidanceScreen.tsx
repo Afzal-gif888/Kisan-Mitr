@@ -18,11 +18,18 @@ const translateMetric = (text: string, lang: string) => {
         'Moderate': 'మధ్యస్థం',
         'High': 'ఎక్కువ',
         'Very High': 'చాలా ఎక్కువ',
-        'Hot and Dry': 'వేడి మరియు పొడిగాలి',
-        'Warm and Humid': 'వెచ్చని మరియు తేమ',
+        'Hot and Dry': 'వేడి - పొడిగాలి',
+        'Warm and Dry': 'వెచ్చని - పొడిగాలి',
+        'Warm and Humid': 'వెచ్చని - తేమ',
         'Mild': 'సాధారణం',
-        'Cool and Humid': 'చల్లని మరియు తేమ',
-        'Warm': 'వెచ్చని ఉష్ణోగ్రత',
+        'Cool and Humid': 'చల్లని - తేమ',
+        'Cool and Dry': 'చల్లని - పొడిగాలి',
+        'Warm': 'వెచ్చని',
+        'Warm and Temperate': 'వెచ్చని ఉష్ణోగ్రత',
+        'Warm and Sunny': 'వెచ్చని ఎండ',
+        'Coastal Humid': 'తీరప్రాంత తేమ',
+        'Hot': 'వేడి',
+        'Hot and Humid': 'వేడి - తేమ',
         'Unexpected rain': 'అనుకోని వర్షం',
         'Pest attacks depending on weather': 'వాతావరణ అనుగుణంగా చీడపీడల దాడి',
         'Heavy rain during flowering can cause flower drop': 'భారీ వర్షాల వలన పూత రాలిపోతుంది',
@@ -36,7 +43,22 @@ const translateMetric = (text: string, lang: string) => {
         'Cyclone damage': 'తుఫాను/గాలివాన వల్ల నష్టం',
         'Extremely sensitive to standing water': 'నీరు నిలిస్తే మొక్క నాశనం అవుతుంది'
     };
-    return map[text] || text;
+    return map[String(text)] || text;
+};
+
+const translateDistrict = (district: string, lang: string) => {
+    if (lang !== 'te' || !district) return district;
+    const map: Record<string, string> = {
+        'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
+        'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
+        'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
+        'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
+        'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
+        'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
+        'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
+        'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
+    };
+    return map[district] || district;
 };
 
 const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
@@ -109,7 +131,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
               {language === 'te' ? crop.name.te : crop.name.en}
             </h2>
             <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.3em] leading-none">
-                {weatherResult?.district} • Guidance v2.5
+                {weatherResult?.district ? translateDistrict(weatherResult.district, language) : ''} • Guidance v2.5
             </p>
           </div>
           <button onClick={onStartOver} className="text-white/20 hover:text-white transition-colors">
@@ -127,7 +149,7 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
               <p className="text-xs font-black text-amber-800 uppercase tracking-wider">REGIONAL ALERT</p>
               <p className="text-[13px] font-bold text-amber-900/80 leading-snug italic">
                 {language === 'te' 
-                  ? `${weatherResult?.district} లో ఈ పంట సాగు సాధారణం కాదు. జాగ్రత్త వహించండి.`
+                  ? `${weatherResult?.district ? translateDistrict(weatherResult.district, language) : ''} లో ఈ పంట సాగు సాధారణం కాదు. జాగ్రత్త వహించండి.`
                   : `This crop is not native to ${weatherResult?.district}. Proceed with caution.`}
               </p>
             </div>
@@ -208,12 +230,12 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
         <div className="grid grid-cols-2 gap-4">
             <div className="bg-white p-5 rounded-[2.5rem] shadow-lg border border-white flex flex-col items-center text-center space-y-2">
                 <div className="p-3 bg-blue-50 text-blue-500 rounded-xl mb-1"><Droplets size={24} /></div>
-                <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">{language === "te" ? "నీటి అవసరం" : "Water Need"}</p>
+                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">{language === "te" ? "నీటి అవసరం" : "Water Need"}</p>
                 <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{translateMetric(crop.waterNeed, language)}</p>
             </div>
             <div className="bg-white p-5 rounded-[2.5rem] shadow-lg border border-white flex flex-col items-center text-center space-y-2">
                 <div className="p-3 bg-orange-50 text-orange-500 rounded-xl mb-1"><Thermometer size={24} /></div>
-                <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">{language === "te" ? "వాతావరణం" : "Climate Check"}</p>
+                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">{language === "te" ? "వాతావరణం" : "Climate Check"}</p>
                 <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{translateMetric(crop.climate, language)}</p>
             </div>
         </div>
