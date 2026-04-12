@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { ArrowLeft, Volume2, Droplets, Clock, CalendarCheck, RotateCcw, AlertCircle, CheckCircle2, Thermometer, Info, CloudRain, AlertTriangle, Lightbulb, Sprout } from "lucide-react";
 import { translations } from "../lib/translations";
 import { generateFarmingGuide, getFarmingGuide } from "../utils/farmingGuideEngine";
-import cropImages from "../data/cropImages";
+import { getCropImage } from "../utils/getCropImage";
 import { useApp } from "../context/AppContext";
 import farmHero from "../assets/farm-hero.jpg"; // Fallback image
 
@@ -155,8 +155,8 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
         <div className="bg-slate-200 rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white relative group animate-in zoom-in-95 duration-700">
           <div className="h-48 relative overflow-hidden">
             <img 
-               src={(cropImages as any)[crop.name.en] || farmHero} 
-               alt={crop.name.en} 
+               src={getCropImage(crop.id) || farmHero} 
+               alt={crop.name} 
                className="w-full h-full object-cover transition-opacity duration-300"
                onError={(e: any) => {
                  e.target.onerror = null;
