@@ -30,7 +30,7 @@ const HomeScreen = ({ onStart }: HomeScreenProps) => {
             alt="Field" 
             className="w-full h-full object-cover scale-110" 
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-[#1B5E20] z-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#06290A]/85 via-[#114A16]/70 to-[#1B5E20] z-10" />
       </div>
 
       {/* 🧑‍🌾 FARMER AI IMAGE LOGO */}

@@ -41,6 +41,8 @@ import arecanut from "../assets/crops/arecanut.jpg";
 import coffee from "../assets/crops/coffee.jpg";
 import pepper from "../assets/crops/pepper.jpg";
 
+import cumin from "../assets/crops/cumin.jpg";
+
 /**
  * Ensures strict, unique imagery for every crop without relying on remote fallbacks.
  */
@@ -58,8 +60,9 @@ const cropImages: Record<string, string> = {
   cowpea,
   groundnut,
   sunflower,
-  sesame_black,
-  sesame_white,
+  sesame: sesame_white, // alias mapped to white sesame
+  blacksesame: sesame_black,
+  whitesesame: sesame_white,
   castor,
   cotton,
   sugarcane,
@@ -81,6 +84,7 @@ const cropImages: Record<string, string> = {
   coriander,
   fenugreek,
   mustard,
+  cumin,
   cashew,
   arecanut,
   coffee,
