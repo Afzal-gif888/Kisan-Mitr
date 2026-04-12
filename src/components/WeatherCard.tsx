@@ -163,6 +163,8 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
         }
     };
 
+    const { userName } = useApp();
+
     if (loading) return (
         <div className="p-10 flex flex-col items-center justify-center space-y-4 min-h-[40vh] bg-white text-center">
             <div className="w-10 h-10 border-4 border-[#1B5E20]/10 border-t-[#1B5E20] rounded-full animate-spin mx-auto" />
@@ -198,7 +200,7 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                             <CalendarDays size={22} className="opacity-80" />
                         </div>
                         <h1 className="text-xl font-black text-[#1B5E20] tracking-tighter uppercase text-center italic leading-none">
-                            {language === 'te' ? `${useApp().userName} గారు!` : `Namaste, ${useApp().userName}!`}
+                            {language === 'te' ? `${userName} గారు!` : `Namaste, ${userName}!`}
                         </h1>
                     </div>
                 </div>

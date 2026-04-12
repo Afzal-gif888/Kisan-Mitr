@@ -1,5 +1,5 @@
-import cropsMaster from '../data/apCropsMaster.json';
-import districtMapping from '../data/apDistrictCropMapping.json';
+import cropsMaster from '../data/apCropsDataset.json';
+import { apDistrictCropMap as districtMapping } from '../data/apDistrictCropMap';
 
 // Comprehensive list of all modern 26 AP districts
 const ALL_AP_DISTRICTS = [
