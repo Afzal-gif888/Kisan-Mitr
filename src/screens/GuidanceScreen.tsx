@@ -11,6 +11,34 @@ interface GuidanceScreenProps {
   onStartOver: () => void;
 }
 
+const translateMetric = (text: string, lang: string) => {
+    if (lang !== 'te' || !text) return text;
+    const map: Record<string, string> = {
+        'Low': 'తక్కువ',
+        'Moderate': 'మధ్యస్థం',
+        'High': 'ఎక్కువ',
+        'Very High': 'చాలా ఎక్కువ',
+        'Hot and Dry': 'వేడి మరియు పొడిగాలి',
+        'Warm and Humid': 'వెచ్చని మరియు తేమ',
+        'Mild': 'సాధారణం',
+        'Cool and Humid': 'చల్లని మరియు తేమ',
+        'Warm': 'వెచ్చని ఉష్ణోగ్రత',
+        'Unexpected rain': 'అనుకోని వర్షం',
+        'Pest attacks depending on weather': 'వాతావరణ అనుగుణంగా చీడపీడల దాడి',
+        'Heavy rain during flowering can cause flower drop': 'భారీ వర్షాల వలన పూత రాలిపోతుంది',
+        'Fungal diseases in high humidity': 'అధిక తేమలో బూజు/శిలీంధ్ర తెగుళ్లు',
+        'Waterlogging can cause severe root rot': 'నీరు నిల్వ వలన తీవ్రమైన వేరు కుళ్ళు',
+        'High temperature causes flower drop': 'అధిక వేడి వలన పూత రాలిపోతుంది',
+        'Drought stress during pod formation': 'కాయ ఏర్పడే సమయంలో నీటి ఎద్దడి సమస్య',
+        'Root rot in waterlogged soils': 'నీరు నిలిస్తే వేరు కుళ్ళు',
+        'Stem borer attacks': 'కాండం తొలిచే పురుగుల దాడి',
+        'Sensitive to extreme cold': 'తీవ్రమైన చలిని తట్టుకోలేదు',
+        'Cyclone damage': 'తుఫాను/గాలివాన వల్ల నష్టం',
+        'Extremely sensitive to standing water': 'నీరు నిలిస్తే మొక్క నాశనం అవుతుంది'
+    };
+    return map[text] || text;
+};
+
 const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
   const { language, selectedCrop: cropKey, weatherResult } = useApp();
   const t = (translations as any)[language];
@@ -181,12 +209,12 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
             <div className="bg-white p-5 rounded-[2.5rem] shadow-lg border border-white flex flex-col items-center text-center space-y-2">
                 <div className="p-3 bg-blue-50 text-blue-500 rounded-xl mb-1"><Droplets size={24} /></div>
                 <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">{language === "te" ? "నీటి అవసరం" : "Water Need"}</p>
-                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{crop.waterNeed}</p>
+                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{translateMetric(crop.waterNeed, language)}</p>
             </div>
             <div className="bg-white p-5 rounded-[2.5rem] shadow-lg border border-white flex flex-col items-center text-center space-y-2">
                 <div className="p-3 bg-orange-50 text-orange-500 rounded-xl mb-1"><Thermometer size={24} /></div>
                 <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">{language === "te" ? "వాతావరణం" : "Climate Check"}</p>
-                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{crop.climate}</p>
+                <p className="text-xs font-black text-[#1E3A1A] uppercase leading-none italic">{translateMetric(crop.climate, language)}</p>
             </div>
         </div>
 
@@ -207,12 +235,12 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
               <div className="absolute left-6 top-3 bottom-8 w-0.5 bg-gradient-to-b from-emerald-100 via-emerald-200 to-transparent" />
               
               {[
-                { title: language === "te" ? "నేల తయారీ" : "1. Soil Preparation", data: guide.soilPreparation },
-                { title: language === "te" ? "విత్తడం" : "2. Sowing", data: guide.sowing },
-                { title: language === "te" ? "నీటిపారుదల" : "3. Irrigation", data: guide.irrigation },
-                { title: language === "te" ? "ఎరువులు" : "4. Fertilizers", data: guide.fertilizers },
-                { title: language === "te" ? "చీడపీడల నియంత్రణ" : "5. Pest Control", data: guide.pestControl },
-                { title: language === "te" ? "కోత" : "6. Harvesting", data: guide.harvesting }
+                { title: language === "te" ? "నేల తయారీ" : "1. Soil Preparation", data: guide.soilPreparation[language as 'en'|'te'] || guide.soilPreparation.en },
+                { title: language === "te" ? "విత్తడం" : "2. Sowing", data: guide.sowing[language as 'en'|'te'] || guide.sowing.en },
+                { title: language === "te" ? "నీటిపారుదల" : "3. Irrigation", data: guide.irrigation[language as 'en'|'te'] || guide.irrigation.en },
+                { title: language === "te" ? "ఎరువులు" : "4. Fertilizers", data: guide.fertilizers[language as 'en'|'te'] || guide.fertilizers.en },
+                { title: language === "te" ? "చీడపీడల నియంత్రణ" : "5. Pest Control", data: guide.pestControl[language as 'en'|'te'] || guide.pestControl.en },
+                { title: language === "te" ? "కోత" : "6. Harvesting", data: guide.harvesting[language as 'en'|'te'] || guide.harvesting.en }
               ].map((step, idx) => (
                 <div key={idx} className="flex gap-8 relative group animate-in slide-in-from-bottom-6" style={{ animationDelay: `${idx * 150}ms` }}>
                    <div className="w-10 h-10 rounded-[1rem] bg-white border-4 border-emerald-50 z-10 flex items-center justify-center font-black text-sm text-[#2E7D32] shadow-lg shrink-0">
@@ -239,13 +267,15 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
         <div className="bg-red-500/5 rounded-[3rem] p-8 border-2 border-red-500/10 space-y-4">
             <div className="flex items-center gap-3">
                 <AlertCircle size={22} className="text-red-600" />
-                <h4 className="text-xl font-black text-red-900 tracking-tighter leading-none italic uppercase">Risk Factors</h4>
+                <h4 className="text-xl font-black text-red-900 tracking-tighter leading-none italic uppercase">
+                   {language === 'te' ? 'ప్రమాద కారకాలు' : 'Risk Factors'}
+                </h4>
             </div>
             <div className="space-y-3">
                 {(crop.risks || ["Unexpected rain", "Pest attacks depending on weather"]).map((risk: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
-                        <p className="text-sm font-black text-[#5C3A21] leading-none italic uppercase">{risk}</p>
+                        <p className="text-sm font-black text-[#5C3A21] leading-none italic uppercase">{translateMetric(risk, language)}</p>
                     </div>
                 ))}
             </div>

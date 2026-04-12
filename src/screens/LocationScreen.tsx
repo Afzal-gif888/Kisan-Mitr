@@ -95,16 +95,16 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
                       {detecting ? <Loader2 size={32} className="animate-spin" /> : <MapPin size={32} />}
                   </div>
                   <div className="text-left flex-1 min-w-0">
-                      <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.2em] mb-1.5">{t.detectLocation}</p>
+                      <p className="text-[10px] font-black text-[#1B5E20]/40 uppercase tracking-[0.2em] mb-1.5">{language === 'te' ? 'లొకేషన్ ఆటో డిటెక్ట్' : 'Auto Detect Location'}</p>
                       <p className="text-xl font-black text-[#1B5E20] truncate uppercase leading-none italic">
-                          {detecting ? "Locating..." : detected ? localDistrict : "Tap to detect"}
+                          {detecting ? (language === 'te' ? "వెతుకుతుంది..." : "Locating...") : detected ? localDistrict : (language === 'te' ? "ఆటో డిటెక్ట్ చేయండి" : "Tap to detect")}
                       </p>
                   </div>
               </button>
 
               <div className="flex items-center gap-4 px-4 overflow-hidden py-2">
                   <div className="h-px flex-1 bg-slate-100" />
-                  <span className="text-[8px] font-black text-slate-300 uppercase tracking-[0.5em] whitespace-nowrap">{t.orSelectManually || "Manual Selection"}</span>
+                  <span className="text-[8px] font-black text-slate-300 uppercase tracking-[0.5em] whitespace-nowrap">{language === 'te' ? "మాన్యువల్‌గా ఎంచుకోండి" : "Manual Selection"}</span>
                   <div className="h-px flex-1 bg-slate-100" />
               </div>
 
@@ -115,7 +115,7 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
                       onChange={(e) => { setState(e.target.value); setLocalDistrict(""); setDetected(false); }} 
                       className="w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-slate-800 outline-none transition-all uppercase shadow-sm"
                   >
-                      <option value="">{t.selectState}</option>
+                      <option value="">{language === 'te' ? "రాష్ట్రాన్ని ఎంచుకోండి" : "Select State"}</option>
                       {states.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                   
@@ -125,7 +125,7 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
                           onChange={(e) => { setLocalDistrict(e.target.value); setDetected(true); }} 
                           className="w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-slate-800 outline-none transition-all uppercase shadow-sm animate-in slide-in-from-top-2"
                       >
-                          <option value="">{t.selectDistrict}</option>
+                          <option value="">{language === 'te' ? "జిల్లాను ఎంచుకోండి" : "Select District"}</option>
                           {(indiaDistricts[state] || []).map((d) => <option key={d} value={d}>{d}</option>)}
                       </select>
                   )}
