@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { ArrowRight, ArrowLeft, CalendarDays, Sprout, CloudRain, Thermometer, Droplets, AlertTriangle } from 'lucide-react';
 import { extractFeatures } from "../utils/FeatureExtraction";
 import { analyzeWeather } from "../utils/comparisonEngine";
@@ -7,7 +7,33 @@ import { generateFarmerInsights } from "../utils/farmerInsightEngine";
 import { weatherText } from "../translations/weather";
 import { useApp } from "../context/AppContext";
 
-const WeatherModule = ({ lat = null, lon = null, state = null, district, language, onAnalysisComplete, onBack }) => {
+const LABEL_MAP_BASE: Record<string, string> = { "Very Low": "veryLow", "Low": "low", "Normal": "normal", "High": "high", "Very High": "veryHigh", "Extreme": "veryHigh", "Moderate": "normal", "Mild": "low", "Dry": "low", "Wet": "high" };
+const DOT_COUNT_MAP: Record<string, number> = { "Very Low": 1, "Low": 1, "Mild": 1, "Cool": 1, "Dry": 1, "Normal": 3, "Moderate": 3, "High": 4, "Extreme": 5, "Very High": 5, "Wet": 5 };
+
+const getLabel = (l: string, t: any) => {
+    return t[LABEL_MAP_BASE[l]] || l;
+};
+
+const getFarmerCondition = (tVal: number, rVal: number, dVal: string, t: any) => {
+    if (rVal > 0) return { text: t.rain, icon: "🌧️" };
+    if (tVal > 35) return { text: t.veryHot, icon: "🔥" };
+    if (tVal >= 28) return { text: t.sunny, icon: "☀️" };
+    if (dVal.includes("cloud") || dVal.includes("overcast")) return { text: t.cloudy, icon: "🌥️" };
+    return { text: t.normal, icon: "🌤️" };
+};
+
+const RenderDots = memo(({ level }: { level: string }) => {
+    const count = DOT_COUNT_MAP[level] || 2;
+    return (
+        <div className="flex gap-1">
+            {[...Array(5)].map((_, i) => (
+                <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < count ? "bg-[#1B5E20]" : "bg-[#1B5E20]/15"}`} />
+            ))}
+        </div>
+    );
+});
+
+const WeatherModule = React.memo(({ lat = null, lon = null, state = null, district, language, onAnalysisComplete, onBack }: any) => {
     const t = weatherText[language] || weatherText.en;
     const [prediction, setPrediction] = useState(null);
     const [rawWeatherResponse, setRawWeatherResponse] = useState(null);
@@ -15,13 +41,18 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (lat && lon) {
-            fetchWeather(lat, lon, null, null);
-        } else if (district && state) {
-            fetchWeather(null, null, district, state);
-        } else if (district) {
-            fetchWeather(null, null, district, "Andhra Pradesh");
-        }
+        let isMounted = true;
+        const initFetch = async () => {
+            if (lat && lon) {
+                await fetchWeather(lat, lon, null, null, isMounted);
+            } else if (district && state) {
+                await fetchWeather(null, null, district, state, isMounted);
+            } else if (district) {
+                await fetchWeather(null, null, district, "Andhra Pradesh", isMounted);
+            }
+        };
+        initFetch();
+        return () => { isMounted = false; };
     }, [lat, lon, district, state]);
 
     useEffect(() => {
@@ -29,23 +60,6 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
             processWeatherData(rawWeatherResponse.rawData, rawWeatherResponse.dist);
         }
     }, [rawWeatherResponse, language]);
-
-    const getLabel = (l) => {
-        const map = { "Very Low": t.veryLow, "Low": t.low, "Normal": t.normal, "High": t.high, "Very High": t.veryHigh, "Extreme": t.veryHigh, "Moderate": t.normal, "Mild": t.low, "Dry": t.low, "Wet": t.high };
-        return map[l] || l;
-    };
-
-    const renderDots = (level) => {
-        const map = { "Very Low": 1, "Low": 1, "Mild": 1, "Cool": 1, "Dry": 1, "Normal": 3, "Moderate": 3, "High": 4, "Extreme": 5, "Very High": 5, "Wet": 5 };
-        const count = map[level] || 2;
-        return (
-            <div className="flex gap-1">
-                {[...Array(5)].map((_, i) => (
-                    <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < count ? "bg-[#1B5E20]" : "bg-[#1B5E20]/15"}`} />
-                ))}
-            </div>
-        );
-    };
 
     const geocodeLocation = async (dist, st, apiKey) => {
         const cleanName = (name) => name.replace(/\(.*?\)/g, '').replace(/\s+/g, ' ').trim();
@@ -72,7 +86,8 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
         return null;
     };
 
-    const fetchWeather = async (latitude, longitude, dist, st) => {
+    const fetchWeather = async (latitude, longitude, dist, st, isMounted) => {
+        if (!isMounted) return;
         setLoading(true);
         setError(null);
         const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
@@ -98,11 +113,11 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
             if (!response.ok) throw new Error(`${response.status}`);
             const rawData = await response.json();
 
-            setRawWeatherResponse({ rawData, dist: dist || district || "" });
+            if (isMounted) setRawWeatherResponse({ rawData, dist: dist || district || "" });
         } catch (err) {
-            setError(err.message);
+            if (isMounted) setError(err.message);
         } finally {
-            setLoading(false);
+            if (isMounted) setLoading(false);
         }
     };
 
@@ -136,15 +151,7 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                 const rain = item.rain?.["3h"] || 0;
                 const desc = item.weather[0].description.toLowerCase();
 
-                const getFarmerCondition = (tVal, rVal, dVal) => {
-                    if (rVal > 0) return { text: t.rain, icon: "🌧️" };
-                    if (tVal > 35) return { text: t.veryHot, icon: "🔥" };
-                    if (tVal >= 28) return { text: t.sunny, icon: "☀️" };
-                    if (dVal.includes("cloud") || dVal.includes("overcast")) return { text: t.cloudy, icon: "🌥️" };
-                    return { text: t.normal, icon: "🌤️" };
-                };
-
-                const condition = getFarmerCondition(temp, rain, desc);
+                const condition = getFarmerCondition(temp, rain, desc, t);
 
                 if (!dailyData[date]) {
                     dailyData[date] = { ...condition, dt: item.dt };
@@ -240,8 +247,8 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                                 <span className="text-xs font-black text-[#1B5E20] uppercase tracking-widest leading-none">{t.rain}</span>
                             </div>
                             <div className="text-right space-y-1">
-                                <p className="text-base font-black text-[#1B5E20] uppercase italic leading-none">{getLabel(prediction.summary.rain)}</p>
-                                {renderDots(prediction.summary.rain)}
+                                <p className="text-base font-black text-[#1B5E20] uppercase italic leading-none">{getLabel(prediction?.summary?.rain, t)}</p>
+                                <RenderDots level={prediction?.summary?.rain} />
                             </div>
                         </div>
 
@@ -251,8 +258,8 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                                 <span className="text-xs font-black text-[#1B5E20] uppercase tracking-widest leading-none">{t.heat}</span>
                             </div>
                             <div className="text-right space-y-1">
-                                <p className="text-base font-black text-[#1B5E20] uppercase italic leading-none">{getLabel(prediction.summary.heat)}</p>
-                                {renderDots(prediction.summary.heat)}
+                                <p className="text-base font-black text-[#1B5E20] uppercase italic leading-none">{getLabel(prediction?.summary?.heat, t)}</p>
+                                <RenderDots level={prediction?.summary?.heat} />
                             </div>
                         </div>
 
@@ -262,8 +269,8 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                                 <span className="text-xs font-black text-[#1B5E20] uppercase tracking-widest leading-none">{t.moisture}</span>
                             </div>
                             <div className="text-right space-y-1">
-                                <p className="text-base font-black text-[#1B5E20] uppercase italic leading-none">{getLabel(prediction.summary.moisture)}</p>
-                                {renderDots(prediction.summary.moisture)}
+                                <p className="text-base font-black text-[#1B5E20] uppercase italic leading-none">{getLabel(prediction?.summary?.moisture, t)}</p>
+                                <RenderDots level={prediction?.summary?.moisture} />
                             </div>
                         </div>
                     </div>
@@ -295,13 +302,13 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
                     
                     <div className="grid grid-cols-2 gap-3">
                         {prediction.fiveDayForecast.map((day, idx) => {
-                            const dateObj = new Date(day.dt * 1000);
+                            const dateObj = new Date((day?.dt || 0) * 1000);
                             const dayName = dateObj.toLocaleDateString(language === "te" ? "te-IN" : "en-IN", { weekday: 'short' });
                             return (
                                 <div key={idx} className="bg-[#F1F8E9]/30 rounded-3xl py-3 px-4 shadow-inner border border-[#1B5E20]/5 transition-all active:scale-95 text-center flex flex-col items-center justify-center italic">
                                     <p className="text-[10px] font-black text-[#1B5E20] uppercase tracking-widest mb-1">{dayName}</p>
-                                    <div className="text-2xl mb-1">{day.icon}</div>
-                                    <p className="text-[10px] font-black text-[#1B5E20] uppercase tracking-tighter line-clamp-1">{day.text}</p>
+                                    <div className="text-2xl mb-1">{day?.icon || "🌤️"}</div>
+                                    <p className="text-[10px] font-black text-[#1B5E20] uppercase tracking-tighter line-clamp-1">{day?.text || "Normal"}</p>
                                 </div>
                             );
                         })}
@@ -333,6 +340,6 @@ const WeatherModule = ({ lat = null, lon = null, state = null, district, languag
 
         </div>
     );
-};
+});
 
 export default WeatherModule;

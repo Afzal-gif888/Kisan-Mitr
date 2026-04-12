@@ -13,7 +13,21 @@ const cropMap = {
   cotton: "COTTON",
   maize: "MAIZE",
   chilli: "CHILLI",
-  onion: "ONION"
+  onion: "ONION",
+  cashew: "Cashewnuts",
+  turmeric: "Turmeric",
+  tomato: "Tomato",
+  banana: "Banana",
+  coconut: "Coconut",
+  mango: "Mango",
+  jowar: "Jowar(Sorghum)",
+  bajra: "Bajra(Pearl Millet)",
+  ragi: "Ragi(Finger Millet)",
+  redgram: "Red Gram",
+  greengram: "Green Gram",
+  blackgram: "Black Gram",
+  bengalgram: "Bengal Gram(Gram)",
+  sesame: "Sesamum(Sesame,Gingelly,Til)"
 };
 
 export const fetchCropPriceFromGov = async (cropName) => {

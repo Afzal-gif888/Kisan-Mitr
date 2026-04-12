@@ -10,8 +10,6 @@ export function extractFeatures(weatherData) {
         return null;
     }
 
-    console.log(`--- 🧬 EXTRACTING FEATURES FROM ${weatherData.length} DATA POINTS ---`);
-
     // --- STEP 1: BASIC AGGREGATIONS ---
     const temps = weatherData.map(d => d.temp);
     const avgTemp = temps.reduce((a, b) => a + b, 0) / temps.length;
@@ -85,6 +83,5 @@ export function extractFeatures(weatherData) {
         humidityTrend
     };
 
-    console.log("📊 EXTRACTED FEATURES:", features);
     return features;
 }

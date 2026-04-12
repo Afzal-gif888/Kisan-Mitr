@@ -51,15 +51,7 @@ const SoilSelectionScreen = ({ onSelect, onBack }: SoilSelectionScreenProps) => 
 
   const districtSoils = useMemo(() => {
     const selectedDist = district || "Tirupati";
-    const soils = apDistrictSoils[selectedDist] || apDistrictSoils["Tirupati"];
-    
-    // 🚨 STEP 7: DEBUG VALIDATION
-    if (soils.length > 0) {
-        console.log("SOIL:", soils[0]);
-        console.log("IMAGE USED:", getSoilImage(soils[0]));
-    }
-    
-    return soils;
+    return apDistrictSoils[selectedDist] || apDistrictSoils["Tirupati"];
   }, [district]);
 
   return (

@@ -1,67 +1,69 @@
-import { useMemo, useEffect } from "react";
+import React, { useMemo, useEffect, memo } from "react";
 import { ArrowLeft, Volume2, Droplets, Clock, CalendarCheck, RotateCcw, AlertCircle, CheckCircle2, Thermometer, Info, CloudRain, AlertTriangle, Lightbulb, Sprout } from "lucide-react";
 import { translations } from "../lib/translations";
 import { generateFarmingGuide, getFarmingGuide } from "../utils/farmingGuideEngine";
 import { getCropImage } from "../utils/getCropImage";
 import { useApp } from "../context/AppContext";
-import farmHero from "../assets/farm-hero.jpg"; // Fallback image
+import farmHero from "../assets/farm-hero.jpg";
 
 interface GuidanceScreenProps {
   onBack: () => void;
   onStartOver: () => void;
 }
 
+const METRIC_TRANSLATIONS: Record<string, string> = {
+    'Low': 'తక్కువ',
+    'Moderate': 'మధ్యస్థం',
+    'High': 'ఎక్కువ',
+    'Very High': 'చాలా ఎక్కువ',
+    'Hot and Dry': 'వేడి - పొడిగాలి',
+    'Warm and Dry': 'వెచ్చని - పొడిగాలి',
+    'Warm and Humid': 'వెచ్చని - తేమ',
+    'Mild': 'సాధారణం',
+    'Cool and Humid': 'చల్లని - తేమ',
+    'Cool and Dry': 'చల్లని - పొడిగాలి',
+    'Warm': 'వెచ్చని',
+    'Warm and Temperate': 'వెచ్చని ఉష్ణోగ్రత',
+    'Warm and Sunny': 'వెచ్చని ఎండ',
+    'Coastal Humid': 'తీరప్రాంత తేమ',
+    'Hot': 'వేడి',
+    'Hot and Humid': 'వేడి - తేమ',
+    'Unexpected rain': 'అనుకోని వర్షం',
+    'Pest attacks depending on weather': 'వాతావరణ అనుగుణంగా చీడపీడల దాడి',
+    'Heavy rain during flowering can cause flower drop': 'భారీ వర్షాల వలన పూత రాలిపోతుంది',
+    'Fungal diseases in high humidity': 'అధిక తేమలో బూజు/శిలీంధ్ర తెగుళ్లు',
+    'Waterlogging can cause severe root rot': 'నీరు నిల్వ వలన తీవ్రమైన వేరు కుళ్ళు',
+    'High temperature causes flower drop': 'అధిక వేడి వలన పూత రాలిపోతుంది',
+    'Drought stress during pod formation': 'కాయ ఏర్పడే సమయంలో నీటి ఎద్దడి సమస్య',
+    'Root rot in waterlogged soils': 'నీరు నిలిస్తే వేరు కుళ్ళు',
+    'Stem borer attacks': 'కాండం తొలిచే పురుగుల దాడి',
+    'Sensitive to extreme cold': 'తీవ్రమైన చలిని తట్టుకోలేదు',
+    'Cyclone damage': 'తుఫాను/గాలివాన వల్ల నష్టం',
+    'Extremely sensitive to standing water': 'నీరు నిలిస్తే మొక్క నాశనం అవుతుంది'
+};
+
+const DISTRICT_TRANSLATIONS: Record<string, string> = {
+    'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
+    'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
+    'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
+    'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
+    'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
+    'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
+    'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
+    'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
+};
+
 const translateMetric = (text: string, lang: string) => {
     if (lang !== 'te' || !text) return text;
-    const map: Record<string, string> = {
-        'Low': 'తక్కువ',
-        'Moderate': 'మధ్యస్థం',
-        'High': 'ఎక్కువ',
-        'Very High': 'చాలా ఎక్కువ',
-        'Hot and Dry': 'వేడి - పొడిగాలి',
-        'Warm and Dry': 'వెచ్చని - పొడిగాలి',
-        'Warm and Humid': 'వెచ్చని - తేమ',
-        'Mild': 'సాధారణం',
-        'Cool and Humid': 'చల్లని - తేమ',
-        'Cool and Dry': 'చల్లని - పొడిగాలి',
-        'Warm': 'వెచ్చని',
-        'Warm and Temperate': 'వెచ్చని ఉష్ణోగ్రత',
-        'Warm and Sunny': 'వెచ్చని ఎండ',
-        'Coastal Humid': 'తీరప్రాంత తేమ',
-        'Hot': 'వేడి',
-        'Hot and Humid': 'వేడి - తేమ',
-        'Unexpected rain': 'అనుకోని వర్షం',
-        'Pest attacks depending on weather': 'వాతావరణ అనుగుణంగా చీడపీడల దాడి',
-        'Heavy rain during flowering can cause flower drop': 'భారీ వర్షాల వలన పూత రాలిపోతుంది',
-        'Fungal diseases in high humidity': 'అధిక తేమలో బూజు/శిలీంధ్ర తెగుళ్లు',
-        'Waterlogging can cause severe root rot': 'నీరు నిల్వ వలన తీవ్రమైన వేరు కుళ్ళు',
-        'High temperature causes flower drop': 'అధిక వేడి వలన పూత రాలిపోతుంది',
-        'Drought stress during pod formation': 'కాయ ఏర్పడే సమయంలో నీటి ఎద్దడి సమస్య',
-        'Root rot in waterlogged soils': 'నీరు నిలిస్తే వేరు కుళ్ళు',
-        'Stem borer attacks': 'కాండం తొలిచే పురుగుల దాడి',
-        'Sensitive to extreme cold': 'తీవ్రమైన చలిని తట్టుకోలేదు',
-        'Cyclone damage': 'తుఫాను/గాలివాన వల్ల నష్టం',
-        'Extremely sensitive to standing water': 'నీరు నిలిస్తే మొక్క నాశనం అవుతుంది'
-    };
-    return map[String(text)] || text;
+    return METRIC_TRANSLATIONS[String(text)] || text;
 };
 
 const translateDistrict = (district: string, lang: string) => {
     if (lang !== 'te' || !district) return district;
-    const map: Record<string, string> = {
-        'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
-        'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
-        'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
-        'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
-        'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
-        'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
-        'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
-        'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
-    };
-    return map[district] || district;
+    return DISTRICT_TRANSLATIONS[district] || district;
 };
 
-const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
+const GuidanceScreen = memo(({ onBack, onStartOver }: GuidanceScreenProps) => {
   const { language, selectedCrop: cropKey, weatherResult } = useApp();
   const t = (translations as any)[language];
 
@@ -302,6 +304,6 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default GuidanceScreen;

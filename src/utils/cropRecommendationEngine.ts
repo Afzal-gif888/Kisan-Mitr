@@ -70,32 +70,12 @@ export const getAPCropRecommendations = (
   // --- 🎯 STEP 5: FINAL OUTPUT (Limit) ---
   const finalResults = unique.slice(0, 12);
 
-  // --- 🧪 DEBUG LOGGING ---
-  console.log("----- SOIL DEBUG -----");
-  console.log("Selected Soil:", selectedSoil);
-  console.log("Normalized Selected Soil:", normalizedSelectedSoil);
-
-  districtCrops.forEach(crop => {
-    console.log(
-      crop.name,
-      "->",
-      crop.soils,
-      "-> normalized:",
-      crop.soils.map((s: string) => normalizeSoil(s))
-    );
-  });
-
-  console.log("District:", districtName);
-  console.log("District crops:", districtCrops.length);
-  console.log("Soil Filtered Count:", soilFiltered.length);
-
   // --- 🎯 UI STRUCTURAL MAPPING ---
   const results = finalResults.map((crop: any) => ({
-      id: crop.id,
-      // Protect UI if englishName/teluguName object structure missing in new dataset
-      englishName: typeof crop.name === 'string' ? crop.name : crop.name?.en,
-      teluguName: typeof crop.name === 'string' ? crop.name : crop.name?.te,
-      score: crop.score,
+      id: crop?.id || Math.random().toString(),
+      englishName: typeof crop?.name === 'string' ? crop.name : (crop?.name?.en || crop?.englishName || "Crop"),
+      teluguName: typeof crop?.name === 'string' ? crop.name : (crop?.name?.te || crop?.teluguName || "పంట"),
+      score: crop?.score || 0,
       suitabilityLabel: crop.score >= 80 ? (language === "te" ? "⭐ అత్యంత ఉత్తమం" : "⭐ Highly Suitable") : 
                         crop.score >= 60 ? (language === "te" ? "✅ అనుకూలమైనది" : "✅ Suitable") : 
                                           (language === "te" ? "⚠️ జాగ్రత్త" : "⚠️ Try Carefully"),

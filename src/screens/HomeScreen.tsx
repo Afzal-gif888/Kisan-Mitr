@@ -1,3 +1,4 @@
+import React, { useCallback } from "react";
 import { ArrowRight, User } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { translations } from "../lib/translations";
@@ -8,17 +9,17 @@ interface HomeScreenProps {
   onStart: () => void;
 }
 
-const HomeScreen = ({ onStart }: HomeScreenProps) => {
-  const { language, setLanguage, userName, setUserName } = useApp();
-  const t = (translations as any)[language];
+const HomeScreen = React.memo(({ onStart }: HomeScreenProps) => {
+  const { language, userName, setUserName } = useApp();
+  const t = (translations as any)[language] || {};
 
-  const handleStart = () => {
-    if (!userName.trim()) {
-        alert(t.enterName || "Please enter your name");
+  const handleStart = useCallback(() => {
+    if (!userName || !userName.trim()) {
+        alert(t?.enterName || "Please enter your name");
         return;
     }
     onStart();
-  };
+  }, [userName, t?.enterName, onStart]);
 
   return (
     <div className="fixed inset-0 h-[100dvh] w-[100vw] bg-[#0A2E0F] flex flex-col items-center justify-center gap-8 overflow-hidden touch-none overscroll-none z-50">
@@ -107,6 +108,6 @@ const HomeScreen = ({ onStart }: HomeScreenProps) => {
 
     </div>
   );
-};
+});
 
 export default HomeScreen;

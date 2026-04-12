@@ -1,5 +1,5 @@
+import React, { useState, useCallback, memo } from "react";
 import { MapPin, ArrowLeft, ArrowRight, Loader2, Navigation2 } from "lucide-react";
-import { useState } from "react";
 import { translations } from "../lib/translations";
 import { indiaDistricts } from "../lib/indiaData";
 import { useApp } from "../context/AppContext";
@@ -9,47 +9,53 @@ interface LocationScreenProps {
   onBack: () => void;
 }
 
-const states = Object.keys(indiaDistricts).sort();
+const STATE_TRANSLATIONS: Record<string, string> = {
+    "Andhra Pradesh": "ఆంధ్ర ప్రదేశ్",
+    "Karnataka": "కర్ణాటక",
+    "Kerala": "కేరళ",
+    "Tamil Nadu": "తమిళనాడు",
+    "Telangana": "తెలంగాణ"
+};
+
+const DISTRICT_TRANSLATIONS: Record<string, string> = {
+    'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
+    'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
+    'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
+    'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
+    'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
+    'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
+    'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
+    'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
+};
 
 const translateState = (st: string, lang: string) => {
     if (lang !== 'te') return st;
-    const map: Record<string, string> = {
-        "Andhra Pradesh": "ఆంధ్ర ప్రదేశ్",
-        "Karnataka": "కర్ణాటక",
-        "Kerala": "కేరళ",
-        "Tamil Nadu": "తమిళనాడు",
-        "Telangana": "తెలంగాణ"
-    };
-    return map[st] || st;
+    return STATE_TRANSLATIONS[st] || st;
 };
 
 const translateDistrict = (district: string, lang: string) => {
     if (lang !== 'te') return district;
-    const map: Record<string, string> = {
-        'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
-        'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
-        'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
-        'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
-        'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
-        'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
-        'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
-        'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
-    };
-    return map[district] || district;
+    return DISTRICT_TRANSLATIONS[district] || district;
 };
 
-const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
+const states = ["Andhra Pradesh"];
+
+const LocationScreen = memo(({ onNext, onBack }: LocationScreenProps) => {
   const { language, setDistrict: setGlobalDistrict, userName } = useApp();
-  const t = (translations as any)[language];
+  const t = (translations as any)[language] || {};
   
   const [detecting, setDetecting] = useState(false);
   const [detected, setDetected] = useState(false);
-  const [state, setState] = useState("");
+  const [state, setState] = useState("Andhra Pradesh");
   const [localDistrict, setLocalDistrict] = useState("");
 
-  const handleDetect = () => {
+  const handleDetect = useCallback(() => {
     setDetecting(true);
-    if (!navigator.geolocation) { alert(t.locationError); setDetecting(false); return; }
+    if (!navigator.geolocation) { 
+        alert(t.locationError || "Geolocation not supported"); 
+        setDetecting(false); 
+        return; 
+    }
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         try {
@@ -60,12 +66,12 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
           const data = await res.json();
           if (data.results?.[0]) {
             const comp = data.results[0].components;
-            let sName = comp.state || "Andhra Pradesh";
+            let sName = comp?.state || "Andhra Pradesh";
             const matchedState = states.find(s => s.toLowerCase() === sName.toLowerCase()) || "Andhra Pradesh";
             setState(matchedState);
 
-            let dName = comp.state_district || comp.county || comp.city || "Unknown";
-            dName = dName.replace(/ District| City| Division/gi, "").trim();
+            let dName = comp?.state_district || comp?.county || comp?.city || "Unknown";
+            dName = String(dName).replace(/ District| City| Division/gi, "").trim();
             setLocalDistrict(dName);
             setDetected(true);
           }
@@ -74,15 +80,15 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
            alert(language === 'te' ? "స్థానాన్ని గుర్తించలేకపోయాము. దయచేసి మాన్యువల్‌గా ఎంచుకోండి." : "Location detection failed. Please select manually.");
         } finally { setDetecting(false); }
       },
-      () => { setDetecting(false); alert(t.locationError); },
+      () => { setDetecting(false); alert(t.locationError || "Location access denied"); },
       { enableHighAccuracy: true, timeout: 15000 }
     );
-  };
+  }, [language, t.locationError]);
 
-  const handleContinue = () => {
+  const handleContinue = useCallback(() => {
     setGlobalDistrict(localDistrict);
     onNext();
-  };
+  }, [localDistrict, onNext, setGlobalDistrict]);
 
   return (
     <div className="fixed inset-0 sm:relative sm:h-[850px] bg-white flex flex-col sm:max-w-md sm:mx-auto sm:shadow-2xl sm:rounded-[3rem] overflow-hidden border-slate-100 sm:border">
@@ -130,7 +136,6 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
               onChange={(e) => { setState(e.target.value); setLocalDistrict(""); setDetected(false); }} 
               className="w-full py-5 px-8 bg-white rounded-[1.8rem] border-2 border-slate-50 focus:border-[#2E7D32]/30 text-lg font-black text-[#1B5E20] outline-none transition-all uppercase shadow-sm"
             >
-              <option className="text-[#1B5E20] font-black" value="">{language === 'te' ? "రాష్ట్రాన్ని ఎంచుకోండి" : "Select State"}</option>
               {states.map((s) => <option className="text-[#1B5E20] font-black" key={s} value={s}>{translateState(s, language)}</option>)}
             </select>
             
@@ -183,6 +188,6 @@ const LocationScreen = ({ onNext, onBack }: LocationScreenProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default LocationScreen;

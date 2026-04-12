@@ -1,61 +1,64 @@
-import { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState, useCallback, memo } from "react";
 import { ArrowLeft, CheckCircle2, Star, AlertTriangle, MapPin, RefreshCw, Info } from "lucide-react";
 import { translations } from "../lib/translations";
 import { getAPCropRecommendations } from "../utils/cropRecommendationEngine";
 import { getCropImage } from "../utils/getCropImage";
+import { getAgmarknetName } from "../utils/getAgmarknetName";
 import { getCropPrice } from "../utils/getCropPrice";
 import { useApp } from "../context/AppContext";
 import CropCard from "../components/CropCard";
-import farmHero from "../assets/farm-hero.jpg"; 
+import farmHero from "../assets/farm-hero.jpg";
 
 interface RecommendationScreenProps {
   onViewGuide: (cropId: string) => void;
   onBack: () => void;
 }
 
+const SOIL_WEATHER_MAP: Record<string, string> = {
+    'Red Soil': 'ఎర్ర నేలలు',
+    'Black Soil': 'నల్లరేగడి నేలలు',
+    'Alluvial Soil': 'ఒండ్రు నేలలు',
+    'Sandy Soil': 'ఇసుక నేలలు',
+    'Loamy Soil': 'గరుప నేలలు',
+    'Red Loam Soil': 'ఎర్ర గరుప నేలలు',
+    'Black Cotton Soil': 'నల్లరేగడి నేలలు',
+    'Laterite Soil': 'ఎర్ర లాటరైట్ నేలలు',
+    'Gravelly Soil': 'రాతి నేలలు',
+    'Delta Alluvial Soil': 'డెల్టా ఒండ్రు నేలలు',
+    'Coastal Sandy Soil': 'తీరప్రాంత ఇసుక నేలలు',
+    'Saline Soil': 'చౌడు నేలలు',
+    'Clay Soil': 'బంకమట్టి నేలలు',
+    'Red Sandy Soil': 'ఎర్ర ఇసుక నేలలు',
+    'normal': 'సాధారణం',
+    'hot': 'వేడి వాతావరణం',
+    'rainy': 'వర్షం',
+    'dry': 'పొడి వాతావరణం'
+};
+
+const DISTRICT_MAP: Record<string, string> = {
+    'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
+    'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
+    'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
+    'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
+    'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
+    'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
+    'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
+    'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
+};
+
 const translateSoilAndWeather = (text: string, lang: string) => {
     if (lang !== 'te' || !text) return text;
-    const map: Record<string, string> = {
-        'Red Soil': 'ఎర్ర నేలలు',
-        'Black Soil': 'నల్లరేగడి నేలలు',
-        'Alluvial Soil': 'ఒండ్రు నేలలు',
-        'Sandy Soil': 'ఇసుక నేలలు',
-        'Loamy Soil': 'గరుప నేలలు',
-        'Red Loam Soil': 'ఎర్ర గరుప నేలలు',
-        'Black Cotton Soil': 'నల్లరేగడి నేలలు',
-        'Laterite Soil': 'ఎర్ర లాటరైట్ నేలలు',
-        'Gravelly Soil': 'రాతి నేలలు',
-        'Delta Alluvial Soil': 'డెల్టా ఒండ్రు నేలలు',
-        'Coastal Sandy Soil': 'తీరప్రాంత ఇసుక నేలలు',
-        'Saline Soil': 'చౌడు నేలలు',
-        'Clay Soil': 'బంకమట్టి నేలలు',
-        'Red Sandy Soil': 'ఎర్ర ఇసుక నేలలు',
-        'normal': 'సాధారణం',
-        'hot': 'వేడి వాతావరణం',
-        'rainy': 'వర్షం',
-        'dry': 'పొడి వాతావరణం'
-    };
-    return map[String(text)] || text;
+    return SOIL_WEATHER_MAP[String(text)] || text;
 };
 
 const translateDistrict = (district: string, lang: string) => {
     if (lang !== 'te' || !district) return district;
-    const map: Record<string, string> = {
-        'Tirupati': 'తిరుపతి', 'Chittoor': 'చిత్తూరు', 'Anantapur': 'అనంతపురం', 'YSR Kadapa': 'వైఎస్ఆర్ కడప',
-        'Kurnool': 'కర్నూలు', 'Nandyal': 'నంద్యాల', 'Prakasam': 'ప్రకాశం', 'Guntur': 'గుంటూరు',
-        'Bapatla': 'బాపట్ల', 'Palnadu': 'పల్నాడు', 'Krishna': 'కృష్ణా', 'NTR': 'ఎన్టీఆర్', 
-        'Eluru': 'ఏలూరు', 'West Godavari': 'పశ్చిమ గోదావరి', 'East Godavari': 'తూర్పు గోదావరి',
-        'Kakinada': 'కాకినాడ', 'Konaseema': 'కోనసీమ', 'Visakhapatnam': 'విశాఖపట్నం', 
-        'Anakapalli': 'అనకాపల్లి', 'Vizianagaram': 'విజయనగరం', 'Srikakulam': 'శ్రీకాకుళం',
-        'Parvathipuram Manyam': 'పార్వతీపురం మన్యం', 'Alluri Sitharama Raju': 'అల్లూరి సీతారామరాజు',
-        'Annamayya': 'అన్నమయ్య', 'Sri Sathya Sai': 'శ్రీ సత్యసాయి', 'Nellore': 'నెల్లూరు'
-    };
-    return map[district] || district;
+    return DISTRICT_MAP[district] || district;
 };
 
-const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps) => {
+const RecommendationScreen = memo(({ onViewGuide, onBack }: RecommendationScreenProps) => {
   const { language, soil, weatherResult } = useApp();
-  const t = (translations as any)[language];
+  const t = (translations as any)[language] || {};
   const [cropPrices, setCropPrices] = useState<Record<string, any>>({});
 
   useEffect(() => {
@@ -66,46 +69,47 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
     return getAPCropRecommendations(weatherResult, soil, weatherResult?.district, language);
   }, [weatherResult, soil, language]);
 
-  // 💰 ASYNC MARKET PRICE FETCHER
   useEffect(() => {
+    let isMounted = true;
     const fetchAllPrices = async () => {
-      const priceMap: Record<string, any> = {};
-      const cropsToFetch = recommendations.recommendedCrops;
-      
-      if (!cropsToFetch.length) return;
+      const cropsToFetch = recommendations?.recommendedCrops;
+      if (!cropsToFetch?.length) return;
 
-      console.log(`[PRICING] Initiating fetch for ${cropsToFetch.length} crops...`);
+      const priceMap: Record<string, any> = {};
       
-      // Fetch in parallel but don't block UI
       await Promise.all(
         cropsToFetch.map(async (crop) => {
-          const data = await getCropPrice(crop.englishName || crop.name);
-          priceMap[crop.id] = data;
+          if (!crop?.id) return;
+          const agmarknetName = getAgmarknetName(crop.id, crop.englishName || crop.name);
+          const data = await getCropPrice(agmarknetName);
+          if (isMounted) priceMap[crop.id] = data;
         })
       );
 
-      setCropPrices(priceMap);
+      if (isMounted) setCropPrices(priceMap);
     };
 
     fetchAllPrices();
-  }, [recommendations]);
+    return () => { isMounted = false; };
+  }, [recommendations?.recommendedCrops]);
 
-  const allFilteredCrops = recommendations.recommendedCrops;
+  const groupedCrops = useMemo(() => {
+      const allFiltered = recommendations?.recommendedCrops || [];
+      return {
+          best: allFiltered.filter(c => c.score >= 80),
+          suitable: allFiltered.filter(c => c.score >= 60 && c.score < 80),
+          tryCarefully: allFiltered.filter(c => c.score < 60)
+      };
+  }, [recommendations?.recommendedCrops]);
 
-  const groupedCrops = {
-      best: allFilteredCrops.filter(c => c.score >= 80),
-      suitable: allFilteredCrops.filter(c => c.score >= 60 && c.score < 80),
-      tryCarefully: allFilteredCrops.filter(c => c.score < 60)
-  };
-
-  const getSuitabilityColor = (score: number) => {
+  const getSuitabilityColor = useCallback((score: number) => {
       if (score >= 80) return "from-[#1B5E20] to-[#2E7D32]";
       if (score >= 60) return "from-blue-600 to-blue-400";
       return "from-amber-600 to-amber-400";
-  };
+  }, []);
 
-  const RenderCropSection = ({ title, crops, icon, teTitle }: { title: string, teTitle: string, crops: any[], icon: any }) => {
-      if (crops.length === 0) return null;
+  const RenderCropSection = useCallback(({ title, crops, icon, teTitle }: { title: string, teTitle: string, crops: any[], icon: any }) => {
+      if (!crops || crops.length === 0) return null;
       return (
           <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
               <div className="flex items-center gap-3 px-2">
@@ -116,34 +120,29 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
               </div>
               <div className="grid grid-cols-1 gap-6 mt-4">
                   {crops.map((crop) => {
-                    // 🚨 STRICT ID BINDING (v4.0)
-                    const rawImage = getCropImage(crop.id);
-                    
-                    // Force refresh for remote images to beat browser cache and ensure uniqueness
-                    const uniqueSeed = String(crop.id).split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                    const rawImage = getCropImage(crop?.id);
+                    const uniqueSeed = String(crop?.id || '0').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
                     const finalImageSource = (rawImage && rawImage.startsWith("http")) 
                         ? `${rawImage}&refresh=${uniqueSeed}` 
                         : (rawImage || "https://images.unsplash.com/photo-1592928302636-c83cf1e1c887?auto=format&fit=crop&q=80&w=600&sig=fallback_soil");
 
-                    console.log(`[UI BINDING] Rendering: ${crop.englishName} | ID: ${crop.id} | Result: ${!!rawImage ? "SUCCESS" : "MISSING (Using Soil Fallback)"}`);
-
                     return (
                       <CropCard 
-                        key={crop.id}
+                        key={crop?.id || Math.random().toString()}
                         crop={crop}
                         language={language}
-                        suitabilityColor={getSuitabilityColor(crop.score)}
+                        suitabilityColor={getSuitabilityColor(crop?.score || 0)}
                         onViewGuide={onViewGuide}
                         imgSource={finalImageSource}
                         farmHero={farmHero}
-                        marketData={cropPrices[crop.id]}
+                        marketData={cropPrices[crop?.id]}
                       />
                     );
                   })}
               </div>
           </div>
       );
-  };
+  }, [language, onViewGuide, cropPrices, getSuitabilityColor, farmHero]);
 
   return (
     <div className="w-full min-h-screen bg-[#F5F1E9] flex flex-col sm:max-w-md sm:mx-auto sm:shadow-2xl sm:my-4 sm:rounded-[3rem] overflow-x-hidden safe-area-inset pb-10">
@@ -185,7 +184,7 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
             </div>
         </div>
 
-        {allFilteredCrops.length === 0 ? (
+        {(recommendations?.recommendedCrops?.length || 0) === 0 ? (
             <div className="bg-white p-12 rounded-[3.5rem] text-center space-y-8 shadow-2xl border-4 border-white animate-in zoom-in-95 duration-500">
                 <div className="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mx-auto ring-8 ring-orange-50/50">
                     <Info className="text-orange-500" size={40} />
@@ -234,6 +233,6 @@ const RecommendationScreen = ({ onViewGuide, onBack }: RecommendationScreenProps
       </div>
     </div>
   );
-};
+});
 
 export default RecommendationScreen;
