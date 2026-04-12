@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { ArrowLeft, Volume2, Droplets, Clock, CalendarCheck, RotateCcw, AlertCircle, CheckCircle2, Thermometer, Info, CloudRain, AlertTriangle, Lightbulb, Sprout } from "lucide-react";
 import { translations } from "../lib/translations";
 import { generateFarmingGuide, getFarmingGuide } from "../utils/farmingGuideEngine";
@@ -46,6 +46,10 @@ const GuidanceScreen = ({ onBack, onStartOver }: GuidanceScreenProps) => {
   const { crop, isDistrictSuitable, weatherAdjustments, weatherWarnings, status } = result;
 
   const guide = useMemo(() => getFarmingGuide(cropKey), [cropKey]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
 
   const handleVoice = () => {
     if ("speechSynthesis" in window) {
