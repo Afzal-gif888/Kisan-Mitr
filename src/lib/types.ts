@@ -1,0 +1,18 @@
+export type SoilType = 
+  | "Red Soil"
+  | "Red Sandy Loam"
+  | "Red Loamy Soil"
+  | "Black Cotton Soil"
+  | "Black Clay Soil"
+  | "Alluvial Soil"
+  | "Delta Alluvial Soil"
+  | "Coastal Alluvial Soil"
+  | "Laterite Soil"
+  | "Coastal Sandy Soil"
+  | "Sandy Soil"
+  | "Clay Soil"
+  | "Saline Soil"
+  | "Alkaline Soil"
+  | "Marshy Soil"
+  | "Gravelly Soil"
+  | "Forest Soil";

@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* AGRI-GREEN & WHITE PALETTE v1.0 */
+    --background: 100 0% 100%; /* Pure White */
+    --foreground: 120 40% 10%; /* Very Deep Green */
+
+    --card: 0 0% 100%;
+    --card-foreground: 120 40% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 120 40% 10%;
+
+    --primary: 142 70% 25%; /* #1B5E20 - Deep Agriculture Green */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 142 40% 90%; /* #E8F5E9 - Light Mint */
+    --secondary-foreground: 142 70% 25%;
+
+    --muted: 142 10% 95%;
+    --muted-foreground: 142 30% 40%;
+
+    --accent: 142 70% 35%; /* #2E7D32 */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 142 20% 90%;
+    --input: 142 20% 90%;
+    --ring: 142 70% 25%;
+
+    --radius: 1.5rem;
+
+    --success: 142 70% 25%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Custom Agri Tokens */
+    --agri-dark: 142 70% 15%; /* #0D3B0D */
+    --agri-light: 142 40% 96%; /* #F1F8E9 */
+    --agri-leaf: 142 50% 50%; /* #4CAF50 */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-nunito;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  @keyframes bounce-subtle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  .animate-bounce-subtle {
+    animation: bounce-subtle 3s ease-in-out infinite;
+  }
+}
