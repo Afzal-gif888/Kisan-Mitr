@@ -4,6 +4,7 @@
 > Kisan-Mitr (Farmer’s Friend) is an AI-powered agricultural advisory platform designed to help farmers make smarter farming decisions using real-time weather forecasting, soil analysis, crop recommendations, historical climate intelligence, and live mandi prices.
 
 ---
+Website link: https://kisan-mitr-3-kgss.onrender.com/
 
 # 📌 Overview
 
@@ -331,5 +332,4 @@ If you like this project:
 
 # 📬 Contact
 
-- GitHub: https://github.com/your-github-username
-- Email: your-email@example.com
+- Email: afzal97016458@gmail.com
